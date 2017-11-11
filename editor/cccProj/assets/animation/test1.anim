@@ -1,0 +1,110 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "test1",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 2.183333333333333,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            -960,
+            -540
+          ],
+          "curve": [
+            0.31,
+            -0.33,
+            -0.05,
+            0.76
+          ]
+        },
+        {
+          "frame": 1,
+          "value": [
+            480,
+            -540
+          ]
+        },
+        {
+          "frame": 2.1666666666666665,
+          "value": [
+            480,
+            0
+          ]
+        }
+      ],
+      "color": [
+        {
+          "frame": 0,
+          "value": {
+            "__type__": "cc.Color",
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          }
+        },
+        {
+          "frame": 2.1666666666666665,
+          "value": {
+            "__type__": "cc.Color",
+            "r": 216,
+            "g": 86,
+            "b": 86,
+            "a": 255
+          }
+        }
+      ],
+      "width": [
+        {
+          "frame": 0,
+          "value": 1600
+        },
+        {
+          "frame": 0.8833333333333333,
+          "value": 800
+        },
+        {
+          "frame": 2.183333333333333,
+          "value": 800.1
+        }
+      ]
+    },
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "e57bbdcd-e900-4342-bbbc-731829ab7ae5"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "ed19c00f-1b7f-4458-ba7b-c6e197b40999"
+            }
+          },
+          {
+            "frame": 2.1666666666666665,
+            "value": {
+              "__uuid__": "ed19c00f-1b7f-4458-ba7b-c6e197b40999"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": [
+    {
+      "frame": 1,
+      "func": "",
+      "params": []
+    }
+  ]
+}
