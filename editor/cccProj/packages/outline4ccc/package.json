@@ -1,5 +1,5 @@
 {
-    "name": "outline4ccc",
+    "name": "outline",
     "version": "0.0.1",
     "description": "导出通用布局文件",
     "author": "com.outline.zqf",
@@ -8,7 +8,13 @@
       "path": "components",
       "name": "components"
     },
+    "scene-script": "scene-walker.js",
     "reload": {
       "ignore": ["components/**/*"]
+    },
+    "main-menu": {
+      "outline/export-scene": {
+        "message": "outline:export-scene"
+      }
     }
 }

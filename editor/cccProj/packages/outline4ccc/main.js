@@ -8,4 +8,11 @@ module.exports = {
   unload () {
     // 当 package 被正确卸载的时候执行
   },
+  messages: {
+    'export-scene' () {
+      Editor.Scene.callSceneScript('outline', 'get-canvas-children', function (err, length) {
+        Editor.log(`get-canvas-children callback :  length - ${length}`);
+      });
+    }
+  },
 };
