@@ -10,7 +10,7 @@ module.exports = {
   },
   messages: {
     'export-scene' () {
-      Editor.Scene.callSceneScript('outline', 'get-canvas-children', function (err, length) {
+      Editor.Scene.callSceneScript('outline', 'get-canvas-children', function (length) {
         Editor.log(`get-canvas-children callback :  length - ${length}`);
       });
     }
