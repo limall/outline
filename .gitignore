@@ -1,1 +1,8 @@
-test_2dx
+test_2dx/cocos2d
+test_2dx/proj.win32
+test_2dx/Resources
+test_2dx/.cocos-project.json
+test_2dx/CMakeLists.txt
+test_2dx/vcredist_x64.exe
+test_2dx/vcredist_x86.exe
+test_2dx/Classes/udpLog
