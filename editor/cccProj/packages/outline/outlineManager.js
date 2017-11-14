@@ -21,7 +21,7 @@ var outlineManager={
             if(node.outline){
                 node.outline.toJson(obj);
                 obj.children=[];
-                for(var i=0;i<node.children;i++){
+                for(var i=0;i<node.children.length;i++){
                     var childObj={};
                     walkOneNode(childObj,node.children[i]);
                     obj.children.push(childObj);

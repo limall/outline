@@ -1,5 +1,4 @@
 'use strict';
-
 module.exports = {
   load () {
     // 当 package 被正确加载的时候执行
@@ -10,8 +9,11 @@ module.exports = {
   },
   messages: {
     'export-scene' () {
-      Editor.Scene.callSceneScript('outline', 'get-canvas-children', function (length) {
-        Editor.log(`get-canvas-children callback :  length - ${length}`);
+      Editor.Scene.callSceneScript('outline', 'getCanvas', function (data) {
+        if(data){
+          Editor.log('success');
+          Editor.log(data);
+        }
       });
     }
   },
