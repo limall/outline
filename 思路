@@ -1,0 +1,11 @@
+//继续使用namespace
+//每个节点都要定义一个结构体，用节点名_struct表示
+//每个节点的结构体：
+static struct Test_struct{
+  Child1_struct *child1;
+  Child2_struct *child2;
+  Outline outline;
+  Test_struct(){/*...*/}
+};
+//outline的children则存储指向它的子节点的outline的指针,这部分工作放在节点的构造函数中
+//在最后一个节点的构造函数末尾标记/**outline-adapter**/用以对所有节点进行适配
