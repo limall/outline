@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "udpLog/UdpLog.h"
 #include "test.hpp"
+#include "ui/UIButton.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -40,12 +41,20 @@ bool HelloWorld::init()
 
     this->addChild(label, 1);
 
-    auto node = O::test.create();
+	O::adapte();
+
+    /*auto node = O::test.create();
 
     node->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
 
-	O::test.b.aaa = 100;
-	this->addChild(node);
+	this->addChild(node);*/
+
+	/*auto button = ui::Button::create("button.png");
+	button->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	button->setScale(0.5f);
+	button->setZoomScale(0.1f);
+	this->addChild(button);*/
+
 
     return true;
 }

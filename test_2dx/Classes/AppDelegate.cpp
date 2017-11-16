@@ -57,7 +57,6 @@ static int register_all_packages()
 
 bool AppDelegate::applicationDidFinishLaunching() {
 	UdpLog::resetDst("127.0.0.1", 20131, 1);
-	O::test.b.aaa = 100;
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
