@@ -1,0 +1,1 @@
+static Struct_/*outline_rootNodeName*/ /*outline_rootNodeName*/=new Struct_/*outline_rootNodeName*/(/*outline_rootNodeName*/);
