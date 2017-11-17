@@ -1,0 +1,94 @@
+#pragma once
+//your include files and definition
+
+//following is the auto generated code where you shouldn't write your code
+//auto generate begin
+#include "cocos2d.h"
+using namespace cocos2d;
+using namespace std;
+
+static struct KeyValue { 
+	string key, value; 
+	KeyValue() {}
+	KeyValue(string key,string value) {
+		this->key = key;
+		this->value = value;
+	} 
+};
+
+static auto createNode = [](KeyValue *keyValue=NULL)->Node* {
+	Node *node;
+	if (keyValue) {
+		string key = keyValue->key;
+		if (key == "sprite")
+			node = Sprite::create(keyValue->value);
+		else
+			node = Node::create();
+	}
+	else
+		node = Node::create();
+	return node;
+};
+
+namespace O {
+	struct Outline {
+		float x=0;
+		float y=0;
+		float width=0;
+		float height=0;
+		float anchorX=0.5f;
+		float anchorY=0.5f;
+		float scale=1;
+		float rotation=0;
+		int opacity=255;
+		bool visible=true;
+		int zOrder=0;
+		vector<Outline*> children;
+		KeyValue type;
+		std::function<Node*(KeyValue*)> createNode;
+
+		Node *create() {
+			auto node = createNode(&type);
+			node->setPositionX(x);
+			node->setPositionY(y);
+			if(width>0&&height>0)
+			    node->setContentSize(Size(width, height));
+			node->setAnchorPoint(Vec2(anchorX, anchorY));
+			node->setScale(scale);
+			node->setRotation(rotation);
+			node->setOpacity(opacity);
+			node->setVisible(visible);
+			node->setLocalZOrder(zOrder);
+			for (int i = 0; i < children.size(); i++) {
+				node->addChild(children[i]->create());
+			}
+			return node;
+		};
+	};
+
+	static Outline *test = new Outline();
+    
+	/*struct_definition*/
+
+    /*root_declare*/
+
+//接着定义init函数，用于初始化各个outline的实例，并且执行adapte。注意该函数必须在使用前调用，用户可在/*outline-adapter*/标记后对各个节点的createNode进行自定义
+
+	void init() {
+		
+		/*initInstance*/
+
+		/*initOutline*/
+
+//auto generate end
+        //following is where you can adapte your node type
+        /*
+        sample:
+        O::test.outline.createNode = [](KeyValue *keyValue)->Node* {
+            return Sprite::create("button.png");
+        };
+        */
+
+		/**outline-adapter**/
+	}
+};
