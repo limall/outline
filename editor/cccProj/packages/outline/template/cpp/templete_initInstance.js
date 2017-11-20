@@ -1,11 +1,45 @@
 var fs=require('fs');
+
+var textOrigin=fs.readFileSync('./templete_initInstance.hpp').toString();
+var sign='//templete';
+
+function getInit(name,parent){
+    var end=textOrigin.indexOf(sign);
+    var textInit=textOrigin.substring(0,end);
+    textInit=textInit.replace(/\/\*nodeName\*\//g,name);
+    textInit=textInit.replace(/\/\*parent\*\//,parent);
+    return textInit;
+}
+
+var attrStr=textOrigin.substring(textOrigin.indexOf(sign)+sign.length);
+var attrNames=['x','y','width','height','anchorX','anchorY','scale','rotation','opacity','visible','zOrder','key','value'];
+var attrs={};
+var start=attrStr.indexOf('outline_');
+var nameIndex=0;
+while(start>=0){
+    var end=attrStr.indexOf('=',start)+1;
+    var str=attrStr.substring(start,end);
+    attrs[attrNames[nameIndex]]=str;
+    nameIndex++;
+    attrStr=attrStr.substring(end);
+    start=attrStr.indexOf('outline_');
+}
+
+function addAttr(name,value,nodeName){
+    var str=attrs[name];
+    str=str.replace(/\/\*nodeName\*\//,nodeName);
+    str+=value+';';
+    return str;
+}
+
 module.exports.getInstanceInit=(instances)=>{
     var text='';
-    var template=fs.readdirSync('./templete_initInstance.hpp');
     instances.forEach((instance)=>{
-        var str=template.replace(/\/\*nodeName\*\//g,instance.name);
-        str=str.replace(/\/\*parent\*\//,instance.parent);
-        text+=str+'\n';
+        var init=getInit(instance.name,instance.parent);
+        instance.attrs.forEach((attr)=>{
+            init+='    '+addAttr(attr.name,attr.value,attr.nodeName)+'\n';
+        });
+        text+=init+'\n';
     });
     return text;
 };

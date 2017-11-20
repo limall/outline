@@ -1,0 +1,1 @@
+/*nodeName*/->outline->children.push_back(/*childName*/->outline);
