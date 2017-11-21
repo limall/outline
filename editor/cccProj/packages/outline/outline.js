@@ -1,3 +1,6 @@
+var udpLog=require('./udplog');
+udpLog.resetDst('127.0.0.1',20131,1);
+
 var Outline=function(
     x,
     y,
@@ -25,12 +28,19 @@ var Outline=function(
     this.visible=visible;
     this.zOrder=zOrder;
     this.node=node;
-    if(node)
+    if(node){
         node.outline=this;
+        var sprite=node.getComponent(cc.Sprite);
+        if(sprite){
+            this.typeKey='sprite';
+            var fullPath=sprite.spriteFrame._textureFilename;
+            this.typeValue=fullPath.substring(fullPath.indexOf('/assets/')+8);
+        }
+    }
     if(name)
         this.name=name;
     else
-        this.name=getNewName();
+        this.name=node.name;
     this.addTypeInfo=function(obj){
         for(var name in obj){
             this[name]=obj[name];
