@@ -16,6 +16,37 @@ static struct KeyValue {
 	} 
 };
 
+static void type2KeyValue(string type,vector<KeyValue> *keyValues){
+	vector<string> strs;
+	int endIndex = type.find(";");
+	bool haveKeyValue = type.find(":")>0;
+	while (haveKeyValue){
+		string astr;
+		if (endIndex < 0){
+			astr = type.substr(0);
+			strs.push_back(astr);
+			break;
+		}
+		else{
+			astr = type.substr(0, endIndex);
+			strs.push_back(astr);
+		}
+		type = type.substr(endIndex + 1);
+		endIndex = type.find(";");
+		haveKeyValue = type.find(":") > 0;
+	}
+	for (int i = 0; i < strs.size(); i++){
+		string *str = &strs[i];
+		int divisionIndex = str->find(":");
+		if (divisionIndex>0&&divisionIndex+1<str->size()){
+			KeyValue keyValue;
+			keyValue.key = str->substr(0, divisionIndex);
+			keyValue.value = str->substr(divisionIndex + 1);
+			keyValues->push_back(keyValue);
+		}
+	}
+}
+
 static auto createNode = [](KeyValue *keyValue=NULL)->Node* {
 	Node *node;
 	if (keyValue) {
