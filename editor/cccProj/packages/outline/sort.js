@@ -20,7 +20,7 @@ module.exports.sort=(obj)=>{
             for(var j=0;j<children.length;j++){
                 var child=children[j];
                 child.name=getNewName(child.name);
-                child.parent=pre[i].name;
+                child.parent=pre[i];
                 thisLevel.push(child);
             }
         }

@@ -1,11 +1,14 @@
+var path=Editor.projectPath+'/packages/outline/template/cpp/';
+
 var fs=require('fs');
 
-var textOrigin=fs.readFileSync('./templete_initInstance.hpp').toString();
+var textOrigin=fs.readFileSync(path+'templete_initInstance.hpp').toString();
 var sign='//templete';
 
-function getInit(name,parent){
+function getInit(name,parent,PName){
     var end=textOrigin.indexOf(sign);
     var textInit=textOrigin.substring(0,end);
+    textInit=textInit.replace(/\/\*PnodeName\*\//g,PName);
     textInit=textInit.replace(/\/\*nodeName\*\//g,name);
     textInit=textInit.replace(/\/\*parent\*\//,parent);
     return textInit;
@@ -25,9 +28,9 @@ while(start>=0){
     start=attrStr.indexOf('outline_');
 }
 
-function addAttr(name,value,nodeName){
+function addAttr(name,value,PnodeName){
     var str=attrs[name];
-    str=str.replace(/\/\*nodeName\*\//,nodeName);
+    str=str.replace(/\/\*PnodeName\*\//,PnodeName);
     str+=value+';';
     return str;
 }
@@ -35,9 +38,9 @@ function addAttr(name,value,nodeName){
 module.exports.getInstanceInit=(instances)=>{
     var text='';
     instances.forEach((instance)=>{
-        var init=getInit(instance.name,instance.parent);
+        var init=getInit(instance.name,instance.parent,instance.PName);
         instance.attrs.forEach((attr)=>{
-            init+='    '+addAttr(attr.name,attr.value,attr.nodeName)+'\n';
+            init+='        '+addAttr(attr.name,attr.value,attr.PnodeName)+'\n';
         });
         text+=init+'\n';
     });

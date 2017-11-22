@@ -1,6 +1,8 @@
+var path=Editor.projectPath+'/packages/outline/template/cpp/';
+
 var fs=require('fs');
 
-var textOrigin=fs.readFileSync('./templete_rootDeclare.hpp').toString();
+var textOrigin=fs.readFileSync(path+'templete_rootDeclare.hpp').toString();
 var sign='//templete';
 
 function getInit(name){

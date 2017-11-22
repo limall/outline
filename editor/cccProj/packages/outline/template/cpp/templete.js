@@ -1,6 +1,8 @@
+var path=Editor.projectPath+'/packages/outline/template/cpp/';
+
 var fs=require('fs');
 
-var templete_origin_path='./template_hpp.hpp';
+var templete_origin_path=path+'template_hpp.hpp';
 
 module.exports.getContentTemplate=function(){
     var text=fs.readFileSync(templete_origin_path).toString();
@@ -40,7 +42,7 @@ module.exports.insertInstanceInit=function(content,instanceInit){
     return newContent;
 };
 
-module.exports.insertOutlineInit=function(content,outlineInit){
-    var newContent=content.replace(/\/\*initOutline\*\//,outlineInit);
+module.exports.insertRelation=function(content,outlineInit){
+    var newContent=content.replace(/\/\*initRelation\*\//,outlineInit);
     return newContent;
 };

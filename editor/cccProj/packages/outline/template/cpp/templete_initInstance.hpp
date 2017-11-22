@@ -1,17 +1,17 @@
-    auto /*nodeName*/ = /*parent*/->/*nodeName*/ = new Struct_/*nodeName*/("/*nodeName*/");
-    auto outline_/*nodeName*/=/*nodeName*/->outline=new Outline();
-    outline_/*nodeName*/.createNode=createNode;
+        auto /*PnodeName*/ = /*parent*/->/*nodeName*/ = new Struct_/*PnodeName*/("/*nodeName*/");
+        auto outline_/*PnodeName*/=/*PnodeName*/->outline=new Outline();
+        outline_/*PnodeName*/.createNode=createNode;
 //templete
-    outline_/*nodeName*/.x=
-    outline_/*nodeName*/.y=
-    outline_/*nodeName*/.width=
-    outline_/*nodeName*/.height=
-    outline_/*nodeName*/.anchorX=
-    outline_/*nodeName*/.anchorY=
-    outline_/*nodeName*/.scale=
-    outline_/*nodeName*/.rotation=
-    outline_/*nodeName*/.opacity=
-    outline_/*nodeName*/.visible=
-    outline_/*nodeName*/.zOrder=
-    outline_/*nodeName*/.type.key=
-    outline_/*nodeName*/.type.value=
+    outline_/*PnodeName*/.x=
+    outline_/*PnodeName*/.y=
+    outline_/*PnodeName*/.width=
+    outline_/*PnodeName*/.height=
+    outline_/*PnodeName*/.anchorX=
+    outline_/*PnodeName*/.anchorY=
+    outline_/*PnodeName*/.scale=
+    outline_/*PnodeName*/.rotation=
+    outline_/*PnodeName*/.opacity=
+    outline_/*PnodeName*/.visible=
+    outline_/*PnodeName*/.zOrder=
+    outline_/*PnodeName*/.type.key=
+    outline_/*PnodeName*/.type.value=

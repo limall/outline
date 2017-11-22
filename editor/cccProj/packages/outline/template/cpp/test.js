@@ -1,3 +1,9 @@
+var fileBuilder=require('./templete');
+var structBuilder=require('./templete_struct');
+var rootBuilder=require('./templete_rootDeclare');
+var instanceBuilder=require('./templete_initInstance');
+var reletionBuilder=require('./templete_initOutlineRelation');
+
 var aFunc=require('./templete_rootDeclare').getRootDeclare;
 console.log(aFunc({
     name:'aScene',

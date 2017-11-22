@@ -1,8 +1,10 @@
-var templete=require('fs').readFileSync('./templete_initOutlineRelation.hpp').toString();
+var path=Editor.projectPath+'/packages/outline/template/cpp/';
+
+var templete=require('fs').readFileSync(path+'templete_initOutlineRelation.hpp').toString();
 function getOne(name,children){
     var text='';
     children.forEach((child)=>{
-        var str=templete.replace(/\/\*nodeName\*\//,name);
+        var str=templete.replace(/\/\*PnodeName\*\//,name);
         str=str.replace(/\/\*childName\*\//,child);
         text+=str+'\n';
     });
@@ -11,7 +13,8 @@ function getOne(name,children){
 module.exports.getRelation=(relations)=>{
     var text='';
     relations.forEach((relation)=>{
-        text+=getOne(relation.name,relation.children)+'\n';
+        if(relation.children.length>0)
+            text+=getOne(relation.name,relation.children)+'\n';
     });
     return text;
 };

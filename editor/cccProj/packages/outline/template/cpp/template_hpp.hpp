@@ -1,8 +1,5 @@
 #pragma once
 //your include files and definition
-
-//following is the auto generated code where you shouldn't write your code
-//auto generate begin
 #include "cocos2d.h"
 using namespace cocos2d;
 using namespace std;
@@ -61,6 +58,9 @@ static auto createNode = [](KeyValue *keyValue=NULL)->Node* {
 	return node;
 };
 
+//following is the auto generated code where you shouldn't write your code
+//auto generate begin
+
 namespace O {
 	struct Outline {
 		float x=0;
@@ -96,20 +96,17 @@ namespace O {
 			return node;
 		};
 	};
-
-	static Outline *test = new Outline();
     
-	/*struct_definition*/
+/*struct_definition*/
 
-    /*root_declare*/
+/*root_declare*/
 
 //接着定义init函数，用于初始化各个outline的实例，并且执行adapte。注意该函数必须在使用前调用，用户可在/*outline-adapter*/标记后对各个节点的createNode进行自定义
 
 	void init() {
 		
-		/*initInstance*/
-
-		/*initOutline*/
+/*initInstance*/
+/*initRelation*/
 
 //auto generate end
         //following is where you can adapte your node type

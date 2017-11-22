@@ -32,9 +32,9 @@ var Outline=function(
         node.outline=this;
         var sprite=node.getComponent(cc.Sprite);
         if(sprite){
-            this.typeKey='sprite';
+            this.key='"sprite"';
             var fullPath=sprite.spriteFrame._textureFilename;
-            this.typeValue=fullPath.substring(fullPath.indexOf('/assets/')+8);
+            this.value='"'+fullPath.substring(fullPath.indexOf('/assets/')+8)+'"';
         }
     }
     if(name)
