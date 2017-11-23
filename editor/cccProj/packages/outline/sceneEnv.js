@@ -1,13 +1,35 @@
 var outlineManager=require('./outlineManager');
 var sort=require('./sort');
+var udpLog=require('./udplog');
+udpLog.resetDst('127.0.0.1',20131,1);
 module.exports = {
-    'getCanvas': function (event) {
+    'getExportRules':function(event){
         var canvas = cc.find('Canvas');
         if(canvas){
-            outlineManager.init(canvas);
-            var data=outlineManager.getDataByNode(canvas);
-            if (event.reply) {
+            var exportRules=[];
+            var temp=canvas.getComponents('ExportRule');
+            for(var i=0;i<temp.length;i++){
+                exportRules.push(temp[i].ruleName);
+            }
+            var data=JSON.stringify(exportRules);
+            if(event.reply) {
                 event.reply(data);
+            }
+        }
+    },
+    'getNode': function (event,exportRuleName) {
+        var canvas = cc.find('Canvas');
+        if(canvas){
+            var exportRules=canvas.getComponents('ExportRule');
+            for(var i=0;i<exportRules.length;i++){
+                var exportRule=exportRules[i];
+                if(exportRuleName===exportRule.ruleName){
+                    outlineManager.init(exportRule.src_Node);
+                    var data=outlineManager.getDataByNode(exportRule.src_Node);
+                    if(event.reply) {
+                        event.reply(data);
+                    }
+                }
             }
         }
     }

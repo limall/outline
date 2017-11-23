@@ -13,8 +13,8 @@
       "ignore": ["components/**/*"]
     },
     "main-menu": {
-      "outline/export-scene": {
-        "message": "outline:export-scene"
+      "outline/export-node": {
+        "message": "outline:export-node"
       }
     }
 }

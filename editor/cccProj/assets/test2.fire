@@ -64,6 +64,9 @@
     "_components": [
       {
         "__id__": 8
+      },
+      {
+        "__id__": 9
       }
     ],
     "_prefab": null,
@@ -329,5 +332,22 @@
     },
     "_fitWidth": false,
     "_fitHeight": true
+  },
+  {
+    "__type__": "00f1fqDWhVLqagfl6AvoiJm",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "ruleName": "abc",
+    "src_Node": {
+      "__id__": 6
+    },
+    "dst_hppPath": "",
+    "exportRes": false,
+    "dst_resolutionWidth": 960,
+    "dst_resolutionHeight": 640
   }
 ]
