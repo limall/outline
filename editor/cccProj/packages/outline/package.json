@@ -16,5 +16,13 @@
       "outline/export-node": {
         "message": "outline:export-node"
       }
+    },
+
+    "panel": {
+      "main": "panel/index.html",
+      "type": "simple",
+      "title": "export setting",
+      "width": 400,
+      "height": 300
     }
 }

@@ -133,6 +133,7 @@ module.exports = {
   },
   messages: {
     'export-node' () {
+      Editor.Panel.open('outline');
       Editor.Scene.callSceneScript('outline', 'getExportRules', function (data) {
         var exportRules=JSON.parse(data);
         Editor.Scene.callSceneScript('outline', 'getNode',exportRules[0],function (data) {
