@@ -4,9 +4,9 @@ cc.Class({
         ruleName:'',
         src_Node:cc.Node,
         dst_hppPath:'',
-        exportRes:false,
-        dst_resolutionWidth:960,
-        dst_resolutionHeight:640,
+        //exportRes:false,
+        //dst_resolutionWidth:960,
+        //dst_resolutionHeight:640,
     },
 
     // use this for initialization
