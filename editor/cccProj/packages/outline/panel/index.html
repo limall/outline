@@ -14,13 +14,13 @@
     </head>
   
     <body>
-      <h1>hello world</h1>
-      <button id="btn">Send Message</button>
-  
+      <input id="input-ruleName" type="text"></input>
+      <button id="btn">导出</button>
       <script>
         let btn = document.getElementById('btn');
         btn.addEventListener('click', () => {
-          Editor.log('on button clicked!');
+            let ruleName = document.getElementById('input-ruleName').value;
+            Editor.Ipc.sendToMain('outline:export-node',ruleName);
         });
       </script>
     </body>

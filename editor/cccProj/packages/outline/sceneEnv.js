@@ -25,9 +25,11 @@ module.exports = {
                 var exportRule=exportRules[i];
                 if(exportRuleName===exportRule.ruleName){
                     outlineManager.init(exportRule.src_Node);
-                    var data=outlineManager.getDataByNode(exportRule.src_Node);
+                    var obj=new Object();
+                    obj.nodeData=outlineManager.getDataByNode(exportRule.src_Node);
+                    obj.dst_hppPath=exportRule.dst_hppPath;
                     if(event.reply) {
-                        event.reply(data);
+                        event.reply(JSON.stringify(obj));
                     }
                 }
             }

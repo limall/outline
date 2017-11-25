@@ -14,7 +14,7 @@
     },
     "main-menu": {
       "outline/export-node": {
-        "message": "outline:export-node"
+        "message": "outline:start-export-node"
       }
     },
 
@@ -22,7 +22,7 @@
       "main": "panel/index.html",
       "type": "simple",
       "title": "export setting",
-      "width": 400,
-      "height": 300
+      "width": 300,
+      "height": 80
     }
 }

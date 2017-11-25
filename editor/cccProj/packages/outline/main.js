@@ -77,8 +77,9 @@ function buildContent(data){
         });
   }
   para.attrs=attrs;
-  var text_rootDeclare=rootBuilder.getRootDeclare(para);
-  text=fileBuilder.insertRootDeclare(text,text_rootDeclare);
+  var text_rootDeclare1=rootBuilder.getRootDeclare1(para.name);
+  var text_rootDeclare2=rootBuilder.getRootDeclare2(para);
+  text=fileBuilder.insertRootDeclare(text,text_rootDeclare1,text_rootDeclare2);
 
   //所有子节点的定义
   var paras=[];
@@ -123,6 +124,8 @@ function buildContent(data){
   return text;
 }
 
+var exportRules;
+
 module.exports = {
   load () {
     // 当 package 被正确加载的时候执行
@@ -132,14 +135,30 @@ module.exports = {
     // 当 package 被正确卸载的时候执行
   },
   messages: {
-    'export-node' () {
-      Editor.Panel.open('outline');
+    'start-export-node' () {
       Editor.Scene.callSceneScript('outline', 'getExportRules', function (data) {
-        var exportRules=JSON.parse(data);
-        Editor.Scene.callSceneScript('outline', 'getNode',exportRules[0],function (data) {
-          udpLog.si(data);
-        });
+        exportRules=JSON.parse(data);
+        Editor.Panel.open('outline');
       });
+    },
+    'export-node' (event,ruleName){
+      var hasRule=false;
+      for(var i=0;i<exportRules.length;i++){
+        if(ruleName===exportRules[i])
+            hasRule=true;
+      }
+      if(hasRule){
+        Editor.Scene.callSceneScript('outline', 'getNode',ruleName,function (data) {
+          var obj=JSON.parse(data);
+          var nodeData=obj.nodeData;
+          var nodeName=JSON.parse(nodeData).name;
+          var content=buildContent(nodeData);
+          var dst_hppPath=obj.dst_hppPath;
+          fileBuilder.setContent(nodeName,content,dst_hppPath);
+        });
+      }else
+          Editor.error('can not find the export rule with name "'+ruleName+'"');
     }
   },
 };
+

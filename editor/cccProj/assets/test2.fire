@@ -345,9 +345,6 @@
     "src_Node": {
       "__id__": 6
     },
-    "dst_hppPath": "",
-    "exportRes": false,
-    "dst_resolutionWidth": 960,
-    "dst_resolutionHeight": 640
+    "dst_hppPath": "out"
   }
 ]

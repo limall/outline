@@ -99,12 +99,12 @@ namespace O {
     
 /*struct_definition*/
 
-/*root_declare*/
+/*root_declare1*/
 
 //接着定义init函数，用于初始化各个outline的实例，并且执行adapte。注意该函数必须在使用前调用，用户可在/*outline-adapter*/标记后对各个节点的createNode进行自定义
 
 	void init() {
-		
+/*root_declare2*/		
 /*initInstance*/
 /*initRelation*/
 
