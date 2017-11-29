@@ -8,6 +8,8 @@ var sign='//templete';
 function getInit(name,parent,PName){
     var end=textOrigin.indexOf(sign);
     var textInit=textOrigin.substring(0,end);
+    var Name=PName.substring(0,1).toUpperCase()+PName.substring(1);
+    textInit=textInit.replace(/\/\*UPnodeName\*\//g,Name);
     textInit=textInit.replace(/\/\*PnodeName\*\//g,PName);
     textInit=textInit.replace(/\/\*nodeName\*\//g,name);
     textInit=textInit.replace(/\/\*parent\*\//,parent);
@@ -40,7 +42,7 @@ module.exports.getInstanceInit=(instances)=>{
     instances.forEach((instance)=>{
         var init=getInit(instance.name,instance.parent,instance.PName);
         instance.attrs.forEach((attr)=>{
-            init+='        '+addAttr(attr.name,attr.value,attr.PnodeName)+'\n';
+            init+='                '+addAttr(attr.name,attr.value,attr.PnodeName)+'\n';
         });
         text+=init+'\n';
     });

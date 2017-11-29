@@ -38,7 +38,7 @@ module.exports.getRootDeclare2=(instance)=>{
     var text='';
     var init=getInit(instance.name);
     instance.attrs.forEach((attr)=>{
-        init+='    '+addAttr(attr.name,attr.value,attr.nodeName)+'\n';
+        init+='                '+addAttr(attr.name,attr.value,attr.nodeName)+'\n';
     });
     text+=init+'\n';
     return text;
@@ -46,6 +46,8 @@ module.exports.getRootDeclare2=(instance)=>{
 
 module.exports.getRootDeclare1=(name)=>{
     var textInit=textOrigin.substring(0,textOrigin.indexOf(';')+1);
-    textInit=textInit.replace(/\/\*nodeName\*\//g,name);
+    textInit=textInit.replace(/\/\*nodeName\*\//,name);
+    name=name.substring(0,1).toUpperCase()+name.substring(1);
+    textInit=textInit.replace(/\/\*UnodeName\*\//,name);
     return textInit;
 };

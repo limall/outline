@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "udpLog/UdpLog.h"
+#include "beauty.hpp"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -56,6 +57,7 @@ static int register_all_packages()
 
 bool AppDelegate::applicationDidFinishLaunching() {
 	UdpLog::resetDst("127.0.0.1", 20131, 1);
+	O::Beauty::pIt();
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();

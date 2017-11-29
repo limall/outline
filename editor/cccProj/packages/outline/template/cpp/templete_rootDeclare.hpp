@@ -1,6 +1,6 @@
-    static Struct_/*nodeName*/ */*nodeName*/=new Struct_/*nodeName*/("/*nodeName*/");
-    //defineendauto outline_/*nodeName*/=/*nodeName*/->outline=new Outline();
-    outline_/*nodeName*/->createNode=createNode;
+    auto /*nodeName*/=_pInstance=new /*UnodeName*/();
+    //defineendauto outline_/*nodeName*/=_pInstance->outline=new Outline();
+                outline_/*nodeName*/->createNode=createNode;
 //templete
     outline_/*nodeName*/->x=
     outline_/*nodeName*/->y=

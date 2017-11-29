@@ -67,6 +67,9 @@
       },
       {
         "__id__": 9
+      },
+      {
+        "__id__": 10
       }
     ],
     "_prefab": null,
@@ -345,7 +348,22 @@
     "src_Node": {
       "__id__": 4
     },
-    "dst_hppPath": "e:/workspace/outline/test_2dx/Classes/test.hpp",
+    "dst_hppPath": "out",
+    "rootPosZero": false
+  },
+  {
+    "__type__": "00f1fqDWhVLqagfl6AvoiJm",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "ruleName": "cba",
+    "src_Node": {
+      "__id__": 6
+    },
+    "dst_hppPath": "out",
     "rootPosZero": false
   }
 ]

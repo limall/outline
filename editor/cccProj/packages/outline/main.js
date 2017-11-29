@@ -30,8 +30,8 @@ function getPName(obj){
 }
 
 function buildContent(data){
-  var canvas_outline=JSON.parse(data);
-  var sorted=sort.sort(canvas_outline);
+  var node_outline=JSON.parse(data);
+  var sorted=sort.sort(node_outline);
   var bottomUped=sort.bottomUp(sorted);
   //主模板
   var text=fileBuilder.getContentTemplate();
@@ -57,9 +57,11 @@ function buildContent(data){
   }
   var text_struct=structBuilder.getStructDefinition(defArr);
   text=fileBuilder.insertStructDefinition(text,text_struct);
+  var Name=node_outline.name.substring(0,1).toUpperCase()+node_outline.name.substring(1);
+  text=text.replace(/\/\*nodeName\*\//g,Name); 
 
   //根节点的定义
-  var para={name:canvas_outline.name};
+  var para={name:node_outline.name};
   var attrNames=['x','y','width','height','anchorX','anchorY','scale','rotation','opacity','visible','zOrder','key','value'];
   function isAttrName(attrName){
     for(var i=0;i<attrNames.length;i++)
@@ -68,12 +70,12 @@ function buildContent(data){
     return false;
   }          
   var attrs=[];
-  for(var attrName in canvas_outline){
+  for(var attrName in node_outline){
     if(isAttrName(attrName))
         attrs.push({
           name:attrName,
-          value:canvas_outline[attrName],
-          nodeName:canvas_outline.name,
+          value:node_outline[attrName],
+          nodeName:node_outline.name,
         });
   }
   para.attrs=attrs;

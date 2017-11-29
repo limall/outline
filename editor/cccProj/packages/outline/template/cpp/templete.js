@@ -25,7 +25,9 @@ module.exports.setContent=function(nodeName,content,filepath){
     }
     var isFirst=!fs.existsSync(filepath);
     if(isFirst){
+        nodeName=nodeName.toUpperCase()+'_H';
         var textOrigin=fs.readFileSync(templete_origin_path).toString();
+        textOrigin=textOrigin.replace(/\/\*define_h\*\//g,nodeName);
         fs.writeFile(filepath,textOrigin,(err)=>{
             if(err){
                 Editor.error('dst hpp path is error\n'+err);
