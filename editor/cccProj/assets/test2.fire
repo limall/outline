@@ -343,8 +343,9 @@
     "_enabled": true,
     "ruleName": "abc",
     "src_Node": {
-      "__id__": 6
+      "__id__": 4
     },
-    "dst_hppPath": "out"
+    "dst_hppPath": "e:/workspace/outline/test_2dx/Classes/test.hpp",
+    "rootPosZero": false
   }
 ]

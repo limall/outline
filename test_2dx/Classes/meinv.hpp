@@ -98,35 +98,35 @@ namespace O {
 		};
 	};
     
-    static struct Struct_beauty {
+    static struct Struct_meinv {
 	    std::string nodeName;
 	    Outline *outline;
-	    Struct_beauty (string name) {
+	    Struct_meinv (string name) {
 		    this->nodeName=name;
 	    }
     };
 
 
-    static Struct_beauty *beauty=new Struct_beauty("beauty");
+    static Struct_meinv *meinv=new Struct_meinv("meinv");
 
 //接着定义init函数，用于初始化各个outline的实例，并且执行adapte。注意该函数必须在使用前调用，用户可在/*outline-adapter*/标记后对各个节点的createNode进行自定义
 
 	void init() {
-auto outline_beauty=beauty->outline=new Outline();
-    outline_beauty->createNode=createNode;
-    outline_beauty->x=294;
-    outline_beauty->y=302;
-    outline_beauty->anchorX=0.5;
-    outline_beauty->anchorY=0.5;
-    outline_beauty->width=1600;
-    outline_beauty->height=1200;
-    outline_beauty->scale=0.3;
-    outline_beauty->rotation=0;
-    outline_beauty->opacity=255;
-    outline_beauty->visible=true;
-    outline_beauty->zOrder=0;
-    outline_beauty->type.key="sprite";
-    outline_beauty->type.value="images/beauty.jpg";
+auto outline_meinv=meinv->outline=new Outline();
+    outline_meinv->createNode=createNode;
+    outline_meinv->x=808;
+    outline_meinv->y=311;
+    outline_meinv->anchorX=0.5;
+    outline_meinv->anchorY=0.5;
+    outline_meinv->width=810;
+    outline_meinv->height=1440;
+    outline_meinv->scale=0.3;
+    outline_meinv->rotation=0;
+    outline_meinv->opacity=255;
+    outline_meinv->visible=true;
+    outline_meinv->zOrder=0;
+    outline_meinv->type.key="sprite";
+    outline_meinv->type.value="images/meinv.jpg";
 
 		
 

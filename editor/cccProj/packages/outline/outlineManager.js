@@ -15,7 +15,7 @@ var outlineManager={
     addOutline:(node)=>{
         Outline.create(node);
     },
-    getDataByNode:(node)=>{
+    getDataByNode:(node,isZero)=>{
         var root={};
         function walkOneNode(obj,node){
             if(node.outline){
@@ -29,6 +29,24 @@ var outlineManager={
             }
         }
         walkOneNode(root,node);
+        if(isZero){
+            root.x=root.y=0;
+        }else {
+            var parent=node.parent;
+            if(parent)
+                if(parent.name!=='Canvas'){
+                    parent=parent.parent;
+                    while(parent){
+                        Editor.log(root.x+','+root.y);
+                        Editor.log(parent.name);
+                        root.x+=parent.x;
+                        root.y+=parent.y;
+                        if(parent.name==='Canvas')
+                            break;
+                        parent=parent.parent;
+                    }
+                }
+        }
         return JSON.stringify(root);
     },
 };

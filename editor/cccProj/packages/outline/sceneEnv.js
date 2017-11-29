@@ -26,7 +26,7 @@ module.exports = {
                 if(exportRuleName===exportRule.ruleName){
                     outlineManager.init(exportRule.src_Node);
                     var obj=new Object();
-                    obj.nodeData=outlineManager.getDataByNode(exportRule.src_Node);
+                    obj.nodeData=outlineManager.getDataByNode(exportRule.src_Node,exportRule.rootPosZero);
                     obj.dst_hppPath=exportRule.dst_hppPath;
                     if(event.reply) {
                         event.reply(JSON.stringify(obj));

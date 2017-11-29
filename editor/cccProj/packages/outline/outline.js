@@ -67,9 +67,16 @@ var Outline=function(
 }
 
 Outline.create=function(node,name){
+    var x=node.x;
+    if(node.parent)
+        x+=node.parent.width*node.parent.anchorX;
+    var y=node.y;
+    if(node.parent)
+        y+=node.parent.height*node.parent.anchorY;
+
     var outline=new Outline(
-        node.x,
-        node.y,
+        x,
+        y,
         node.anchorX,
         node.anchorY,
         node.width,

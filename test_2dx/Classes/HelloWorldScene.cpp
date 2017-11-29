@@ -1,8 +1,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "udpLog/UdpLog.h"
-#include "test.hpp"
 #include "ui/UIButton.h"
+#include "test.hpp"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -41,8 +41,6 @@ bool HelloWorld::init()
 
     this->addChild(label, 1);
 
-	O::adapte();
-
     /*auto node = O::test.create();
 
     node->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
@@ -54,7 +52,8 @@ bool HelloWorld::init()
 	button->setScale(0.5f);
 	button->setZoomScale(0.1f);
 	this->addChild(button);*/
-
+	O::init();
+	this->addChild(O::beauty->outline->create());
 
     return true;
 }

@@ -39,9 +39,9 @@ module.exports.setContent=function(nodeName,content,filepath){
         Editor.log(filepath);
         var text=fs.readFileSync(filepath).toString();
         var marker_start='//auto generate begin';
-        var head=text.substring(0,text.indexOf(marker_start));
+        var head=text.substring(0,text.indexOf(marker_start)+marker_start.length+1);
         var marker_end='//auto generate end';
-        var tail=text.substring(text.indexOf(marker_end)+marker_end.length);
+        var tail=text.substring(text.indexOf(marker_end));
         var newText=head+content+tail;
         fs.writeFile(filepath,newText,(err)=>{
             if(err)

@@ -1,7 +1,6 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "udpLog/UdpLog.h"
-#include "test.hpp"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
