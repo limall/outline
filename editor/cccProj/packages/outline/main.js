@@ -55,8 +55,9 @@ function buildContent(data){
       defArr.push(def);
     }
   }
-  var text_struct=structBuilder.getStructDefinition(defArr);
-  text=fileBuilder.insertStructDefinition(text,text_struct);
+  var text_struct1=structBuilder.getStructDefinition1(defArr);
+  var text_struct2=structBuilder.getStructDefinition2(defArr);
+  text=fileBuilder.insertStructDefinition(text,text_struct1,text_struct2);
   var Name=node_outline.name.substring(0,1).toUpperCase()+node_outline.name.substring(1);
   text=text.replace(/\/\*nodeName\*\//g,Name); 
 

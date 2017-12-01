@@ -7,9 +7,10 @@ using namespace cocos2d;
 using namespace std;
 
 //following is the auto generated code where you shouldn't write your code
-namespace O {
 //auto generate begin
-/*struct_definition*/
+/*struct_definition1*/
+namespace O {
+/*struct_definition2*/
 //auto generate end
 };
 

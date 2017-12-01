@@ -42,7 +42,7 @@ module.exports.getInstanceInit=(instances)=>{
     instances.forEach((instance)=>{
         var init=getInit(instance.name,instance.parent,instance.PName);
         instance.attrs.forEach((attr)=>{
-            init+='                '+addAttr(attr.name,attr.value,attr.PnodeName)+'\n';
+            init+='            '+addAttr(attr.name,attr.value,attr.PnodeName)+'\n';
         });
         text+=init+'\n';
     });

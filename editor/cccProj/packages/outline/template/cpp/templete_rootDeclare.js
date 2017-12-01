@@ -38,7 +38,7 @@ module.exports.getRootDeclare2=(instance)=>{
     var text='';
     var init=getInit(instance.name);
     instance.attrs.forEach((attr)=>{
-        init+='                '+addAttr(attr.name,attr.value,attr.nodeName)+'\n';
+        init+='            '+addAttr(attr.name,attr.value,attr.nodeName)+'\n';
     });
     text+=init+'\n';
     return text;

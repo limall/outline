@@ -1,10 +1,11 @@
-var path=Editor.projectPath+'/packages/outline/template/cpp/';
+var path=Editor.projectPath+'/packages/outline/template/cpp/';  //改文件夹的绝对路径
 
 var fs=require('fs');
 
-var templete_origin_path=path+'template_hpp.hpp';
+var templete_origin_path=path+'template_hpp.hpp';               //模板文件的路径
 
-module.exports.getContentTemplate=function(){
+//获取模板文件的auto generate内的内容
+module.exports.getContentTemplate=function(){                   
     var text=fs.readFileSync(templete_origin_path).toString();
     var marker_start='//auto generate begin';
     var startIndex=text.indexOf(marker_start)+marker_start.length;
@@ -14,6 +15,8 @@ module.exports.getContentTemplate=function(){
     return content;
 };
 
+
+//更新auto generate内的内容，若未创建，则创建
 module.exports.setContent=function(nodeName,content,filepath){
     if(filepath==='out'){
         filepath=Editor.projectPath+'/out';
@@ -52,22 +55,27 @@ module.exports.setContent=function(nodeName,content,filepath){
     }
 };
 
-module.exports.insertStructDefinition=function(content,structDefinition){
-    var newContent=content.replace(/\/\*struct_definition\*\//,structDefinition);
+//添加每个节点的结构体定义
+module.exports.insertStructDefinition=function(content,structDefinition1,structDefinition2){
+    var newContent=content.replace(/\/\*struct_definition1\*\//,structDefinition1);
+    newContent=newContent.replace(/\/\*struct_definition2\*\//,structDefinition2);
     return newContent;
 };
 
+//添加根节点初始化
 module.exports.insertRootDeclare=function(content,rootDeclare1,rootDeclare2){
     var newContent=content.replace(/\/\*root_declare1\*\//,rootDeclare1);
     newContent=newContent.replace(/\/\*root_declare2\*\//,rootDeclare2);
     return newContent;
 };
 
+//添加每个节点的初始化
 module.exports.insertInstanceInit=function(content,instanceInit){
     var newContent=content.replace(/\/\*initInstance\*\//,instanceInit);
     return newContent;
 };
 
+//添加每个节点的父子关系
 module.exports.insertRelation=function(content,outlineInit){
     var newContent=content.replace(/\/\*initRelation\*\//,outlineInit);
     return newContent;
