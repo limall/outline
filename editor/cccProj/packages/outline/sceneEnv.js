@@ -1,7 +1,5 @@
 var outlineManager=require('./outlineManager');
 var sort=require('./sort');
-var udpLog=require('./udplog');
-udpLog.resetDst('127.0.0.1',20131,1);
 module.exports = {
     'getExportRules':function(event){
         var canvas = cc.find('Canvas');

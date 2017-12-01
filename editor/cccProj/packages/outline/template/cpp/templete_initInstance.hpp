@@ -15,5 +15,8 @@ outline_/*PnodeName*/->visible=
 outline_/*PnodeName*/->zOrder=
 outline_/*PnodeName*/->type.key=
 outline_/*PnodeName*/->type.value=
+outline_/*PnodeName*/->colorR=
+outline_/*PnodeName*/->colorG=
+outline_/*PnodeName*/->colorB=
 
     

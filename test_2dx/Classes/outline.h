@@ -2,6 +2,7 @@
 #define OUTLINE_H
 
 #include "cocos2d.h"
+#include "Game/GameLib.h"
 using namespace cocos2d;
 using namespace std;
 
@@ -45,14 +46,32 @@ static void type2KeyValue(string type, vector<KeyValue> *keyValues) {
 	}
 }
 
-static auto createNode = [](KeyValue *keyValue, Node *parent)->Node* {
+extern std::function<Node*(KeyValue*, Node*)> createNode = [](KeyValue *keyValue, Node *parent)->Node* {
 	Node *node;
 	if (keyValue) {
 		string key = keyValue->key;
 		if (key == "sprite")
 			node = Sprite::create(keyValue->value);
-		else
-			node = Node::create();
+		else if (key == "label"){
+			vector<KeyValue> properties;
+			type2KeyValue(keyValue->value, &properties);
+			string text;
+			int fontSize;
+			for (int i = 0; i < properties.size(); i++){
+				if (properties[i].key == "string")
+					text = properties[i].value;
+				if (properties[i].key == "fontSize"){
+					stringstream ss;
+					ss << properties[i].value;
+					ss >> fontSize;
+				}
+			}
+			auto label = Label::create();
+			label->setString(text);
+			label->setSystemFontSize(fontSize);
+			node = label;
+		}else
+		    node = Node::create();
 	}
 	else
 		node = Node::create();
@@ -73,6 +92,9 @@ struct Outline {
 	int opacity = 255;
 	bool visible = true;
 	int zOrder = 0;
+	int colorR = 255;
+	int colorG = 255;
+	int colorB = 255;
 	vector<Outline*> children;
 	KeyValue type;
 	std::function<Node*(KeyValue*, Node*)> createNode;
@@ -89,6 +111,7 @@ struct Outline {
 		node->setOpacity(opacity);
 		node->setVisible(visible);
 		node->setLocalZOrder(zOrder);
+		node->setColor(Color3B(colorR, colorG, colorB));
 		for (int i = 0; i < children.size(); i++) {
 			children[i]->create(node);
 		}

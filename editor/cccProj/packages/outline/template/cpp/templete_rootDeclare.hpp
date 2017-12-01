@@ -15,3 +15,6 @@
     outline_/*nodeName*/->zOrder=
     outline_/*nodeName*/->type.key=
     outline_/*nodeName*/->type.value=
+    outline_/*nodeName*/->colorR=
+    outline_/*nodeName*/->colorG=
+    outline_/*nodeName*/->colorB=

@@ -37,8 +37,6 @@ var outlineManager={
                 if(parent.name!=='Canvas'){
                     parent=parent.parent;
                     while(parent){
-                        Editor.log(root.x+','+root.y);
-                        Editor.log(parent.name);
                         root.x+=parent.x;
                         root.y+=parent.y;
                         if(parent.name==='Canvas')

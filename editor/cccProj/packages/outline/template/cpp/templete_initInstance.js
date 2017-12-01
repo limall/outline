@@ -17,7 +17,7 @@ function getInit(name,parent,PName){
 }
 
 var attrStr=textOrigin.substring(textOrigin.indexOf(sign)+sign.length);
-var attrNames=['x','y','width','height','anchorX','anchorY','scale','rotation','opacity','visible','zOrder','key','value'];
+var attrNames=['x','y','width','height','anchorX','anchorY','scale','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB'];
 var attrs={};
 var start=attrStr.indexOf('outline_');
 var nameIndex=0;

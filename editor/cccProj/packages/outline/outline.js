@@ -14,6 +14,9 @@ var Outline=function(
     visible,
     zOrder,
     node,
+    colorR,
+    colorG,
+    colorB,
     name
 ){
     this.x=x;
@@ -27,9 +30,17 @@ var Outline=function(
     this.opacity=opacity;
     this.visible=visible;
     this.zOrder=zOrder;
+    this.colorR=colorR;
+    this.colorG=colorG;
+    this.colorB=colorB;
     this.node=node;
     if(node){
         node.outline=this;
+        var label=node.getComponent(cc.Label);
+        if(label){
+            this.key='"label"';
+            this.value='"string:'+label.string+';fontSize:'+label.fontSize+'"';
+        }
         var sprite=node.getComponent(cc.Sprite);
         if(sprite){
             this.key='"sprite"';
@@ -87,6 +98,9 @@ Outline.create=function(node,name){
         node.isValid,
         node.zIndex,
         node,
+        node.color.r,
+        node.color.g,
+        node.color.b,
         name||node.name
     );
     return outline;
