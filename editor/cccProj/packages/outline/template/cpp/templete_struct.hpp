@@ -5,8 +5,7 @@ public:
 	static /*nodeName*/ *pIt() {
 		static /*nodeName*/ *_pInstance;
 		if(_pInstance==NULL) {
-		/*root_declare1*/
-		    /*root_declare2*/
+		/*root_declare*/
 /*initInstance*/
 /*initRelation*/
         }

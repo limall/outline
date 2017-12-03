@@ -4,12 +4,11 @@ var fs=require('fs');
 
 var textOrigin=fs.readFileSync(path+'templete_rootDeclare.hpp').toString();
 var sign='//templete';
-var defineend='//defineend';
 function getInit(name){
-    var start=textOrigin.indexOf(defineend);
-    var end=textOrigin.indexOf(sign);
-    var textInit=textOrigin.substring(start+defineend.length,end);
+    var textInit=textOrigin.substring(0,textOrigin.indexOf(sign));
     textInit=textInit.replace(/\/\*nodeName\*\//g,name);
+    var structName=name.substring(0,1).toUpperCase()+name.substring(1);
+    textInit=textInit.replace(/\/\*UnodeName\*\//,structName);
     return textInit;
 }
 
@@ -34,7 +33,7 @@ function addAttr(name,value,nodeName){
     return str;
 }
 
-module.exports.getRootDeclare2=(instance)=>{
+module.exports.getRootDeclare=(instance)=>{
     var text='';
     var init=getInit(instance.name);
     instance.attrs.forEach((attr)=>{
@@ -42,12 +41,4 @@ module.exports.getRootDeclare2=(instance)=>{
     });
     text+=init+'\n';
     return text;
-};
-
-module.exports.getRootDeclare1=(name)=>{
-    var textInit=textOrigin.substring(0,textOrigin.indexOf(';')+1);
-    textInit=textInit.replace(/\/\*nodeName\*\//,name);
-    name=name.substring(0,1).toUpperCase()+name.substring(1);
-    textInit=textInit.replace(/\/\*UnodeName\*\//,name);
-    return textInit;
 };

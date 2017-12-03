@@ -1,5 +1,5 @@
     auto /*nodeName*/=_pInstance=new /*UnodeName*/();
-    //defineendauto outline_/*nodeName*/=_pInstance->outline=new Outline();
+    auto outline_/*nodeName*/=_pInstance->outline=new Outline();
             outline_/*nodeName*/->createNode=createNode;
 //templete
     outline_/*nodeName*/->x=

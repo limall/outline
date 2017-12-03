@@ -1,4 +1,4 @@
-var path=Editor.projectPath+'/packages/outline/template/cpp/';  //改文件夹的绝对路径
+var path=Editor.projectPath+'/packages/outline/template/cpp/';  //该文件夹的绝对路径
 
 var fs=require('fs');
 
@@ -17,7 +17,8 @@ module.exports.getContentTemplate=function(){
 
 
 //更新auto generate内的内容，若未创建，则创建
-module.exports.setContent=function(nodeName,content,filepath){
+module.exports.updateContent=function(nodeName,content,filepath){
+    //若直接使用out作为路径，则导出文件将位于项目out文件夹内
     if(filepath==='out'){
         filepath=Editor.projectPath+'/out';
         if(!fs.existsSync(filepath))
@@ -26,6 +27,8 @@ module.exports.setContent=function(nodeName,content,filepath){
     }else if(filepath===''){
         Editor.log('please input your dst hpp path');
     }
+
+    //若文件未创建则创建
     var isFirst=!fs.existsSync(filepath);
     if(isFirst){
         nodeName=nodeName.toUpperCase()+'_H';
@@ -39,7 +42,9 @@ module.exports.setContent=function(nodeName,content,filepath){
             }
         });
     }else
-        write();
+        write();//若已经创建了则更新（只更改auto generate的内容）
+
+    //执行写入操作的函数    
     function write(){
         Editor.log(filepath);
         var text=fs.readFileSync(filepath).toString();
@@ -63,9 +68,8 @@ module.exports.insertStructDefinition=function(content,structDefinition1,structD
 };
 
 //添加根节点初始化
-module.exports.insertRootDeclare=function(content,rootDeclare1,rootDeclare2){
-    var newContent=content.replace(/\/\*root_declare1\*\//,rootDeclare1);
-    newContent=newContent.replace(/\/\*root_declare2\*\//,rootDeclare2);
+module.exports.insertRootDeclare=function(content,rootDeclare){
+    newContent=content.replace(/\/\*root_declare\*\//,rootDeclare);
     return newContent;
 };
 
