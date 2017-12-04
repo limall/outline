@@ -110,6 +110,19 @@ struct Outline {
 		}
 		return node;
 	}
+	void reset(Node *node){
+		node->setPositionX(x);
+		node->setPositionY(y);
+		if (width>0 && height>0)
+			node->setContentSize(Size(width, height));
+		node->setAnchorPoint(Vec2(anchorX, anchorY));
+		node->setScale(scale);
+		node->setRotation(rotation);
+		node->setOpacity(opacity);
+		node->setVisible(visible);
+		node->setLocalZOrder(zOrder);
+		node->setColor(Color3B(colorR, colorG, colorB));
+	}
 };
 
 //所有节点结构体的基结构体
@@ -117,6 +130,9 @@ struct OStruct{
 	Outline *outline;
 	Node *create(Node *parent){
 		return outline->create(parent);
+	}
+	void reset(Node *node){
+		outline->reset(node);
 	}
 };
 

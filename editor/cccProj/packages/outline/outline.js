@@ -40,9 +40,14 @@ var Outline=function(
         }
         var sprite=node.getComponent(cc.Sprite);
         if(sprite){
-            this.key='"sprite"';
-            var fullPath=sprite.spriteFrame._textureFilename;
-            this.value='"'+fullPath.substring(fullPath.indexOf('/assets/')+8)+'"';
+            var typeInfo=node.getComponent('TypeInfo');
+            if(typeInfo){
+
+            }else{
+                this.key='"sprite"';
+                var fullPath=sprite.spriteFrame._textureFilename;
+                this.value='"'+fullPath.substring(fullPath.indexOf('/assets/')+8)+'"';
+            }
         }
     }
     if(name)
