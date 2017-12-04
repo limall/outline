@@ -1,6 +1,3 @@
-var udpLog=require('./udplog');
-udpLog.resetDst('127.0.0.1',20131,1);
-
 var Outline=function(
     x,
     y,
@@ -52,11 +49,6 @@ var Outline=function(
         this.name=name;
     else
         this.name=node.name;
-    this.addTypeInfo=function(obj){
-        for(var name in obj){
-            this[name]=obj[name];
-        }
-    };
     this.toString=function(){
         var obj={};
         this.toJson(obj);
@@ -71,7 +63,7 @@ var Outline=function(
     };
     this.toJson=function(obj){
         for(var name in this){
-            if(name!='addTypeInfo'&&name!='toString'&&name!='node'&&name!='toJson')
+            if(name!='toString'&&name!='node'&&name!='toJson')
                 obj[name]=this[name];
         }
     };
@@ -104,10 +96,6 @@ Outline.create=function(node,name){
         name||node.name
     );
     return outline;
-}
-
-function getNewName(){
-    return "defaultname_outline";
 }
 
 module.exports=Outline;

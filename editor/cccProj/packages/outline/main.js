@@ -20,6 +20,7 @@ function writeFile(str){
   fs.writeFileSync(path+'test.hpp',str);
 }
 
+//获取该节点自导出节点开始的节点路径，从而获得一个唯一的名称
 function getPName(obj){
   var name=obj.name;
   while(obj.parent){
@@ -29,9 +30,12 @@ function getPName(obj){
   return name;
 }
 
-function buildContent(data){
-  var node_outline=JSON.parse(data);
+//构造导出文件的主题内容部分
+function buildContent(nodeDataObj){
+  var node_outline=nodeDataObj;
+  //一个二维数组，每个子数组按顺序依次存放0、1、2...层的节点的数据
   var sorted=sort.sort(node_outline);
+  //上述数组颠倒过来的数组
   var bottomUped=sort.bottomUp(sorted);
   //主模板
   var text=fileBuilder.getContentTemplate();
@@ -126,8 +130,6 @@ function buildContent(data){
   return text;
 }
 
-var exportRules;
-
 module.exports = {
   load () {
     // 当 package 被正确加载的时候执行
@@ -138,29 +140,25 @@ module.exports = {
   },
   messages: {
     'start-export-node' () {
+      Editor.Panel.open('outline');
+    },
+    'getRuleName' (event){
       Editor.Scene.callSceneScript('outline', 'getExportRules', function (data) {
-        exportRules=JSON.parse(data);
-        Editor.Panel.open('outline');
+        if(event.reply) {
+          event.reply(data);
+        }
       });
     },
     'export-node' (event,ruleName){
-      var hasRule=false;
-      for(var i=0;i<exportRules.length;i++){
-        if(ruleName===exportRules[i])
-            hasRule=true;
-      }
-      if(hasRule){
-        Editor.Scene.callSceneScript('outline', 'getNode',ruleName,function (data) {
-          var obj=JSON.parse(data);
-          var nodeData=obj.nodeData;
-          var nodeName=JSON.parse(nodeData).name;
-          var content=buildContent(nodeData);
-          var dst_hppPath=obj.dst_hppPath;
-          fileBuilder.updateContent(nodeName,content,dst_hppPath);
-        });
-      }else
-          Editor.error('can not find the export rule with name "'+ruleName+'"');
+      Editor.Scene.callSceneScript('outline', 'getNode',ruleName,function (data) {
+        var obj=JSON.parse(data);
+        var nodeData=obj.nodeData;
+        var nodeDataObj=JSON.parse(nodeData);
+        var nodeName=nodeDataObj.name;
+        var content=buildContent(nodeDataObj);
+        var dst_hppPath=obj.dst_hppPath;
+        fileBuilder.updateContent(nodeName,content,dst_hppPath);
+      });
     }
   },
 };
-

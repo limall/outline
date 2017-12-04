@@ -1,0 +1,123 @@
+#ifndef OUTLINE_H
+#define OUTLINE_H
+
+#include "cocos2d.h"
+#include <map>
+using namespace cocos2d;
+using namespace std;
+
+struct KeyValue {
+	string key, value;
+	KeyValue() {}
+	KeyValue(string key, string value) {
+		this->key = key;
+		this->value = value;
+	}
+};
+
+static void mapTypeInfo(string typeInfo, map<string,string> *keyValues) {
+	vector<string> strs;
+	int endIndex = typeInfo.find(";");
+	bool haveKeyValue = typeInfo.find(":")>0;
+	while (haveKeyValue) {
+		string astr;
+		if (endIndex < 0) {
+			astr = typeInfo.substr(0);
+			strs.push_back(astr);
+			break;
+		}
+		else {
+			astr = typeInfo.substr(0, endIndex);
+			strs.push_back(astr);
+		}
+		typeInfo = typeInfo.substr(endIndex + 1);
+		endIndex = typeInfo.find(";");
+		haveKeyValue = typeInfo.find(":") > 0;
+	}
+	for (int i = 0; i < strs.size(); i++) {
+		string *str = &strs[i];
+		int divisionIndex = str->find(":");
+		if (divisionIndex>0 && divisionIndex + 1<str->size()) {
+			string key = str->substr(0, divisionIndex);
+			(*keyValues)[key] = str->substr(divisionIndex + 1);
+		}
+	}
+}
+
+//默认创建node的函数
+static auto createNode = [](KeyValue *keyValue, Node *parent)->Node* {
+	Node *node;
+	if (keyValue) {
+		string key = keyValue->key;
+		if (key == "sprite")
+			node = Sprite::create(keyValue->value);
+		else if (key == "label"){
+			map<string,string> properties;
+			mapTypeInfo(keyValue->value, &properties);
+			int fontSize;
+			stringstream ss;
+			ss << properties["fontSize"];
+			ss >> fontSize;
+			auto label = Label::create();
+			label->setString(properties["string"]);
+			label->setSystemFontSize(fontSize);
+			node = label;
+		}
+		else
+			node = Node::create();
+	}
+	else
+		node = Node::create();
+	if (parent)
+		parent->addChild(node);
+	return node;
+};
+
+struct Outline {
+	float x = 0;
+	float y = 0;
+	float width = 0;
+	float height = 0;
+	float anchorX = 0.5f;
+	float anchorY = 0.5f;
+	float scale = 1;
+	float rotation = 0;
+	int opacity = 255;
+	bool visible = true;
+	int zOrder = 0;
+	int colorR = 255;
+	int colorG = 255;
+	int colorB = 255;
+	vector<Outline*> children;
+	KeyValue type;
+	std::function<Node*(KeyValue*, Node*)> createNode;
+
+	Node *create(Node *parent) {
+		auto node = createNode(&type, parent);
+		node->setPositionX(x);
+		node->setPositionY(y);
+		if (width>0 && height>0)
+			node->setContentSize(Size(width, height));
+		node->setAnchorPoint(Vec2(anchorX, anchorY));
+		node->setScale(scale);
+		node->setRotation(rotation);
+		node->setOpacity(opacity);
+		node->setVisible(visible);
+		node->setLocalZOrder(zOrder);
+		node->setColor(Color3B(colorR, colorG, colorB));
+		for (int i = 0; i < children.size(); i++) {
+			children[i]->create(node);
+		}
+		return node;
+	}
+};
+
+//所有节点结构体的基结构体
+struct OStruct{
+	Outline *outline;
+	Node *create(Node *parent){
+		return outline->create(parent);
+	}
+};
+
+#endif // !OUTLINE_H

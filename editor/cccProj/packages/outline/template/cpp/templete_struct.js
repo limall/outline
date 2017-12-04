@@ -26,6 +26,7 @@ function setChildren(text,children){
     return newText;
 };
 
+//子节点结构体的定义
 module.exports.getStructDefinition1=(defArr)=>{
     var text=''; 
     for(var i=0;i<defArr.length-1;i++){
@@ -39,7 +40,7 @@ module.exports.getStructDefinition1=(defArr)=>{
     return text;
 };
 
-
+//根节点结构体的定义
 module.exports.getStructDefinition2=(defArr)=>{
     var def=defArr[defArr.length-1];
     var oneText=textTemplete;

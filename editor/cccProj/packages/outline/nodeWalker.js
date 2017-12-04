@@ -1,7 +1,7 @@
 var Outline=require('./outline');
-var outlineManager={
-    canvas:null,
-    init:(canvas)=>{
+var nodeWalker={
+    //为传入节点及其所有子节点创建并添加一个Outline实例
+    init:(node)=>{
         function walkOneNode(parent){
             Outline.create(parent);
             var children=parent.children;
@@ -9,12 +9,9 @@ var outlineManager={
                 walkOneNode(children[i]);
             }
         }
-        walkOneNode(canvas);
-        this.canvas=canvas;
+        walkOneNode(node);
     },
-    addOutline:(node)=>{
-        Outline.create(node);
-    },
+    //获取传入节点及所有子节点的outline数据，并保持父子结构
     getDataByNode:(node,isZero)=>{
         var root={};
         function walkOneNode(obj,node){
@@ -29,6 +26,7 @@ var outlineManager={
             }
         }
         walkOneNode(root,node);
+        //由于2dx和creator的坐标原点可能不同，这里需要转换坐标
         if(isZero){
             root.x=root.y=0;
         }else {
@@ -48,4 +46,4 @@ var outlineManager={
         return JSON.stringify(root);
     },
 };
-module.exports=outlineManager;
+module.exports=nodeWalker;

@@ -46,7 +46,6 @@ module.exports.updateContent=function(nodeName,content,filepath){
 
     //执行写入操作的函数    
     function write(){
-        Editor.log(filepath);
         var text=fs.readFileSync(filepath).toString();
         var marker_start='//auto generate begin';
         var head=text.substring(0,text.indexOf(marker_start)+marker_start.length+1);
@@ -56,6 +55,8 @@ module.exports.updateContent=function(nodeName,content,filepath){
         fs.writeFile(filepath,newText,(err)=>{
             if(err)
                 console.log(err);
+            else 
+                Editor.log('export successfully');
         });
     }
 };

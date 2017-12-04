@@ -14,14 +14,14 @@
     </head>
   
     <body>
-      <input id="input-ruleName" type="text"></input>
+      <p>
+        rule name:
+        <input id="input-ruleName" type="text"></input>
+      </p>
+      <p>&nbsp</p>
+      <p>&nbsp</p>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
       <button id="btn">导出</button>
-      <script>
-        let btn = document.getElementById('btn');
-        btn.addEventListener('click', () => {
-            let ruleName = document.getElementById('input-ruleName').value;
-            Editor.Ipc.sendToMain('outline:export-node',ruleName);
-        });
-      </script>
+      <script src="index.js"></script>
     </body>
 </html>

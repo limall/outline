@@ -1,5 +1,4 @@
-var outlineManager=require('./outlineManager');
-var sort=require('./sort');
+var nodeWalker=require('./nodeWalker');
 module.exports = {
     'getExportRules':function(event){
         var canvas = cc.find('Canvas');
@@ -22,13 +21,14 @@ module.exports = {
             for(var i=0;i<exportRules.length;i++){
                 var exportRule=exportRules[i];
                 if(exportRuleName===exportRule.ruleName){
-                    outlineManager.init(exportRule.src_Node);
+                    nodeWalker.init(exportRule.src_Node);
                     var obj=new Object();
-                    obj.nodeData=outlineManager.getDataByNode(exportRule.src_Node,exportRule.rootPosZero);
+                    obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.rootPosZero);
                     obj.dst_hppPath=exportRule.dst_hppPath;
                     if(event.reply) {
                         event.reply(JSON.stringify(obj));
                     }
+                    break;
                 }
             }
         }
