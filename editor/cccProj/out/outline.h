@@ -74,6 +74,7 @@ static auto createNode = [](KeyValue *keyValue, Node *parent)->Node* {
 };
 
 struct Outline {
+	Node *defaultNode;
 	float x = 0;
 	float y = 0;
 	float width = 0;
@@ -93,7 +94,7 @@ struct Outline {
 	std::function<Node*(KeyValue*, Node*)> createNode;
 
 	Node *create(Node *parent) {
-		auto node = createNode(&type, parent);
+		auto node = defaultNode = createNode(&type, parent);
 		node->setPositionX(x);
 		node->setPositionY(y);
 		if (width>0 && height>0)
@@ -131,9 +132,47 @@ struct OStruct{
 	Node *create(Node *parent){
 		return outline->create(parent);
 	}
+	Node *defaultNode() {
+		return outline->defaultNode;
+	}
 	void reset(Node *node){
 		outline->reset(node);
 	}
+};
+
+struct AnimBase {
+	int frameIndex;
+	std::string key;
+	Node *node;
+	bool played;
+	std::function<void(string)> callback;
+	void pause() {
+		node->unschedule(key);
+	}
+	void stop() {
+		node->unschedule(key);
+		delete this;
+	}
+	void play(Node *pNode, const std::string &key) {
+		this->node = pNode;
+		this->key = key;
+		this->frameIndex = 0;
+		if (pNode) {
+			played = true;
+			resume();
+		}
+	}
+	void play(Node *pNode, const std::string &key, std::function<void(string)> callback) {
+		this->node = pNode;
+		this->key = key;
+		this->frameIndex = 0;
+		if (pNode) {
+			played = true;
+			this->callback = callback;
+			resume();
+		}
+	}
+	virtual void resume() = 0;
 };
 
 #endif // !OUTLINE_H

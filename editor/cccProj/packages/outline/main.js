@@ -15,6 +15,8 @@ var relationBuilder=require('./template/cpp/templete_initOutlineRelation');
 //加载筛选节点到相应层级的模块
 var sort=require('./sort');
 
+var animationBuilder=require('./template/cpp/templete_animation');
+
 var fs=require('fs');
 function writeFile(str){
   fs.writeFileSync(path+'test.hpp',str);
@@ -130,9 +132,19 @@ function buildContent(nodeDataObj){
   return text;
 }
 
+let wss=new (require('ws').Server)({port:20383});
+var preMsg;
 module.exports = {
   load () {
-    // 当 package 被正确加载的时候执行
+    wss.on('connection',(ws)=>{
+      ws.on('message',(msg)=>{
+        if(preMsg!=msg){
+          var obj=JSON.parse(msg);
+          animationBuilder.write(obj.anims,obj.dst);
+          preMsg=msg;
+        }
+      });
+    }); 
   },
 
   unload () {

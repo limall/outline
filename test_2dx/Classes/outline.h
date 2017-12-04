@@ -2,7 +2,7 @@
 #define OUTLINE_H
 
 #include "cocos2d.h"
-#include "Game/GameLib.h"
+#include <map>
 using namespace cocos2d;
 using namespace std;
 
@@ -15,63 +15,56 @@ struct KeyValue {
 	}
 };
 
-static void type2KeyValue(string type, vector<KeyValue> *keyValues) {
+static void mapTypeInfo(string typeInfo, map<string,string> *keyValues) {
 	vector<string> strs;
-	int endIndex = type.find(";");
-	bool haveKeyValue = type.find(":")>0;
+	int endIndex = typeInfo.find(";");
+	bool haveKeyValue = typeInfo.find(":")>0;
 	while (haveKeyValue) {
 		string astr;
 		if (endIndex < 0) {
-			astr = type.substr(0);
+			astr = typeInfo.substr(0);
 			strs.push_back(astr);
 			break;
 		}
 		else {
-			astr = type.substr(0, endIndex);
+			astr = typeInfo.substr(0, endIndex);
 			strs.push_back(astr);
 		}
-		type = type.substr(endIndex + 1);
-		endIndex = type.find(";");
-		haveKeyValue = type.find(":") > 0;
+		typeInfo = typeInfo.substr(endIndex + 1);
+		endIndex = typeInfo.find(";");
+		haveKeyValue = typeInfo.find(":") > 0;
 	}
 	for (int i = 0; i < strs.size(); i++) {
 		string *str = &strs[i];
 		int divisionIndex = str->find(":");
 		if (divisionIndex>0 && divisionIndex + 1<str->size()) {
-			KeyValue keyValue;
-			keyValue.key = str->substr(0, divisionIndex);
-			keyValue.value = str->substr(divisionIndex + 1);
-			keyValues->push_back(keyValue);
+			string key = str->substr(0, divisionIndex);
+			(*keyValues)[key] = str->substr(divisionIndex + 1);
 		}
 	}
 }
 
-extern std::function<Node*(KeyValue*, Node*)> createNode = [](KeyValue *keyValue, Node *parent)->Node* {
+//默认创建node的函数
+static auto createNode = [](KeyValue *keyValue, Node *parent)->Node* {
 	Node *node;
 	if (keyValue) {
 		string key = keyValue->key;
 		if (key == "sprite")
 			node = Sprite::create(keyValue->value);
 		else if (key == "label"){
-			vector<KeyValue> properties;
-			type2KeyValue(keyValue->value, &properties);
-			string text;
+			map<string,string> properties;
+			mapTypeInfo(keyValue->value, &properties);
 			int fontSize;
-			for (int i = 0; i < properties.size(); i++){
-				if (properties[i].key == "string")
-					text = properties[i].value;
-				if (properties[i].key == "fontSize"){
-					stringstream ss;
-					ss << properties[i].value;
-					ss >> fontSize;
-				}
-			}
+			stringstream ss;
+			ss << properties["fontSize"];
+			ss >> fontSize;
 			auto label = Label::create();
-			label->setString(text);
+			label->setString(properties["string"]);
 			label->setSystemFontSize(fontSize);
 			node = label;
-		}else
-		    node = Node::create();
+		}
+		else
+			node = Node::create();
 	}
 	else
 		node = Node::create();
@@ -81,6 +74,7 @@ extern std::function<Node*(KeyValue*, Node*)> createNode = [](KeyValue *keyValue
 };
 
 struct Outline {
+	Node *defaultNode;
 	float x = 0;
 	float y = 0;
 	float width = 0;
@@ -100,7 +94,7 @@ struct Outline {
 	std::function<Node*(KeyValue*, Node*)> createNode;
 
 	Node *create(Node *parent) {
-		auto node = createNode(&type, parent);
+		auto node = defaultNode = createNode(&type, parent);
 		node->setPositionX(x);
 		node->setPositionY(y);
 		if (width>0 && height>0)
@@ -117,13 +111,68 @@ struct Outline {
 		}
 		return node;
 	}
+	void reset(Node *node){
+		node->setPositionX(x);
+		node->setPositionY(y);
+		if (width>0 && height>0)
+			node->setContentSize(Size(width, height));
+		node->setAnchorPoint(Vec2(anchorX, anchorY));
+		node->setScale(scale);
+		node->setRotation(rotation);
+		node->setOpacity(opacity);
+		node->setVisible(visible);
+		node->setLocalZOrder(zOrder);
+		node->setColor(Color3B(colorR, colorG, colorB));
+	}
 };
 
+//所有节点结构体的基结构体
 struct OStruct{
 	Outline *outline;
 	Node *create(Node *parent){
 		return outline->create(parent);
 	}
+	Node *defaultNode() {
+		return outline->defaultNode;
+	}
+	void reset(Node *node){
+		outline->reset(node);
+	}
+};
+
+struct AnimBase {
+	int frameIndex;
+	std::string key;
+	Node *node;
+	bool played;
+	std::function<void(string)> callback;
+	void pause() {
+		node->unschedule(key);
+	}
+	void stop() {
+		node->unschedule(key);
+		delete this;
+	}
+	void play(Node *pNode, const std::string &key) {
+		this->node = pNode;
+		this->key = key;
+		this->frameIndex = 0;
+		if (pNode) {
+			played = true;
+			resume();
+		}
+	}
+	void play(Node *pNode, const std::string &key, std::function<void(string)> callback) {
+		this->node = pNode;
+		this->key = key;
+		this->frameIndex = 0;
+		if (pNode) {
+			played = true;
+			this->callback = callback;
+			resume();
+		}
+	}
+	virtual void resume() = 0;
 };
 
 #endif // !OUTLINE_H

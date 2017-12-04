@@ -2,8 +2,9 @@
 #include "SimpleAudioEngine.h"
 #include "udpLog/UdpLog.h"
 #include "ui/UIButton.h"
-#include "beauty.hpp"
-#include "meinv.hpp"
+#include "clip_test2.hpp"
+#include "clip_test3.hpp"
+#include "testAni.hpp"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -53,9 +54,11 @@ bool HelloWorld::init()
 	button->setScale(0.5f);
 	button->setZoomScale(0.1f);
 	this->addChild(button);*/
-	this->addChild(O::Beauty::pIt()->create());
-	this->addChild(O::Meinv::pIt()->create());
-
+	O::TestAni::pIt()->create(this);
+	auto pNode = O::TestAni::pIt()->numbg->defaultNode();
+	Anims::Test2::create()->play(pNode, "test2", [=](string key)->void {
+		Anims::Test3::create()->play(pNode, "test3");
+	});
     return true;
 }
 

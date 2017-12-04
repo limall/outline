@@ -1,17 +1,23 @@
-// Learn cc.Class:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/class/index.html
-// Learn Attribute:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/reference/attributes/index.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
+var ws = new WebSocket("ws://localhost:20383");
+cc.log(ws);
+ws.onopen = function (event) {
+    console.log("Send Text WS was opened.");
+};
+ws.onmessage = function (event) {
+    console.log("response text msg: " + event.data);
+};
+ws.onerror = function (event) {
+    console.log("Send Text fired an error");
+};
+ws.onclose = function (event) {
+    console.log("WebSocket instance closed.");
+};
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
+        dst_path:'',
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -63,11 +69,15 @@ cc.Class({
         if(this.i<this.anims.length){
             var anim=this.anims[this.i];
             var node=anim.node;
+            delete anim.node;
             var clipName=anim.clipName;
             var animationRecorder=node.getComponent('AnimationRecorder');
             animationRecorder.startRecord(clipName,this);
         }else if(this.anims.length>0){
-            cc.log(this.anims);
+            var obj={};
+            obj.anims=this.anims;
+            obj.dst=this.dst_path;
+            ws.send(JSON.stringify(obj));
         }
     },
 });
