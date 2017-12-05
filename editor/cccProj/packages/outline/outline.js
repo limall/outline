@@ -1,3 +1,6 @@
+var TYPE_BUTTON=0;
+var TYPE_SPRITE9=1;
+
 var Outline=function(
     x,
     y,
@@ -42,7 +45,27 @@ var Outline=function(
         if(sprite){
             var typeInfo=node.getComponent('TypeInfo');
             if(typeInfo){
-
+                if(typeInfo.type=TYPE_BUTTON){
+                    var isAutoPress=typeInfo.Button_autoPress;
+                    this.key='"button"';
+                    if(isAutoPress){
+                        this.value='"autoPress"';
+                    }/*else{
+                        var fullPath=sprite.spriteFrame._textureFilename;
+                        var normal=fullPath.substring(fullPath.indexOf('/assets/')+8);
+                        var pressed=null;
+                        if(typeInfo.Button_pressed){
+                            fullPath=typeInfo.Button_pressed._textureFilename;
+                            pressed=fullPath.substring(fullPath.indexOf('/assets/')+8);
+                        }
+                        var disabled=null;
+                        if(typeInfo.Button_disabled){
+                            fullPath=typeInfo.Button_disabled._textureFilename;
+                            disabled=fullPath.substring(fullPath.indexOf('/assets/')+8);
+                        }
+                        this.value='"normal:'+normal
+                    }*/
+                }
             }else{
                 this.key='"sprite"';
                 var fullPath=sprite.spriteFrame._textureFilename;
