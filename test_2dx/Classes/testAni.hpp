@@ -7,7 +7,8 @@ using namespace cocos2d;
 using namespace std;
 
 //following is the auto generated code where you shouldn't write your code
-//auto generate begin
+//auto generate begin
+
 struct TestAni_reward_bg : public OStruct { 
 };
 struct TestAni_numbg : public OStruct { 
@@ -64,8 +65,8 @@ public:
             auto testAni_numbg = testAni->numbg = new TestAni_numbg();
             auto outline_testAni_numbg=testAni_numbg->outline=new Outline();
             outline_testAni_numbg->createNode=createNode;
-            outline_testAni_numbg->x=-19;
-            outline_testAni_numbg->y=-13;
+            outline_testAni_numbg->x=-336;
+            outline_testAni_numbg->y=-93;
             outline_testAni_numbg->anchorX=0.5;
             outline_testAni_numbg->anchorY=0.5;
             outline_testAni_numbg->width=31;
@@ -78,8 +79,8 @@ public:
             outline_testAni_numbg->colorR=255;
             outline_testAni_numbg->colorG=255;
             outline_testAni_numbg->colorB=255;
-            outline_testAni_numbg->type.key="sprite";
-            outline_testAni_numbg->type.value="numbg.png";
+            outline_testAni_numbg->type.key="button";
+            outline_testAni_numbg->type.value="autoPress:true;info:numbg.png";
 
 
             testAni->outline->children.push_back(testAni_reward_bg->outline);

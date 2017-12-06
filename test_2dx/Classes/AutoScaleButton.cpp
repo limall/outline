@@ -6,10 +6,11 @@ bool isTouchInSprite(Sprite *pSprite, Touch* touch,float scale){
 	Size size = pSprite->getContentSize()*scale;
 	float anchorX = pSprite->getAnchorPoint().x;
 	float anchorY = pSprite->getAnchorPoint().y;
-	float x1 = pSprite->getPositionX() - size.width*anchorX;
-	float x2 = pSprite->getPositionX() + size.width*anchorX;
-	float y1 = pSprite->getPositionY() - size.height*anchorY;
-	float y2 = pSprite->getPositionY() + size.height*anchorY;
+	Vec2 pos = pSprite->getParent()->convertToWorldSpace(pSprite->getPosition());
+	float x1 = pos.x - size.width*anchorX;
+	float x2 = pos.x + size.width*anchorX;
+	float y1 = pos.y - size.height*anchorY;
+	float y2 = pos.y + size.height*anchorY;
 	return x >= x1&&x <= x2&&y >= y1&&y <= y2;
 }
 
@@ -28,7 +29,7 @@ AutoScaleButton* AutoScaleButton::create(const std::string &filename, std::funct
 			else if (isTouchInSprite(autoScaleButton,touch,autoScaleButton->getScale())){
 				autoScaleButton->isPressed = true;
 				autoScaleButton->originScale = autoScaleButton->getScale();
-				auto action = EaseExponentialOut::create(ScaleBy::create(0.1f, 0.75f));
+				auto action = EaseExponentialOut::create(ScaleBy::create(0.16f, 0.75f));
 				autoScaleButton->runAction(action);
 			}
 			return true;
@@ -37,7 +38,7 @@ AutoScaleButton* AutoScaleButton::create(const std::string &filename, std::funct
 		listener->onTouchCancelled = [=](Touch* touch, Event* event){
 			if (autoScaleButton->isPressed){
 				auto action = Sequence::create(
-					EaseExponentialOut::create(ScaleTo::create(0.1f, autoScaleButton->originScale)),
+					EaseExponentialOut::create(ScaleTo::create(0.16f, autoScaleButton->originScale)),
 					CallFunc::create([=](){
 					    autoScaleButton->isPressed = false;
 					    autoScaleButton->setScale(autoScaleButton->originScale);
@@ -51,7 +52,7 @@ AutoScaleButton* AutoScaleButton::create(const std::string &filename, std::funct
 		listener->onTouchEnded = [=](Touch* touch, Event* event){
 			if (autoScaleButton->isPressed){
 				auto action = Sequence::create(
-					EaseExponentialOut::create(ScaleTo::create(0.1f, autoScaleButton->originScale)),
+					EaseExponentialOut::create(ScaleTo::create(0.16f, autoScaleButton->originScale)),
 					CallFunc::create([=](){
 					    autoScaleButton->isPressed = false;
 					    autoScaleButton->setScale(autoScaleButton->originScale);
@@ -60,7 +61,8 @@ AutoScaleButton* AutoScaleButton::create(const std::string &filename, std::funct
 				);
 				autoScaleButton->runAction(action);
 				if (isTouchInSprite(autoScaleButton, touch, autoScaleButton->originScale)){
-					onClick(autoScaleButton);
+					if(onClick)
+					    onClick(autoScaleButton);
 				}
 			}
 		};
@@ -68,7 +70,7 @@ AutoScaleButton* AutoScaleButton::create(const std::string &filename, std::funct
 		listener->onTouchMoved = [=](Touch* touch, Event* event){
 			if (autoScaleButton->isPressed&&!isTouchInSprite(autoScaleButton, touch, autoScaleButton->originScale)){
 				auto action = Sequence::create(
-					EaseExponentialOut::create(ScaleTo::create(0.1f, autoScaleButton->originScale)),
+					EaseExponentialOut::create(ScaleTo::create(0.16f, autoScaleButton->originScale)),
 					CallFunc::create([=](){
 					    autoScaleButton->isPressed = false;
 						autoScaleButton->setScale(autoScaleButton->originScale);

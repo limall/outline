@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include <map>
+#include "AutoScaleButton.h"
 using namespace cocos2d;
 using namespace std;
 
@@ -45,25 +46,26 @@ static void mapTypeInfo(string typeInfo, map<string,string> *keyValues) {
 }
 
 //默认创建node的函数
-static auto createNode = [](KeyValue *keyValue, Node *parent)->Node* {
+static auto createNode = [](map<string,string> *typeInfo, Node *parent, std::function<void(Node*)> button_onClick)->Node* {
 	Node *node;
-	if (keyValue) {
-		string key = keyValue->key;
-		if (key == "sprite")
-			node = Sprite::create(keyValue->value);
-		else if (key == "label"){
-			map<string,string> properties;
-			mapTypeInfo(keyValue->value, &properties);
+	if (typeInfo) {
+		string type = (*typeInfo)["type"]; 
+		if (type == "sprite")
+			node = Sprite::create((*typeInfo)["info"]);
+		else if (type == "label"){
 			int fontSize;
 			stringstream ss;
-			ss << properties["fontSize"];
+			ss << (*typeInfo)["fontSize"];
 			ss >> fontSize;
 			auto label = Label::create();
-			label->setString(properties["string"]);
+			label->setString((*typeInfo)["string"]);
 			label->setSystemFontSize(fontSize);
 			node = label;
 		}
-		else
+		else if (type == "button") {
+			if (typeInfo->count("autoPress"))
+				node = AutoScaleButton::create((*typeInfo)["info"], button_onClick);
+		}else
 			node = Node::create();
 	}
 	else
@@ -75,6 +77,7 @@ static auto createNode = [](KeyValue *keyValue, Node *parent)->Node* {
 
 struct Outline {
 	Node *defaultNode;
+	std::function<void(Node*)> button_onClick = NULL;
 	float x = 0;
 	float y = 0;
 	float width = 0;
@@ -91,10 +94,18 @@ struct Outline {
 	int colorB = 255;
 	vector<Outline*> children;
 	KeyValue type;
-	std::function<Node*(KeyValue*, Node*)> createNode;
+	std::function<Node*(map<string, string>*, Node*, std::function<void(Node*)>)> createNode;
 
 	Node *create(Node *parent) {
-		auto node = defaultNode = createNode(&type, parent);
+		map<string, string> typeInfo;
+		typeInfo["type"] = type.key;
+		if (type.key == "sprite") {
+			typeInfo["info"] = type.value;
+		}
+		else {
+			mapTypeInfo(type.value, &typeInfo);
+		}
+		auto node = defaultNode = createNode(&typeInfo, parent,button_onClick);
 		node->setPositionX(x);
 		node->setPositionY(y);
 		if (width>0 && height>0)

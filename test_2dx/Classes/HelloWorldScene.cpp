@@ -5,6 +5,9 @@
 #include "clip_test2.hpp"
 #include "clip_test3.hpp"
 #include "testAni.hpp"
+#include "test.hpp"
+#include "AutoScaleButton.h"
+#include "ChangeColorButton.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -41,8 +44,8 @@ bool HelloWorld::init()
     label->setPosition(Vec2(origin.x + visibleSize.width/2,
                             origin.y + visibleSize.height - label->getContentSize().height));
 
-    this->addChild(label, 1);
-
+    this->addChild(label, 1); 
+	O::TestAni::pIt()->create(this);
     /*auto node = O::test.create();
 
     node->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
@@ -54,11 +57,11 @@ bool HelloWorld::init()
 	button->setScale(0.5f);
 	button->setZoomScale(0.1f);
 	this->addChild(button);*/
-	O::TestAni::pIt()->create(this);
-	auto pNode = O::TestAni::pIt()->numbg->defaultNode();
+	/*O::TestAni::pIt()->create(this);*/
+	/*auto pNode = O::TestAni::pIt()->numbg->defaultNode();
 	Anims::Test2::create()->play(pNode, "test2", [=](string key)->void {
 		Anims::Test3::create()->play(pNode, "test3");
-	});
+	});*/
     return true;
 }
 

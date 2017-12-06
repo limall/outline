@@ -6,10 +6,11 @@ bool isTouchInSprite(Sprite *pSprite, Touch* touch){
 	Size size = pSprite->getContentSize()*pSprite->getScale();
 	float anchorX = pSprite->getAnchorPoint().x;
 	float anchorY = pSprite->getAnchorPoint().y;
-	float x1 = pSprite->getPositionX() - size.width*anchorX;
-	float x2 = pSprite->getPositionX() + size.width*anchorX;
-	float y1 = pSprite->getPositionY() - size.height*anchorY;
-	float y2 = pSprite->getPositionY() + size.height*anchorY;
+	Vec2 pos = pSprite->getParent()->convertToWorldSpace(pSprite->getPosition());
+	float x1 = pos.x - size.width*anchorX;
+	float x2 = pos.x + size.width*anchorX;
+	float y1 = pos.y - size.height*anchorY;
+	float y2 = pos.y + size.height*anchorY;
 	return x >= x1&&x <= x2&&y >= y1&&y <= y2;
 }
 
@@ -45,7 +46,8 @@ ChangeColorButton* ChangeColorButton::create(const std::string &filename, std::f
 				changeColorButton->setColor(changeColorButton->originColor);
 				changeColorButton->isPressed = false;
 				if (isTouchInSprite(changeColorButton, touch)){
-					onClick(changeColorButton);
+					if(onClick)
+					    onClick(changeColorButton);
 				}
 			}
 		};
