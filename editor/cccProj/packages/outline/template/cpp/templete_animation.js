@@ -19,11 +19,11 @@ function addScaleY(scaleY){
 }
   
 function addRotation(rotation){
-    return 'that->node->setRotation(node->getRotationn()+'+rotation+');';
+    return 'that->node->setRotation(node->getRotation()+'+rotation+');';
 }
   
 function addOpacity(opacity){
-    return 'that->node->setOpacity(node->getOpacity()+'+opacity+');';
+    return 'addOpacity(node,'+opacity+');';
 }
   
 function addSpriteFrame(file){

@@ -22,8 +22,11 @@ cc.Class({
             for(var propName in preStatus){
                 var preProp=preStatus[propName];
                 var prop=status[propName];
-                if(preProp&&prop&&preProp!=prop)
+                if(propName==='rotation')
+                    cc.log('pre:'+preProp+',this:'+prop);
+                if(preProp!=prop){
                     increment[propName]=propName==='spriteFrame'?prop:prop-preProp;
+                }
             }
             if(this.statuses.length===1){
                 if(this.isFirstClip){

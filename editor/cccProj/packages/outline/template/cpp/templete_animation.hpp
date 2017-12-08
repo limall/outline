@@ -24,9 +24,13 @@ namespace Anims {
     /*frame*/
 			node->schedule([=](float dt)->void {
 				if(that->frameIndex>/*max*/){
-					node->unschedule(key);
-					if(that->callback)
-				        that->callback(key);
+					if (that->loop){
+						that->frameIndex = 0;
+					}else
+					    node->unschedule(key);
+					if (that->callback){
+						that->callback(key);
+					}
 					return;
 				}
 				switch (that->frameIndex) {
