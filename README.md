@@ -10,11 +10,11 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 
 导出node
 --------
-                假设已经安装了outline（如果还不清楚如何安装creator 扩展，可以移步官网），那么打开creator时，会发现菜单栏多了outline选项，点击后会出现export node子菜单；另外在资源面板中会出现outline-components目录，里面包含ExportRule.js、AnimationRecorder.js、AutoRecorder.js、TypeInfo.js、Status.js五个脚本。ExportRule用来描述一个导出规则，直接拖动ExportRule脚本至Canvas节点中，接着为它取个名称(rule name字段)，再设置导出的位置及名称(dst hpp path字段)，导出哪个node(surc_node字段)。保存一下项目，接着点击outline菜单子菜单export node，就会弹出输入export rule name的对话框，输入刚刚设置好的export rule name后点击导出便可导出hpp文件。可以在Canvas节点中添加多个ExportRule脚本，以分别导出需要的node。 
+        假设已经安装了outline（如果还不清楚如何安装creator 扩展，可以移步官网），那么打开creator时，会发现菜单栏多了outline选项，点击后会出现export node子菜单；另外在资源面板中会出现outline-components目录，里面包含ExportRule.js、AnimationRecorder.js、AutoRecorder.js、TypeInfo.js、Status.js五个脚本。ExportRule用来描述一个导出规则，直接拖动ExportRule脚本至Canvas节点中，接着为它取个名称(rule name字段)，再设置导出的位置及名称(dst hpp path字段)，导出哪个node(surc_node字段)。保存一下项目，接着点击outline菜单子菜单export node，就会弹出输入export rule name的对话框，输入刚刚设置好的export rule name后点击导出便可导出hpp文件。可以在Canvas节点中添加多个ExportRule脚本，以分别导出需要的node。 
     
 导出动画
 --------
-    首先拖动AnimationRecorder.js脚本至合适node中，将需要导出的animation clip拖到脚本的clips数组中。这样就完成了一个clip的设置，接着将AutoRecorder脚本拖入Canvas节点中，设置好导出的目录，保存项目，点击运行在浏览器中运行项目。所有设置的动画都会在运行时自动逐个运行，都完成后会导出到指定目录。 
+        首先拖动AnimationRecorder.js脚本至合适node中，将需要导出的animation clip拖到脚本的clips数组中。这样就完成了一个clip的设置，接着将AutoRecorder脚本拖入Canvas节点中，设置好导出的目录，保存项目，点击运行在浏览器中运行项目。所有设置的动画都会在运行时自动逐个运行，都完成后会导出到指定目录。 
     
 2dx中使用outline
 ----------------
