@@ -1,4 +1,4 @@
-outline
+outline &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)]
 =======
 简介
 -------
