@@ -10,8 +10,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 
 导出node
 --------
-    假设已经安装了outline（如果还不清楚如何安装creator 扩展，可以移步官网），那么打开creator时，会发现菜单栏多了outline选项，点击后会出现export node子菜单；另外在资源面板中会出现outline-components目录，里面包含ExportRule.js、AnimationRecorder.js、AutoRecorder.js、TypeInfo.js、Status.js五个脚本。ExportRule用来描述一个导出规则，直接拖动ExportRule脚本至Canvas节点中，接着为它取个名称(rule name字段)，再设置导出的目录(dst hpp path字段)，导出哪个node(surc_node字段)。保存一下项目，接着点击outline菜单子菜单export node，就会弹出输入export rule name的对话框，输入刚刚设置好的export rule name后点击导出便可导出hpp文件。 
-    
+    假设已经安装了outline（如果还不清楚如何安装creator 扩展，可以移步官网），那么打开creator时，会发现菜单栏多了outline选项，点击后会出现export node子菜单；另外在资源面板中会出现outline-components目录，里面包含ExportRule.js、AnimationRecorder.js、AutoRecorder.js、TypeInfo.js、Status.js五个脚本。ExportRule用来描述一个导出规则，直接拖动ExportRule脚本至Canvas节点中，接着为它取个名称(rule name字段)，再设置导出的目录(dst hpp path字段)，导出哪个node(surc_node字段)。保存一下项目，接着点击outline菜单子菜单export node，就会弹出输入export rule name的对话框，输入刚刚设置好的export rule name后点击导出便可导出hpp文件。  
 导出动画
 --------
 
