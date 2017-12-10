@@ -45,7 +45,7 @@ static void mapTypeInfo(string typeInfo, map<string,string> *keyValues) {
 	}
 }
 
-//Ä¬ÈÏ´´½¨nodeµÄº¯Êý
+//é»˜è®¤åˆ›å»ºnodeçš„å‡½æ•°
 static auto createNode = [](map<string,string> *typeInfo, Node *parent, std::function<void(Node*)> button_onClick)->Node* {
 	Node *node;
 	if (typeInfo) {
@@ -76,7 +76,7 @@ static auto createNode = [](map<string,string> *typeInfo, Node *parent, std::fun
 };
 
 struct Outline {
-	Node *defaultNode;
+	Node *lastNode;
 	std::function<void(Node*)> button_onClick;
 	float x = 0;
 	float y = 0;
@@ -137,14 +137,14 @@ struct Outline {
 	}
 };
 
-//ËùÓÐ½Úµã½á¹¹ÌåµÄ»ù½á¹¹Ìå
+//æ‰€æœ‰èŠ‚ç‚¹ç»“æž„ä½“çš„åŸºç»“æž„ä½“
 struct OStruct{
 	Outline *outline;
 	Node *create(Node *parent){
 		return outline->create(parent);
 	}
-	Node *defaultNode() {
-		return outline->defaultNode;
+	Node *lastNode() {
+		return outline->lastNode;
 	}
 	void reset(Node *node){
 		outline->reset(node);
