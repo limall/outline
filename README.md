@@ -20,6 +20,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 ----------------
         导入了outline.h头文件和对应的节点的hpp文件后，就可以直接通过命名空间O来访问导出节点的结构体，调用结构体的pIt函数获取单例，再调用它的create函数就可以创建需要的节点。~O::MyNode::pIt()->create(NULL);~
          通过这个单例还可以访问子节点的结构体实例。 
+         
 播放动画
 --------
 使用前必读
