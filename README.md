@@ -8,8 +8,13 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 * **设计思路：** 正如其名，outline将会把注意力放在node的轮廓上。因为我发现，用编辑器写界面相比较于手写，最大的优势莫过于能够直观的设置node的position、scale、rotation等属性，这些都可以概括为node的轮廓。当然node的其他组件信息都会以map的形式导出，开发者可以在源码中自行使用引擎的控件，或者自定义控件。
 * **动画设计思路：** outline使用了运行时演绎复制的方式来导出animation clip，原理是自定义一个继承自Animation组件的AnimationRecord组件，在播放animation的同时记录宿主node的每帧动画状态，然后在Canvas节点上添加AutoRecord脚本，使其能在运行时时自动扫描所有node，找到所有AnimationRecord组件并逐个单独播放记录，完成后通过网络接口将演绎的数据导出。目前理论上已经可以完美导出针对于单个node的所有动画类型，针对多个子node也参与动画的情况还在开发中。
 
-使用
-------
-**creator** 
-  ***node*** 
-  ***动画****
+导出node
+--------
+导出动画
+--------
+2dx中使用outline
+----------------
+播放动画
+--------
+使用前必读
+---------
