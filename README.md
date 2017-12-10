@@ -34,10 +34,11 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
 使用前必读
 ---------
-        *  第一次使用前需要设置，将creator中偏好设置-常规-导入图片时自动裁剪选项取消掉，才能保证2dx和creator的显示效果一致 
+        1、第一次使用前需要设置，将creator中偏好设置-常规-导入图片时自动裁剪选项取消掉，才能保证2dx和creator的显示效果一致 
         
-        *  所有node的名字首字母只能是小写 
+        2、所有node的名字首字母只能是小写 
         
-        *  导出node前先要保存scene必须先保存再导出 
+        3、导出node前先要保存scene必须先保存再导出 
         
-        *  编辑同一个node的多个animation clip时除了本来就是要动态初始位置的，记得每个clip第一帧将node恢复到初始状态
+        4、编辑同一个node的多个animation clip时除了本来就是要动态初始位置的，记得每个clip第一帧将node恢复到初始状态 
+        
