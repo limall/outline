@@ -18,11 +18,14 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
     
 2dx中使用outline
 ----------------
-        导入了outline.h头文件和对应的节点的hpp文件后，就可以直接通过命名空间O来访问导出节点的结构体，调用结构体的pIt函数获取单例，再调用它的create函数就可以创建需要的节点。如下
-        `O::MyNode::pIt()->create(NULL);`
-         通过这个单例还可以访问子节点的结构体实例。 
-         
+        导入了outline.h头文件和对应的节点的hpp文件后，就可以直接通过命名空间O来访问导出节点的结构体，调用结构体的pIt函数获取单例，再调用它的create函数就可以创建需要的节点。如下 
+        `O::MyNode::pIt()->create(NULL);` 
+        创建并返回创建节点的指针。如果传给create函数的是一个节点，那么将会调用这个节点的addChild函数把新创建的节点加入进来。通过这个单例还可以访问子节点的结构体实例。 每个单例都可以创建若干个节点，也可以调用reset函数将导出的节点的性状付给传入的现有节点。更多api请参见outline.h头文件  
+        
 播放动画
 --------
+        导入相应hpp文件后，可通过命名空间Anims来访问导出clip的结构体，调用pIt函数即可获得实例，调用play函数即可让传入的节点播放动画，如 
+        `Anims::MyAnimation::create()->play(mynode)` 
+        
 使用前必读
 ---------
