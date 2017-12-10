@@ -2,7 +2,9 @@ outline
 =======
 简介
 -------
-    一个cocos creator(以下简称creator)上的插件，用于将creator上的node和animation导出到cocos2dx(以下简称2dx)中。
+    一个cocos creator(以下简称creator)上的插件  
+    ，用于将creator上的node和animation导出到  
+    cocos2dx(以下简称2dx)中。
     
     不同于官方版本，outline将支持2dx版本3.x中的较低版本，任意node都能被单独导出，并且支持自定义控件。
     
