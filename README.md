@@ -28,8 +28,9 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 --------
         导入相应hpp文件后，可通过命名空间Anims来访问导出clip的结构体，调用pIt函数即可获得实例，调用play函数即可让传入的节点播放动画，如  
         
-        `Anims::MyAnimation::create()->play(mynode)`  
+        `Anims::MyAnimation::create()->play(mynode,"myAnimation1",false)`  
         
+        其中mynode为需要播放动画的节点，"myAnimation1"为该播放行为的标记（会作为回调函数的参数传入）,第三个参数为是否重复播放，重载的第四个参数为回调函数,使用lambda形式 
         
 使用前必读
 ---------
