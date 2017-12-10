@@ -6,3 +6,4 @@ test_2dx/CMakeLists.txt
 test_2dx/vcredist_x64.exe
 test_2dx/vcredist_x86.exe
 test_2dx/Classes/udpLog
+*.meta
