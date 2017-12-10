@@ -18,7 +18,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
     
 2dx中使用outline
 ----------------
-        导入了outline.h头文件和对应的节点的hpp文件后，就可以直接通过命名空间O来访问导出节点的结构体，调用结构体的pIt函数获取单例，再调用它的create函数就可以创建需要的节点。如下 
+        首先将需要的Resources文件夹中的资源文件复制到2dx项目的资源根目录下，在导入了outline.h头文件和对应的节点的hpp文件后，就可以直接通过命名空间O来访问导出节点的结构体，调用结构体的pIt函数获取单例，再调用它的create函数就可以创建需要的节点。如下 
         
         `O::MyNode::pIt()->create(NULL);`  
         
@@ -26,7 +26,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
 播放动画
 --------
-        导入相应hpp文件后，可通过命名空间Anims来访问导出clip的结构体，调用pIt函数即可获得实例，调用play函数即可让传入的节点播放动画，如  
+        导入相应hpp文件和资源文件后，可通过命名空间Anims来访问导出clip的结构体，调用pIt函数即可获得实例，调用play函数即可让传入的节点播放动画，如  
         
         `Anims::MyAnimation::create()->play(mynode,"myAnimation1",false)`  
         
@@ -34,4 +34,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
 使用前必读
 ---------
-        
+        * 第一次使用前需要设置，将creator中偏好设置-常规-导入图片时自动裁剪选项取消掉，才能保证2dx和creator的显示效果一致
+        * 所有node的名字首字母只能是小写
+        * 导出node前先要保存scene必须先保存再导出
+        * 编辑同一个node的多个animation clip时除了本来就是要动态初始位置的，记得每个clip第一帧将node恢复到初始状态
