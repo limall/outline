@@ -30,7 +30,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
         `Anims::MyAnimation::create()->play(mynode,"myAnimation1",false)`  
         
-        其中mynode为需要播放动画的节点，"myAnimation1"为该播放行为的标记（会作为回调函数的参数传入）,第三个参数为是否重复播放，重载的第四个参数为回调函数,使用lambda形式 
+        其中mynode为需要播放动画的节点，"myAnimation1"为该播放行为的标记（会作为回调函数的参数传入）,第三个参数为是否重复播放，重载的第四个参数为播放完成后的回调函数,使用lambda形式 
         
 使用前必读
 ---------
