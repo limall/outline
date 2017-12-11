@@ -122,7 +122,7 @@ Outline.create=function(node,name){
         node.scale,
         node.rotation,
         node.opacity,
-        node.isValid,
+        node.active,
         node.zIndex,
         node,
         node.color.r,
