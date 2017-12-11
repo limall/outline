@@ -26,7 +26,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
 播放动画
 --------
-        导入相应hpp文件和资源文件后，可通过命名空间Anims来访问导出clip的结构体，调用pIt函数即可获得实例，调用play函数即可让传入的节点播放动画，如  
+        导入相应hpp文件和资源文件后，可通过命名空间Anims来访问导出clip的结构体，调用create函数即可创建实例，调用play函数即可让传入的节点播放动画，如  
         
         `Anims::MyAnimation::create()->play(mynode,"myAnimation1",false)`  
         
