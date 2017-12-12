@@ -30,6 +30,8 @@ namespace Anims {
 					    node->unschedule(key);
 					if (that->callback){
 						that->callback(key);
+						if(!that->loop)
+						    that->callback=nullptr;
 					}
 					return;
 				}

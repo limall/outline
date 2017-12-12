@@ -7,9 +7,7 @@ cc.Class({
         this.Status=require('status');
         var that=this;
         this.on('finished',function(){
-            that.recordAble=false;
-            if(that.autoRecorder)
-                that.autoRecorder.getData(that.increments);
+            that.last=true;
         });
     },
     update:function(dt){
@@ -22,8 +20,6 @@ cc.Class({
             for(var propName in preStatus){
                 var preProp=preStatus[propName];
                 var prop=status[propName];
-                if(propName==='rotation')
-                    cc.log('pre:'+preProp+',this:'+prop);
                 if(preProp!=prop){
                     increment[propName]=propName==='spriteFrame'?prop:prop-preProp;
                 }
@@ -37,17 +33,24 @@ cc.Class({
                 this.increments.push(increment);
         }
         this.statuses.push(status);
+        if(this.last){
+            this.recordAble=false;
+            if(this.autoRecorder)
+                this.autoRecorder.getData(this.increments);
+        }
     },
     startRecord:function(clipName,autoRecorder){
         this.statuses=[];
         this.increments=[];
         this.recordAble=true;
+        this.last=false;
         this.autoRecorder=autoRecorder;
         this.clipName=clipName;
         this.play(clipName);
     },
     autoRecorder:null,
     recordAble:false,
+    last:false,
     statuses:Array,
     increments:Array, 
 });

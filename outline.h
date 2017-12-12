@@ -45,7 +45,7 @@ static void mapTypeInfo(string typeInfo, map<string,string> *keyValues) {
 	}
 }
 
-//é»˜è®¤åˆ›å»ºnodeçš„å‡½æ•°
+//Ä¬ÈÏ´´½¨nodeµÄº¯Êý
 static auto createNode = [](map<string,string> *typeInfo, Node *parent, std::function<void(Node*)> button_onClick)->Node* {
 	Node *node;
 	if (typeInfo) {
@@ -76,7 +76,7 @@ static auto createNode = [](map<string,string> *typeInfo, Node *parent, std::fun
 };
 
 struct Outline {
-	Node *lastNode;
+	Node *defaultNode;
 	std::function<void(Node*)> button_onClick;
 	float x = 0;
 	float y = 0;
@@ -137,14 +137,14 @@ struct Outline {
 	}
 };
 
-//æ‰€æœ‰èŠ‚ç‚¹ç»“æž„ä½“çš„åŸºç»“æž„ä½“
+//ËùÓÐ½Úµã½á¹¹ÌåµÄ»ù½á¹¹Ìå
 struct OStruct{
 	Outline *outline;
 	Node *create(Node *parent){
 		return outline->create(parent);
 	}
-	Node *lastNode() {
-		return outline->lastNode;
+	Node *defaultNode() {
+		return outline->defaultNode;
 	}
 	void reset(Node *node){
 		outline->reset(node);
@@ -153,9 +153,14 @@ struct OStruct{
 
 struct AnimBase {
 protected:
-	void addOpacity(Node* node, int addOpacity){
+	float offset;
+	void addOpacity(Node* node, float addOpacity){
+		addOpacity += offset;
+		int trueAdd = (int)addOpacity;
+		offset = addOpacity - trueAdd;
+
 		int opacity = node->getOpacity();
-		int newOpacity = opacity + addOpacity;
+		int newOpacity = opacity + trueAdd;
 		if (newOpacity > 255)
 			newOpacity = 255;
 		else if (newOpacity < 0)
@@ -177,6 +182,7 @@ public:
 		delete this;
 	}
 	void play(Node *pNode, const std::string &key,bool loop) {
+		this->offset = 0;
 		this->node = pNode;
 		this->key = key;
 		this->frameIndex = 0;
