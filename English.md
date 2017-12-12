@@ -1,0 +1,8 @@
+Brief introduction
+------------------
+* **Plugin of creator:** Outline is a plugin working on the game editor cocos creator(we call it creator below).It can export any node or animation in the creator editor to a cocos2dx(we call it 2dx below) project.
+* **Features:** Differently from the official one ,outline can support 2dx versions under 3.14(but the lowest version it can support is not tested),and support export any node individually,also can support customized nodes.
+* **Export source files** The file outline exports is c++ source file.Each node(include its child nodes),or each animation clip will 
+be exported in a single hpp file.After all related files are included,you can get what you need conveniently with the help of your IDE.We will describe how to use it in detail below.There are some advantages of this source file solution,such as a faster speed in runtime,more prominent security,more Extensibility and so on.The disadvantage is that the source file can not be hot updated.
+* **Design idea** As its name shown,outline will pay more attention on the outline of a node,because I find that,the biggest advantage of designing by Editor comparing  with designing by manual is that it can be more intuitive to set the properties,such as the position,scale,rotation and so on,of a node.And these properties can be summarized as the outline of a node.Of cource the infomation of other components will be exported as key-value pairs in the standard map container.
+* **Design idea of animation** 

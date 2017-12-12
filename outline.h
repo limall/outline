@@ -76,7 +76,7 @@ static auto createNode = [](map<string,string> *typeInfo, Node *parent, std::fun
 };
 
 struct Outline {
-	Node *defaultNode;
+	Node *lastNode;
 	std::function<void(Node*)> button_onClick;
 	float x = 0;
 	float y = 0;
@@ -105,7 +105,7 @@ struct Outline {
 		else {
 			mapTypeInfo(type.value, &typeInfo);
 		}
-		auto node = defaultNode = createNode(&typeInfo, parent,button_onClick);
+		auto node = lastNode = createNode(&typeInfo, parent,button_onClick);
 		node->setPositionX(x);
 		node->setPositionY(y);
 		if (width>0 && height>0)
@@ -143,8 +143,8 @@ struct OStruct{
 	Node *create(Node *parent){
 		return outline->create(parent);
 	}
-	Node *defaultNode() {
-		return outline->defaultNode;
+	Node *lastNode() {
+		return outline->lastNode;
 	}
 	void reset(Node *node){
 		outline->reset(node);
