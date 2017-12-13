@@ -22,7 +22,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
         `O::MyNode::pIt()->create(NULL);`  
         
-        以上代码创建并返回创建节点的指针。如果传给create函数的是一个节点，那么将会调用这个节点的addChild函数把新创建的节点加入进来。通过这个单例还可以访问子节点的结构体实例。 每个单例都可以创建若干个节点，也可以调用reset函数将导出的节点的性状赋给传入的现有节点。更多api详见outline.h头文件  
+        以上代码创建并返回创建了的节点的指针。如果传给create函数的是一个节点，那么将会调用这个节点的addChild函数把新创建的节点加入进来。通过这个单例还可以访问子节点的结构体实例。 每个单例都可以创建若干个节点，也可以调用reset函数将导出的节点的性状赋给传入的现有节点。更多api详见outline.h头文件  
         
 播放动画
 --------
