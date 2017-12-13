@@ -69,7 +69,7 @@ function buildContent(nodeDataObj){
 
   //根节点的定义
   var para={name:node_outline.name};
-  var attrNames=['x','y','width','height','anchorX','anchorY','scale','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB'];
+  var attrNames=['x','y','width','height','anchorX','anchorY','scaleX','scaleY','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB'];
   function isAttrName(attrName){
     for(var i=0;i<attrNames.length;i++)
         if(attrNames[i]===attrName)

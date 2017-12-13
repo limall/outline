@@ -83,7 +83,8 @@ struct Outline {
 	float height = 0;
 	float anchorX = 0.5f;
 	float anchorY = 0.5f;
-	float scale = 1;
+	float scaleX = 1;
+	float scaleY = 1;
 	float rotation = 0;
 	int opacity = 255;
 	bool visible = true;
@@ -110,7 +111,8 @@ struct Outline {
 		if (width>0 && height>0)
 			node->setContentSize(Size(width, height));
 		node->setAnchorPoint(Vec2(anchorX, anchorY));
-		node->setScale(scale);
+		node->setScaleX(scaleX);
+		node->setScaleY(scaleY);
 		node->setRotation(rotation);
 		node->setOpacity(opacity);
 		node->setVisible(visible);
@@ -127,7 +129,8 @@ struct Outline {
 		if (width>0 && height>0)
 			node->setContentSize(Size(width, height));
 		node->setAnchorPoint(Vec2(anchorX, anchorY));
-		node->setScale(scale);
+		node->setScaleX(scaleX);
+		node->setScaleY(scaleY);
 		node->setRotation(rotation);
 		node->setOpacity(opacity);
 		node->setVisible(visible);

@@ -8,7 +8,8 @@
     outline_/*nodeName*/->height=
     outline_/*nodeName*/->anchorX=
     outline_/*nodeName*/->anchorY=
-    outline_/*nodeName*/->scale=
+    outline_/*nodeName*/->scaleX=
+    outline_/*nodeName*/->scaleY=
     outline_/*nodeName*/->rotation=
     outline_/*nodeName*/->opacity=
     outline_/*nodeName*/->visible=
