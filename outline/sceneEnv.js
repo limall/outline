@@ -1,3 +1,4 @@
+//获取Canvas中的ExportRule信息，及其选中的node的数据
 var nodeWalker=require('./nodeWalker');
 module.exports = {
     'getExportRules':function(event){

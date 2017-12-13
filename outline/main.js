@@ -1,6 +1,4 @@
 var path=Editor.projectPath+'/packages/outline/';
-var udpLog=require('./udplog');
-udpLog.resetDst('127.0.0.1',20131,1);
 
 //加载主模板的构造模块
 var fileBuilder=require('./template/cpp/templete.js');
@@ -132,6 +130,7 @@ function buildContent(nodeDataObj){
   return text;
 }
 
+//接收通过网络接口传来的动画数据，并导出目标文件
 let wss=new (require('ws').Server)({port:20383});
 var preMsg;
 module.exports = {

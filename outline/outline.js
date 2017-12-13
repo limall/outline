@@ -1,6 +1,6 @@
 var TYPE_BUTTON=0;
 var TYPE_SPRITE9=1;
-
+//用于记录node的轮廓，以及一些组件信息
 var Outline=function(
     x,
     y,
