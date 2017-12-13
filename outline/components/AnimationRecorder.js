@@ -3,7 +3,6 @@ cc.Class({
     properties: {
     },
     onLoad:function(){
-        this.isFirstClip=true;
         this.Status=require('status');
         var that=this;
         this.on('finished',function(){
@@ -24,13 +23,7 @@ cc.Class({
                     increment[propName]=propName==='spriteFrame'?prop:prop-preProp;
                 }
             }
-            if(this.statuses.length===1){
-                if(this.isFirstClip){
-                    this.increments.push(increment);
-                    this.isFirstClip=false;
-                }
-            }else 
-                this.increments.push(increment);
+            this.increments.push(increment);
         }
         this.statuses.push(status);
         if(this.last){
