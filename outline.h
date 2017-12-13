@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 #include <map>
-#include "AutoScaleButton.h"
 using namespace cocos2d;
 using namespace std;
 
@@ -62,10 +61,10 @@ static auto createNode = [](map<string,string> *typeInfo, Node *parent, std::fun
 			label->setSystemFontSize(fontSize);
 			node = label;
 		}
-		else if (type == "button") {
+		/*else if (type == "button") {
 			if (typeInfo->count("autoPress"))
 				node = AutoScaleButton::create((*typeInfo)["info"], button_onClick);
-		}else
+		}*/else
 			node = Node::create();
 	}
 	else
