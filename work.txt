@@ -1,6 +1,5 @@
-1、析构函数（程序结束时会自动清理，所以可先不急着做）
-2、AutoScaleButton和ChangeColorButton
-3、button和sprite9
-4、添加key
-5、完善animation
-6、系统测试
+1銆佸鍑簂ua
+2銆佹瀽鏋勫嚱鏁帮紙绋嬪簭缁撴潫鏃朵細鑷姩娓呯悊锛屾墍浠ュ彲鍏堜笉鎬ョ潃鍋氾級
+3銆乥utton鍜宻prite9
+4銆佹坊鍔爇ey
+5銆佹敮鎸佸瓙node鐨刟nimation
