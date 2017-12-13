@@ -1,5 +1,6 @@
-1、导出lua
-2、析构函数（程序结束时会自动清理，所以可先不急着做）
-3、button和sprite9
-4、添加key
-5、支持子node的animation
+1、分别导出node的scaleX和scaleY属性
+2、导出lua
+3、析构函数（程序结束时会自动清理，所以可先不急着做）
+4、button和sprite9
+5、添加key
+6、支持子node的animation
