@@ -1,4 +1,4 @@
-﻿1、导出lua
+﻿1、导出lua，添加extraData，为exportRule添加exceptNode用来剔除不想要的node
 2、析构函数（程序结束时会自动清理，所以可先不急着做）
 3、button和sprite9
 4、添加key
