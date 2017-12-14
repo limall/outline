@@ -3,3 +3,6 @@
 3、button和sprite9
 4、添加key
 5、支持子node的animation
+ExtraData设计思路：
+
+任意组件的以'o_'为前缀的属性都能保存到这个组件的map中，另外要特殊对待一下SpriteFrame类型的属性
