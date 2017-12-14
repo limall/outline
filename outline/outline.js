@@ -1,5 +1,4 @@
-var TYPE_BUTTON=0;
-var TYPE_SPRITE9=1;
+var getExtraData=require('./getExtraData');
 //用于记录node的轮廓，以及一些组件信息
 var Outline=function(
     x,
@@ -38,49 +37,7 @@ var Outline=function(
     this.node=node;
     if(node){
         node.outline=this;
-        var label=node.getComponent(cc.Label);
-        if(label){
-            this.key='"label"';
-            this.value='"string:'+label.string+';fontSize:'+label.fontSize+'"';
-        }
-        var sprite=node.getComponent(cc.Sprite);
-        if(sprite){
-            var typeInfo=node.getComponent('TypeInfo');
-            if(typeInfo){
-                if(typeInfo.type===TYPE_BUTTON){
-                    var isAutoPress=typeInfo.Button_autoPress;
-                    this.key='"button"';
-                    var fullPath=sprite.spriteFrame._textureFilename;
-                    var normal=fullPath.substring(fullPath.indexOf('/assets/')+8);
-                    if(isAutoPress){
-                        this.value='"autoPress:true;info:'+normal+'"';
-                    }else{
-                        var pressed=null;
-                        if(typeInfo.Button_pressed){
-                            fullPath=typeInfo.Button_pressed._textureFilename;
-                            pressed=fullPath.substring(fullPath.indexOf('/assets/')+8);
-                        }
-                        var disabled=null;
-                        if(typeInfo.Button_disabled){
-                            fullPath=typeInfo.Button_disabled._textureFilename;
-                            disabled=fullPath.substring(fullPath.indexOf('/assets/')+8);
-                        }
-                        this.value='"normal:'+normal;
-                        if(pressed){
-                            this.value+=";pressed:"+pressed;
-                        }
-                        if(disabled){
-                            this.value+=";disabled:"+disabled;
-                        }
-                        this.value+='"';
-                    }
-                }
-            }else{
-                this.key='"sprite"';
-                var fullPath=sprite.spriteFrame._textureFilename;
-                this.value='"'+fullPath.substring(fullPath.indexOf('/assets/')+8)+'"';
-            }
-        }
+        this.extraData=getExtraData(node);
     }
     if(name)
         this.name=name;

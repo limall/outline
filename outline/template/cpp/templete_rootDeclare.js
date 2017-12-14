@@ -33,6 +33,15 @@ function addAttr(name,value,nodeName){
     return str;
 }
 
+function setExtraData(pname,extraDatas,contentText){
+    var text='';
+    for(var i=0;i<extraDatas.length;i++){
+        var extraData=extraDatas[i];
+        text+=pname+'->'+extraData.name+'='+extraData.value+';\n';
+    }
+    var newContent=contentText.replace()
+}
+
 module.exports.getRootDeclare=(instance)=>{
     var text='';
     var init=getInit(instance.name);

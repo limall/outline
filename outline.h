@@ -6,79 +6,10 @@
 using namespace cocos2d;
 using namespace std;
 
-struct KeyValue {
-	string key, value;
-	KeyValue() {}
-	KeyValue(string key, string value) {
-		this->key = key;
-		this->value = value;
-	}
-};
-
-//将其他组件信息整理到一个map中
-static void mapTypeInfo(string typeInfo, map<string,string> *keyValues) {
-	vector<string> strs;
-	int endIndex = typeInfo.find(";");
-	bool haveKeyValue = typeInfo.find(":")>0;
-	while (haveKeyValue) {
-		string astr;
-		if (endIndex < 0) {
-			astr = typeInfo.substr(0);
-			strs.push_back(astr);
-			break;
-		}
-		else {
-			astr = typeInfo.substr(0, endIndex);
-			strs.push_back(astr);
-		}
-		typeInfo = typeInfo.substr(endIndex + 1);
-		endIndex = typeInfo.find(";");
-		haveKeyValue = typeInfo.find(":") > 0;
-	}
-	for (int i = 0; i < strs.size(); i++) {
-		string *str = &strs[i];
-		int divisionIndex = str->find(":");
-		if (divisionIndex>0 && divisionIndex + 1<str->size()) {
-			string key = str->substr(0, divisionIndex);
-			(*keyValues)[key] = str->substr(divisionIndex + 1);
-		}
-	}
-}
-
-//默认创建node的函数
-static auto createNode = [](map<string,string> *typeInfo, Node *parent, std::function<void(Node*)> button_onClick)->Node* {
-	Node *node;
-	if (typeInfo) {
-		string type = (*typeInfo)["type"]; 
-		if (type == "sprite")
-			node = Sprite::create((*typeInfo)["info"]);
-		else if (type == "label"){
-			int fontSize;
-			stringstream ss;
-			ss << (*typeInfo)["fontSize"];
-			ss >> fontSize;
-			auto label = Label::create();
-			label->setString((*typeInfo)["string"]);
-			label->setSystemFontSize(fontSize);
-			node = label;
-		}
-		/*else if (type == "button") {
-			if (typeInfo->count("autoPress"))
-				node = AutoScaleButton::create((*typeInfo)["info"], button_onClick);
-		}*/else
-			node = Node::create();
-	}
-	else
-		node = Node::create();
-	if (parent)
-		parent->addChild(node);
-	return node;
-};
 
 //存放node的轮廓，可以理解为node的抽象模板
 struct Outline {
 	Node *lastNode;
-	std::function<void(Node*)> button_onClick;
 	float x = 0;
 	float y = 0;
 	float width = 0;
@@ -94,37 +25,19 @@ struct Outline {
 	int colorR = 255;
 	int colorG = 255;
 	int colorB = 255;
+	OStruct *pOit;
 	vector<Outline*> children;
-	KeyValue type;
-	std::function<Node*(map<string, string>*, Node*, std::function<void(Node*)>)> createNode;
+	std::function<Node*(OStruct*, Node*)> createNode;
 
 	Node *create(Node *parent) {
-		map<string, string> typeInfo;
-		typeInfo["type"] = type.key;
-		if (type.key == "sprite") {
-			typeInfo["info"] = type.value;
-		}
-		else {
-			mapTypeInfo(type.value, &typeInfo);
-		}
-		auto node = lastNode = createNode(&typeInfo, parent,button_onClick);
-		node->setPositionX(x);
-		node->setPositionY(y);
-		if (width>0 && height>0)
-			node->setContentSize(Size(width, height));
-		node->setAnchorPoint(Vec2(anchorX, anchorY));
-		node->setScaleX(scaleX);
-		node->setScaleY(scaleY);
-		node->setRotation(rotation);
-		node->setOpacity(opacity);
-		node->setVisible(visible);
-		node->setLocalZOrder(zOrder);
-		node->setColor(Color3B(colorR, colorG, colorB));
+		auto node = lastNode = createNode(pOit, parent);
+		reset(node);
 		for (int i = 0; i < children.size(); i++) {
 			children[i]->create(node);
 		}
 		return node;
 	}
+
 	void reset(Node *node){
 		node->setPositionX(x);
 		node->setPositionY(y);
@@ -143,6 +56,10 @@ struct Outline {
 
 //所有节点结构体的基结构体
 struct OStruct{
+	bool isLabel, isSprite;
+	int label_fontSize;
+	string label_string, imageFile;
+
 	Outline *outline;
 	Node *create(Node *parent){
 		return outline->create(parent);
@@ -153,6 +70,30 @@ struct OStruct{
 	void reset(Node *node){
 		outline->reset(node);
 	}
+};
+
+//默认创建node的函数
+static auto createNode = [](OStruct *extraData, Node *parent)->Node* {
+	Node *node;
+	if (extraData) {
+		if (extraData->isSprite){
+			node = Sprite::create(extraData->imageFile);
+		}
+		else if (extraData->isLabel){
+			int fontSize;
+			auto label = Label::create();
+			label->setString(extraData->label_string);
+			label->setSystemFontSize(extraData->label_fontSize);
+			node = label;
+		}
+		else
+			node = Node::create();
+	}
+	else
+		node = Node::create();
+	if (parent)
+		parent->addChild(node);
+	return node;
 };
 
 //所有动画结构体的基结构体
