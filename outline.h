@@ -15,6 +15,7 @@ struct KeyValue {
 	}
 };
 
+//将其他组件信息整理到一个map中
 static void mapTypeInfo(string typeInfo, map<string,string> *keyValues) {
 	vector<string> strs;
 	int endIndex = typeInfo.find(";");
@@ -74,6 +75,7 @@ static auto createNode = [](map<string,string> *typeInfo, Node *parent, std::fun
 	return node;
 };
 
+//存放node的轮廓，可以理解为node的抽象模板
 struct Outline {
 	Node *lastNode;
 	std::function<void(Node*)> button_onClick;
@@ -150,6 +152,7 @@ struct OStruct{
 	}
 };
 
+//所有动画结构体的基结构体
 struct AnimBase {
 protected:
 	float offset;
