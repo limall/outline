@@ -1,6 +1,6 @@
 var TYPE_BUTTON=0;
 var TYPE_SPRITE9=1;
-
+//用于记录node的轮廓，以及一些组件信息
 var Outline=function(
     x,
     y,
@@ -8,7 +8,8 @@ var Outline=function(
     anchorY,
     width,
     height,
-    scale,
+    scaleX,
+    scaleY,
     rotation,
     opacity,
     visible,
@@ -25,7 +26,8 @@ var Outline=function(
     this.anchorY=anchorY;
     this.width=width;
     this.height=height;
-    this.scale=scale;
+    this.scaleX=scaleX;
+    this.scaleY=scaleY;
     this.rotation=rotation;
     this.opacity=opacity;
     this.visible=visible;
@@ -119,7 +121,8 @@ Outline.create=function(node,name){
         node.anchorY,
         node.width,
         node.height,
-        node.scale,
+        node.scaleX,
+        node.scaleY,
         node.rotation,
         node.opacity,
         node.active,

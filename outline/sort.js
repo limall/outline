@@ -1,3 +1,4 @@
+//把所有node整理进有层次的二维数组
 module.exports.sort=(obj)=>{
     var pre=[obj];
     var sorted=[pre];

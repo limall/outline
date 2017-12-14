@@ -1,6 +1,4 @@
 var path=Editor.projectPath+'/packages/outline/';
-var udpLog=require('./udplog');
-udpLog.resetDst('127.0.0.1',20131,1);
 
 //加载主模板的构造模块
 var fileBuilder=require('./template/cpp/templete.js');
@@ -69,7 +67,7 @@ function buildContent(nodeDataObj){
 
   //根节点的定义
   var para={name:node_outline.name};
-  var attrNames=['x','y','width','height','anchorX','anchorY','scale','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB'];
+  var attrNames=['x','y','width','height','anchorX','anchorY','scaleX','scaleY','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB'];
   function isAttrName(attrName){
     for(var i=0;i<attrNames.length;i++)
         if(attrNames[i]===attrName)
@@ -132,6 +130,7 @@ function buildContent(nodeDataObj){
   return text;
 }
 
+//接收通过网络接口传来的动画数据，并导出目标文件
 let wss=new (require('ws').Server)({port:20383});
 var preMsg;
 module.exports = {
