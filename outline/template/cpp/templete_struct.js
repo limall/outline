@@ -14,8 +14,12 @@ function setName(text,name,PName){
     return newText;
 }
 
-function setChildren(text,children){
+function setChildren(text,children,components){
     var childrenText='';
+    if(components){
+        var extraStructBuilder=require('./template_extraStruct');
+        childrenText+=extraStructBuilder(components);
+    }
     if(children){
         children.forEach((child)=>{
             var Name=child.PName.substring(0,1).toUpperCase()+child.PName.substring(1);
@@ -26,14 +30,14 @@ function setChildren(text,children){
     return newText;
 };
 
-//子节点结构体的定义
+//非根节点结构体的定义
 module.exports.getStructDefinition1=(defArr)=>{
     var text=''; 
     for(var i=0;i<defArr.length-1;i++){
         var def=defArr[i];
         var oneText=textTemplete;
         oneText=setName(oneText,def.name,def.PName);
-        oneText=setChildren(oneText,def.children);
+        oneText=setChildren(oneText,def.children,def.components);
         oneText=oneText.replace(/\/\*root\*\//,' ');
         text+=oneText+'\n';
     }
@@ -45,7 +49,7 @@ module.exports.getStructDefinition2=(defArr)=>{
     var def=defArr[defArr.length-1];
     var oneText=textTemplete;
     oneText=setName(oneText,def.name,def.PName);
-    oneText=setChildren(oneText,def.children);
+    oneText=setChildren(oneText,def.children,def.components);
     oneText=oneText.replace(/\/\*root\*\//,root);
     return oneText;
 };

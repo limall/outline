@@ -96,7 +96,7 @@ module.exports.write=function(anims,dst){
             if(err)
                 Editor.log(err);
             else
-                Editor.log('export clip successfully');
+                Editor.success('export clip '+anim.clipName+' successfully');
         });
     }
 }

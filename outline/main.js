@@ -14,6 +14,7 @@ var relationBuilder=require('./template/cpp/templete_initOutlineRelation');
 var sort=require('./sort');
 
 var animationBuilder=require('./template/cpp/templete_animation');
+var extraStructBuilder=require('./template/cpp/template_extraStruct');
 
 var fs=require('fs');
 function writeFile(str){
@@ -56,6 +57,7 @@ function buildContent(nodeDataObj){
               childrenName.push({name:children[k].name,PName:getPName(children[k])});
           }
       def.children=childrenName;
+      def.components=obj.extraData;
       defArr.push(def);
     }
   }
@@ -84,6 +86,7 @@ function buildContent(nodeDataObj){
         });
   }
   para.attrs=attrs;
+  para.extraDatas=node_outline.extraData;
   var text_rootDeclare=rootBuilder.getRootDeclare(para);
   text=fileBuilder.insertRootDeclare(text,text_rootDeclare);
 
@@ -103,6 +106,7 @@ function buildContent(nodeDataObj){
             });
       }
       para.attrs=attrs;
+      para.extraDatas=obj.extraData;
       paras.push(para);
     }
   }

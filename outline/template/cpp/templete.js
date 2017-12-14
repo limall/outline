@@ -54,9 +54,9 @@ module.exports.updateContent=function(nodeName,content,filepath){
         var newText=head+content+tail;
         fs.writeFile(filepath,newText,(err)=>{
             if(err)
-                console.log(err);
+                Editor.error(err);
             else 
-                Editor.log('export successfully');
+                Editor.success('export node '+nodeName+' successfully');
         });
     }
 };

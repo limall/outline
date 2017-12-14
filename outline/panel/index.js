@@ -6,7 +6,6 @@ Editor.Ipc.sendToMain('outline:getRuleName',function(data){
             let ruleName = document.getElementById('input-ruleName').value;
             var hasRule=false;
             for(var i=0;i<ruleNames.length;i++){
-                Editor.log(ruleNames[i]);
                 if(ruleNames[i]==ruleName){
                     hasRule=true;
                     break;

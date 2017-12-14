@@ -24,7 +24,7 @@ module.exports = {
                 if(exportRuleName===exportRule.ruleName){
                     nodeWalker.init(exportRule.src_Node);
                     var obj=new Object();
-                    obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.rootPosZero);
+                    obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.excludeNodes);
                     obj.dst_hppPath=exportRule.dst_hppPath;
                     if(event.reply) {
                         event.reply(JSON.stringify(obj));

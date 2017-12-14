@@ -4,7 +4,7 @@ cc.Class({
         ruleName:'',
         src_Node:cc.Node,
         dst_hppPath:'',
-        rootPosZero:false
+        excludeNodes:[cc.Node],
         //exportRes:false,
         //dst_resolutionWidth:960,
         //dst_resolutionHeight:640,

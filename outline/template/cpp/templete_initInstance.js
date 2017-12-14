@@ -37,6 +37,21 @@ function addAttr(name,value,PnodeName){
     return str;
 }
 
+function setExtraData(pname,extraDatas,contentText){
+    var text='';
+    if(extraDatas.isSprite){
+        text+=pname+'->isSprite=true;\n';
+        text+='            '+pname+'->imageFile='+extraDatas.imageFile+';\n';
+    }
+    if(extraDatas.isLabel){
+        text+=pname+'->isLabel=true;\n';
+        text+'            '+pname+'->label_fontSize='+extraDatas.fontSize+';\n';
+        text+'            '+pname+'->label_string='+extraDatas.string+';\n';
+    }
+    var newContent=contentText.replace(/\/\*extraData\*\//,text);
+    return newContent;
+}
+
 module.exports.getInstanceInit=(instances)=>{
     var text='';
     instances.forEach((instance)=>{
@@ -45,6 +60,7 @@ module.exports.getInstanceInit=(instances)=>{
             init+='            '+addAttr(attr.name,attr.value,attr.PnodeName)+'\n';
         });
         text+=init+'\n';
+        text=setExtraData(instance.PName,instance.extraDatas,text);
     });
     return text;
 };

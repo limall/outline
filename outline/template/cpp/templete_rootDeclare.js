@@ -35,11 +35,17 @@ function addAttr(name,value,nodeName){
 
 function setExtraData(pname,extraDatas,contentText){
     var text='';
-    for(var i=0;i<extraDatas.length;i++){
-        var extraData=extraDatas[i];
-        text+=pname+'->'+extraData.name+'='+extraData.value+';\n';
+    if(extraDatas.isSprite){
+        text+=pname+'->isSprite=true;\n';
+        text+='            '+pname+'->imageFile='+extraDatas.imageFile+';\n';
     }
-    var newContent=contentText.replace()
+    if(extraDatas.isLabel){
+        text+=pname+'->isLabel=true;\n';
+        text+'            '+pname+'->label_fontSize='+extraDatas.fontSize+';\n';
+        text+'            '+pname+'->label_string='+extraDatas.string+';\n';
+    }
+    var newContent=contentText.replace(/\/\*extraData\*\//,text);
+    return newContent;
 }
 
 module.exports.getRootDeclare=(instance)=>{
@@ -49,5 +55,6 @@ module.exports.getRootDeclare=(instance)=>{
         init+='            '+addAttr(attr.name,attr.value,attr.nodeName)+'\n';
     });
     text+=init+'\n';
+    text=setExtraData(instance.name,instance.extraDatas,text);
     return text;
 };
