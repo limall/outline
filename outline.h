@@ -11,6 +11,9 @@ struct OStruct;
 
 //存放node的轮廓，可以理解为node的抽象模板
 struct Outline {
+	bool isLabel = false, isSprite = false;
+	int label_fontSize;
+	string label_string, imageFile;
 	Node *lastNode;
 	float x = 0;
 	float y = 0;
@@ -58,10 +61,6 @@ struct Outline {
 
 //所有节点结构体的基结构体
 struct OStruct{
-	bool isLabel=false, isSprite=false;
-	int label_fontSize;
-	string label_string, imageFile;
-
 	Outline *outline;
 	Node *create(Node *parent){
 		return outline->create(parent);
@@ -78,14 +77,14 @@ struct OStruct{
 static auto createNode = [](OStruct *extraData, Node *parent)->Node* {
 	Node *node;
 	if (extraData) {
-		if (extraData->isSprite){
-			node = Sprite::create(extraData->imageFile);
+		if (extraData->outline->isSprite){
+			node = Sprite::create(extraData->outline->imageFile);
 		}
-		else if (extraData->isLabel){
+		else if (extraData->outline->isLabel){
 			int fontSize;
 			auto label = Label::create();
-			label->setString(extraData->label_string);
-			label->setSystemFontSize(extraData->label_fontSize);
+			label->setString(extraData->outline->label_string);
+			label->setSystemFontSize(extraData->outline->label_fontSize);
 			node = label;
 		}
 		else
