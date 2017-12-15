@@ -1,6 +1,6 @@
     auto /*nodeName*/=_pInstance=new /*UnodeName*/();
-            /*extraData*/
             auto outline_/*nodeName*/=_pInstance->outline=new Outline();
+            /*extraData*/
             outline_/*nodeName*/->createNode=createNode;
             outline_/*nodeName*/->pOit=/*nodeName*/;
 //templete

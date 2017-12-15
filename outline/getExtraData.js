@@ -1,20 +1,27 @@
-var numChars=['0','1','2','3','4','5','6','7','8','9','.'];
+var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
 function getType(value){
     var valueStr=''+value;
     if(valueStr==='true'||valueStr==='false')
         return 'bool'
     var dotNum=0;
+    var fuNum=0;
     var isNum=true;
     for(var i=0;i<valueStr.length;i++){
         var char=valueStr.charAt(i);
         if(char==numChars[10])
             dotNum++;
+        if(char==numChars[11])
+            fuNum++;
         var charIsNum=false;
         for(var j=0;j<numChars.length;j++){
             if(numChars[j]===char)
                 charIsNum=true;
         }
         if(!charIsNum)
+            isNum=false;
+    }
+    if(fuNum>0){
+        if(valueStr.indexOf('-')!==0||fuNum!==1)
             isNum=false;
     }
     if(isNum){

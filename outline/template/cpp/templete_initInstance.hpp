@@ -1,6 +1,6 @@
             auto /*PnodeName*/ = /*parent*/->/*nodeName*/ = new /*UPnodeName*/();
-            /*extraData*/
             auto outline_/*PnodeName*/=/*PnodeName*/->outline=new Outline();
+            /*extraData*/
             outline_/*PnodeName*/->createNode=createNode;
             outline_/*PnodeName*/->pOit=/*PnodeName*/;
 //templete

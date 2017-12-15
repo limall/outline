@@ -40,13 +40,13 @@ function addAttr(name,value,PnodeName){
 function setExtraData(pname,extraDatas,contentText){
     var text='';
     if(extraDatas.isSprite){
-        text+=pname+'->isSprite=true;\n';
-        text+='            '+pname+'->imageFile='+extraDatas.imageFile+';\n';
+        text+='outline_'+pname+'->isSprite=true;\n';
+        text+='            '+'outline_'+pname+'->imageFile='+extraDatas.imageFile+';\n';
     }
     if(extraDatas.isLabel){
-        text+=pname+'->isLabel=true;\n';
-        text+'            '+pname+'->label_fontSize='+extraDatas.fontSize+';\n';
-        text+'            '+pname+'->label_string='+extraDatas.string+';\n';
+        text+='outline_'+pname+'->isLabel=true;\n';
+        text+'            '+'outline_'+pname+'->label_fontSize='+extraDatas.fontSize+';\n';
+        text+'            '+'outline_'+pname+'->label_string='+extraDatas.string+';\n';
     }
     var newContent=contentText.replace(/\/\*extraData\*\//,text);
     return newContent;

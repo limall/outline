@@ -14,11 +14,13 @@ function setName(text,name,PName){
     return newText;
 }
 
-function setChildren(text,children,components){
+function setChildren(text,children,components,PName){
+    if(PName)
+        PName=PName.substring(0,1).toUpperCase()+PName.substring(1);
     var childrenText='';
     if(components){
         var extraStructBuilder=require('./template_extraStruct');
-        childrenText+=extraStructBuilder(components);
+        childrenText+=extraStructBuilder(components,PName);
     }
     if(children){
         children.forEach((child)=>{
@@ -37,7 +39,7 @@ module.exports.getStructDefinition1=(defArr)=>{
         var def=defArr[i];
         var oneText=textTemplete;
         oneText=setName(oneText,def.name,def.PName);
-        oneText=setChildren(oneText,def.children,def.components);
+        oneText=setChildren(oneText,def.children,def.components,def.PName);
         oneText=oneText.replace(/\/\*root\*\//,' ');
         text+=oneText+'\n';
     }
