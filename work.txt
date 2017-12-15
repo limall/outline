@@ -1,9 +1,10 @@
-﻿1、导出lua，添加export rule的备份还原机制。
+﻿1、导出lua。
 2、析构函数（程序结束时会自动清理，所以可先不急着做）
 3、button和sprite9
 4、添加key
 5、支持子node的animation
 6、为每个根节点添加消息站（可由exportRule选择是否添加，默认不添加）
+添加export rule的备份还原机制。
 ExtraData设计思路：
 
 任意组件的以'o_'为前缀的属性都能保存到这个组件的map中，另外要特殊对待一下SpriteFrame类型的属性
