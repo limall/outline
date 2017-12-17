@@ -22,7 +22,7 @@
       "main": "panel/index.html",
       "type": "simple",
       "title": "export setting",
-      "width": 300,
-      "height": 80
+      "width": 640,
+      "height": 480
     }
 }

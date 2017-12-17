@@ -164,15 +164,18 @@ module.exports = {
         }
       });
     },
-    'export-node' (event,ruleName){
-      Editor.Scene.callSceneScript('outline', 'getNode',ruleName,function (data) {
-        var obj=JSON.parse(data);
-        var nodeData=obj.nodeData;
-        var nodeDataObj=JSON.parse(nodeData);
-        var nodeName=nodeDataObj.name;
-        var content=buildContent(nodeDataObj);
-        var dst_hppPath=obj.dst_hppPath;
-        fileBuilder.updateContent(nodeName,content,dst_hppPath);
+    'export-node' (event,ruleNames){
+      Editor.Scene.callSceneScript('outline', 'getNode',ruleNames,function (data) {
+        var nodes=JSON.parse(data);
+        for(var i=0;i<nodes.length;i++){
+          var obj=nodes[i];
+          var nodeData=obj.nodeData;
+          var nodeDataObj=JSON.parse(nodeData);
+          var nodeName=nodeDataObj.name;
+          var content=buildContent(nodeDataObj);
+          var dst_hppPath=obj.dst_hppPath;
+          fileBuilder.updateContent(nodeName,content,dst_hppPath);
+        }
       });
     }
   },

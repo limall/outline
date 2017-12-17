@@ -7,7 +7,11 @@ module.exports = {
             var exportRules=[];
             var temp=canvas.getComponents('ExportRule');
             for(var i=0;i<temp.length;i++){
-                exportRules.push(temp[i].ruleName);
+                var obj={};
+                obj.ruleName=temp[i].ruleName;
+                obj.src=temp[i].src_Node.name;
+                obj.dst=temp[i].dst_hppPath;
+                exportRules.push(obj);
             }
             var data=JSON.stringify(exportRules);
             if(event.reply) {
@@ -15,22 +19,31 @@ module.exports = {
             }
         }
     },
-    'getNode': function (event,exportRuleName) {
+    'getNode': function (event,exportRuleNames) {
+        exportRuleNames=JSON.parse(exportRuleNames);
+        function hasName(name){
+            for(var i=0;i<exportRuleNames.length;i++){
+                if(exportRuleNames[i]===name)
+                    return true;
+            }
+            return false;
+        }
         var canvas = cc.find('Canvas');
         if(canvas){
             var exportRules=canvas.getComponents('ExportRule');
+            var nodes=[];
             for(var i=0;i<exportRules.length;i++){
                 var exportRule=exportRules[i];
-                if(exportRuleName===exportRule.ruleName){
+                if(hasName(exportRule.ruleName)){
                     nodeWalker.init(exportRule.src_Node);
                     var obj=new Object();
                     obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.excludeNodes);
                     obj.dst_hppPath=exportRule.dst_hppPath;
-                    if(event.reply) {
-                        event.reply(JSON.stringify(obj));
-                    }
-                    break;
+                    nodes.push(obj);
                 }
+            }
+            if(event.reply) {
+                event.reply(JSON.stringify(nodes));
             }
         }
     }

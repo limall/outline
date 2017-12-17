@@ -23,6 +23,8 @@ function getInstance(componentName,extradatas,isRoot){
         else 
             text+='    ';
         text+=componentName+'.'+name+'='+value+';\n';
+        if(isRoot)
+            text+='            ';
     }
     return text;
 }
