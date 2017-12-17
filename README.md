@@ -14,7 +14,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 
 添加自定义组件
 -------------
-        当需要为一个节点添加额外信息时，可以通过正常地添加组件脚本的方式来进行。只不过组件的属性，需要以"o_"为前缀才会被导出，并且目前属性支持的数据类型为int,float,string,bool,cc.SpriteFrame。导出的自定义组件可以直接通过对应的模板来获取
+        当需要为一个节点添加额外信息时，可以通过添加组件脚本的方式来进行。这和在普通creator项目中添加组件脚本并无二样，只不过组件的属性，需要以"o_"为前缀才会被outline导出.目前导出的属性支持的数据类型为int,float,string,bool,cc.SpriteFrame（图片文件的路径）。导出的组件将会直接放到导出的模板树上对应的模板中，可以直接通过模板获取。
 
 导出动画
 --------
