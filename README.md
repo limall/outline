@@ -44,6 +44,6 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
         3、导出node前必须先要保存scene 
         
-        4、每个node的第一个动画录制时，可能会将动画开始前的一帧也误导出来。此时只需手动在导出的clip源码中删除第一帧即可。
+        4、每个node的第一个动画录制时，可能会将动画开始前的一帧也误导出来。此时只需手动在导出的clip源码中删除第一帧即可。 
          
         5、弹出的export rule选择界面可能会比较小，把窗口拉大即可
