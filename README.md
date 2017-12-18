@@ -45,4 +45,5 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         3、导出node前必须先要保存scene 
         
         4、编辑同一个node的多个animation clip时除了本来就是要动态初始位置的，记得每个clip第一帧将node恢复到初始状态 
-        
+         
+        5、弹出的export rule选择界面可能会比较小，把窗口拉大即可
