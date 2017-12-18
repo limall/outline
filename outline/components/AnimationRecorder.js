@@ -3,6 +3,7 @@ cc.Class({
     properties: {
     },
     onLoad:function(){
+        this.isFirst=true;
         this.Status=require('status');
         var that=this;
         this.on('finished',function(){
@@ -25,7 +26,10 @@ cc.Class({
             }
             this.increments.push(increment);
         }
-        this.statuses.push(status);
+        if(this.isFirst){
+            this.isFirst=false;
+        }else
+            this.statuses.push(status);
         if(this.last){
             this.recordAble=false;
             if(this.autoRecorder)
