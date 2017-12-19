@@ -7,14 +7,19 @@ using namespace cocos2d;
 using namespace std;
 
 struct Outline;
-struct OStruct;
+struct Creator;
 
 //存放node的轮廓，可以理解为node的抽象模板
 struct Outline {
+	//类型信息，outline默认只能辨别node、label、sprite类型
 	bool isLabel = false, isSprite = false;
 	int label_fontSize;
 	string label_string, imageFile;
+
+	//最后一个使用此outline创造的node
 	Node *lastNode;
+
+	//模板信息
 	float x = 0;
 	float y = 0;
 	float width = 0;
@@ -30,12 +35,20 @@ struct Outline {
 	int colorR = 255;
 	int colorG = 255;
 	int colorB = 255;
-	OStruct *pOit;
+
+	//指向对应的creator实例
+	Creator *pOit;
+
+	//子节点的outline
 	vector<Outline*> children;
-	std::function<Node*(OStruct*, Node*)> createNode;
+
+	//该node的创造函数
+	std::function<Node*(Creator*, Node*)> createNode;
+
+	//以"o__"为前缀的自定义组件信息存放于该成员
 	string mapAble; 
 
-
+	//创造node，包括子node
 	Node *create(Node *parent) {
 		auto node = lastNode = createNode(pOit, parent);
 		reset(node);
@@ -45,6 +58,7 @@ struct Outline {
 		return node;
 	}
 
+	//为传入的node套用模板的数据
 	void reset(Node *node){
 		node->setPositionX(x);
 		node->setPositionY(y);
@@ -61,8 +75,8 @@ struct Outline {
 	}
 };
 
-//所有节点结构体的基结构体
-struct OStruct{
+//所有节点模板结构体的基结构体
+struct Creator{
 	Outline *outline;
 	Node *create(Node *parent){
 		return outline->create(parent);
@@ -70,23 +84,20 @@ struct OStruct{
 	Node *lastNode() {
 		return outline->lastNode;
 	}
-	void reset(Node *node){
-		outline->reset(node);
-	}
 };
 
 //默认创建node的函数
-static auto createNode = [](OStruct *extraData, Node *parent)->Node* {
+static auto createNode = [](Creator *creator, Node *parent)->Node* {
 	Node *node;
-	if (extraData) {
-		if (extraData->outline->isSprite){
-			node = Sprite::create(extraData->outline->imageFile);
+	if (creator) {
+		if (creator->outline->isSprite){
+			node = Sprite::create(creator->outline->imageFile);
 		}
-		else if (extraData->outline->isLabel){
+		else if (creator->outline->isLabel){
 			int fontSize;
 			auto label = Label::create();
-			label->setString(extraData->outline->label_string);
-			label->setSystemFontSize(extraData->outline->label_fontSize);
+			label->setString(creator->outline->label_string);
+			label->setSystemFontSize(creator->outline->label_fontSize);
 			node = label;
 		}
 		else
@@ -102,6 +113,7 @@ static auto createNode = [](OStruct *extraData, Node *parent)->Node* {
 //所有动画结构体的基结构体
 struct AnimBase {
 protected:
+	//减少因float转int截断产生的偏差
 	float offset;
 	void addOpacity(Node* node, float addOpacity){
 		addOpacity += offset;
@@ -117,11 +129,16 @@ protected:
 		node->setOpacity(newOpacity);
 	}
 public:
+	//播放到的帧数
 	int frameIndex;
+	//对应schedule的key
 	std::string key;
+	//需要播放的node
 	Node *node;
 	bool played;
+	//是否循环
 	bool loop;
+	//播放完后回调
 	std::function<void(string)> callback;
 	void pause() {
 		node->unschedule(key);

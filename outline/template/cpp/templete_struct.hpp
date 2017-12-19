@@ -1,4 +1,4 @@
-struct /*Poutline_nodeName*/ : public OStruct {/*children*//*root*/
+struct /*Poutline_nodeName*/ : public Creator {/*children*//*root*/
 };//end
 private: /*nodeName*/() {}
 public:
