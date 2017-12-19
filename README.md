@@ -4,7 +4,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 -------
 * **creator插件：** outline是一个cocos creator(以下简称creator)上的插件，用于将creator上的node和animation导出到cocos2dx(以下简称2dx)项目中。
 * **特点：** outline致力于为2dx引入组件化工作流的同时，保持较高的兼容性、易用性和易迁移性。不同于官方版本，outline支持2dx3.14以下版本(我的项目3.10可以使用，具体最低支持到哪个版本还未测试)，任意node都能被单独导出，并且支持导出自定义组件。
-* **导出源码：** outline直接导出c++源码，每一次导出的node整体，或者每个animation clip都会存放于单个hpp文件中，开发者只需include对应的hpp文件即可直接使用。导出的源码将会包含整个导出节点的模板树，配合ide的代码提示可以快速获取到制定的节点的模板的指针，通过它的create函数便可以生产出想要的节点。直接导出源码的方案，优势和劣势都很明显。优势是快，所有设计信息都会编译为机器码，不需要额外的io操作和字符串操作，也不易被同行copy，使用起来更灵活；劣势是不能进行热更新（后续如有lua版本应该就能支持了）。
+* **导出源码：** outline直接导出c++源码，每一次导出的node整体，或者每个animation clip都会存放于单个hpp文件中，开发者只需include对应的hpp文件即可直接使用。导出节点时，导出的源码将会包含整个导出节点的模板树，这里我把它称为creator树，creator树上的每个creator实例与导出节点一一对应，都可以生产对应的节点。creator树以结构体指针嵌套构成，利用ide的代码提示可以快速找到树上的任一creator实例，调用这个实例的create便能生产想要的节点。直接导出源码的方案，优势和劣势都很明显。优势是快，所有设计信息都会编译为机器码，不需要额外的io操作和字符串操作，也不易被同行copy，使用起来更灵活；劣势是不能进行热更新（后续如有lua版本应该就能支持了）。
 * **设计思路：** 正如其名，outline将会把注意力放在node的轮廓上。因为我发现，用编辑器写界面相比较于手写，最大的优势莫过于能够直观的设置node的position、scale、rotation等属性，这些都可以概括为node的轮廓。
 * **动画设计思路：** outline使用了运行时演绎录制的方式来导出animation clip，原理是自定义一个继承自Animation组件的AnimationRecord组件，在播放animation的同时记录宿主node的每帧动画状态，然后在Canvas节点上添加AutoRecord脚本，使其能在运行时时自动扫描所有node，找到所有AnimationRecord组件并逐个单独播放记录，完成后通过网络接口将演绎的数据导出。目前支持针对position,rotation,scale,opacity属性的动画，帧动画还未测试。另外针对多个子node也参与动画的情况还在开发中。
 
@@ -14,7 +14,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 
 添加自定义组件
 -------------
-        当需要为一个节点添加额外信息时，可以通过添加组件脚本的方式来进行。这和在普通creator项目中添加组件脚本并无二样，只不过组件的属性，需要以"o_"为前缀才会被outline导出.目前导出的属性支持的数据类型为int,float,string,bool,cc.SpriteFrame（图片文件的路径）。导出的组件将会直接放到导出的模板树上对应的模板中，可以直接通过模板获取。使用这个特性，可以在所见即所得的环境中高效地设计信息，例如使用自定义控件等等。（当导出属性为string类型时，导出的源码每问题，但vs就是编译不过，希望路过的大神可以给个解决思路）
+        当需要为一个节点添加额外信息时，可以通过添加组件脚本的方式来进行。这和在普通creator项目中添加组件脚本并无二样，只不过组件的属性名称，需要作特殊标记。outline提供两种导出方案，属性名以"o_"为前缀的，会被嵌入到对应的creator结构体中，直接作为它的成员变量（属性导出后会自动剔除前缀标记，下同）；以"o__"为前缀的，同一个node上的属性都会以"key:value%o__%"的形式组合成一个字符串，导出到对应creator的outline成员的mapAble成员变量中。其中key为属性名，value为它的值，"%o__%"为每个属性的分隔符。目前支持导出的数据类型为int,float,string,bool,cc.SpriteFrame（图片文件的路径）。第二种方案适合导出与逻辑无关的，可以批量处理的信息，如自定义控件；而第一种方案则适合导出难以批量处理，又与逻辑相关的信息，如为node预设多个状态等。
 
 导出动画
 --------
@@ -44,6 +44,4 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
         3、导出node前必须先要保存scene 
         
-        4、每个node的第一个动画录制时，可能会将动画开始前的一帧也误导出来。此时只需手动在导出的clip源码中删除第一帧即可。 
-        
-        5、弹出的export rule选择界面可能会比较小，把窗口拉大即可
+        4、弹出的export rule选择界面可能会比较小，把窗口拉大即可
