@@ -1,6 +1,7 @@
 //获取Canvas中的ExportRule信息，及其选中的node的数据
 var nodeWalker=require('./nodeWalker');
 module.exports = {
+    //用于获取Canvas上所有export rule的信息
     'getExportRules':function(event){
         var canvas = cc.find('Canvas');
         if(canvas){
@@ -19,6 +20,7 @@ module.exports = {
             }
         }
     },
+    //用于获取所有选中的export rule制定的node的数据
     'getNode': function (event,exportRuleNames) {
         exportRuleNames=JSON.parse(exportRuleNames);
         function hasName(name){

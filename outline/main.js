@@ -12,14 +12,12 @@ var instanceBuilder=require('./template/cpp/templete_initInstance');
 var relationBuilder=require('./template/cpp/templete_initOutlineRelation');
 //加载筛选节点到相应层级的模块
 var sort=require('./sort');
-
+//加载构造动画的模块
 var animationBuilder=require('./template/cpp/templete_animation');
+//加载构造自定义组件数据的模块
 var extraStructBuilder=require('./template/cpp/template_extraStruct');
 
 var fs=require('fs');
-function writeFile(str){
-  fs.writeFileSync(path+'test.hpp',str);
-}
 
 //获取该节点自导出节点开始的节点路径，从而获得一个唯一的名称
 function getPName(obj){
@@ -40,6 +38,8 @@ function buildContent(nodeDataObj){
   var bottomUped=sort.bottomUp(sorted);
   //主模板
   var text=fileBuilder.getContentTemplate();
+
+  //下面的代码开始构造节点源码，他们的主要工作都是为每个构造模块生成需要的参数
 
   //构造结构体的定义
   var defArr=[];
@@ -154,9 +154,11 @@ module.exports = {
     // 当 package 被正确卸载的时候执行
   },
   messages: {
+    //弹出选择export rule的界面
     'start-export-node' () {
       Editor.Panel.open('outline');
     },
+    //获取Canvas上所有的export rule的名称
     'getRuleName' (event){
       Editor.Scene.callSceneScript('outline', 'getExportRules', function (data) {
         if(event.reply) {
@@ -164,6 +166,7 @@ module.exports = {
         }
       });
     },
+    //按照选中的export rule导出node
     'export-node' (event,ruleNames){
       Editor.Scene.callSceneScript('outline', 'getNode',ruleNames,function (data) {
         var nodes=JSON.parse(data);
