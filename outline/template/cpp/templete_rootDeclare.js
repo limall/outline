@@ -45,8 +45,13 @@ function setExtraData(pname,extraDatas,contentText){
     }
     if(extraDatas.isLabel){
         text+='outline_'+pname+'->isLabel=true;\n';
-        text+'            '+'outline_'+pname+'->label_fontSize='+extraDatas.fontSize+';\n';
-        text+'            '+'outline_'+pname+'->label_string='+extraDatas.string+';\n';
+        text+='            '+'outline_'+pname+'->label_fontSize='+extraDatas.fontSize+';\n';
+        text+='            '+'outline_'+pname+'->label_string='+extraDatas.string+';\n';
+    }
+    if(extraDatas.mapAble){
+        if(extraDatas.isSprite||extraDatas.isLabel)
+            text+='            ';
+        text+='outline_'+pname+'->mapAble="'+extraDatas.mapAble+'";\n';
     }
     var newContent=contentText.replace(/\/\*extraData\*\//,text);
     return newContent;

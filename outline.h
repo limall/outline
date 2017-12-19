@@ -33,6 +33,8 @@ struct Outline {
 	OStruct *pOit;
 	vector<Outline*> children;
 	std::function<Node*(OStruct*, Node*)> createNode;
+	string mapAble; 
+
 
 	Node *create(Node *parent) {
 		auto node = lastNode = createNode(pOit, parent);

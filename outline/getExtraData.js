@@ -71,12 +71,23 @@ module.exports=function(node){
             return name;
         }
     }
+    var mapAble='';
     for(var i=0;i<components.length;i++){
         var component=components[i];
         var componentName=getComponentName(component.name);
         var props=[];
         for(var propName in component){
-            if(propName.indexOf('o_')===0){
+            if(!component[propName])
+                continue;
+            if(propName.indexOf('o__')===0){
+                var name=propName.substring(3);
+                var value=component[propName];
+                if(value instanceof cc.SpriteFrame){
+                    var fullPath=value._textureFilename;
+                    value=fullPath.substring(fullPath.indexOf('/assets/')+8);
+                }
+                mapAble+=name+':'+value+'%o__%';
+            }else if(propName.indexOf('o_')===0){
                 var name=propName.substring(2);
                 var value=component[propName];
                 if(value instanceof cc.SpriteFrame){
@@ -92,5 +103,7 @@ module.exports=function(node){
         if(props.length>0)
             extradata[componentName]=props;
     }
+    if(mapAble!='')
+        extradata.mapAble=mapAble;
     return extradata;
 }
