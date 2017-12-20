@@ -51,10 +51,24 @@ module.exports=function(node){
     var components=node._components;
     var extradata={};
     var sprite=node.getComponent(cc.Sprite);
+    var mapAble='';
     if(sprite){
         var fullPath=sprite.spriteFrame._textureFilename;
         extradata.isSprite=true;
         extradata.imageFile='"'+fullPath.substring(fullPath.indexOf('/assets/')+8)+'"';
+
+        var insetTop=sprite.spriteFrame.insetTop;
+        var insetBottom=sprite.spriteFrame.insetBottom;
+        var insetLeft=sprite.spriteFrame.insetLeft;
+        var insetRight=sprite.spriteFrame.insetRight;
+
+        if(sprite.type===cc.Sprite.Type.SLICED){
+            mapAble+='slice:true%o__%';
+            mapAble+='insetTop:'+insetTop+'%o__%';
+            mapAble+='insetBottom:'+insetBottom+'%o__%';
+            mapAble+='insetLeft:'+insetLeft+'%o__%';
+            mapAble+='insetRight:'+insetRight+'%o__%';
+        }
     }
     var label=node.getComponent(cc.Label);
     if(label){
@@ -74,14 +88,11 @@ module.exports=function(node){
             return name;
         }
     }
-    var mapAble='';
     for(var i=0;i<components.length;i++){
         var component=components[i];
         var componentName=getComponentName(component.name);
         var props=[];
         for(var propName in component){
-            if(!component[propName])
-                continue;
             if(propName.indexOf('o__')===0){
                 var name=propName.substring(3);
                 var value=component[propName];

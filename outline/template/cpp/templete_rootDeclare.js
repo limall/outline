@@ -35,8 +35,6 @@ function addAttr(name,value,nodeName){
 
 function setExtraData(pname,extraDatas,contentText){
     var text='';
-    if(pname)
-        pname=pname.substring(0,1).toUpperCase()+pname.substring(1);
     var extraStructBuilder=require('./template_extraStruct');
     text+=extraStructBuilder(extraDatas,pname,true);
     if(extraDatas.isSprite){
