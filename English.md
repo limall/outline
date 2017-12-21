@@ -7,6 +7,15 @@ Brief introduction
 * **Design idea of animation** Outline use an solution that record the state of the playing node in every frame,to export one animation clip. 
  
 
-Export node
------------
-Asserting you have installed outline in your project.When you open it by creator editor,you can find these changes.Firstly, a item shown as "outline" appears in the menu bar.If you click it , a child item shown as "export rule" will appear.Secondly,In the assets panel,four script files occur in the outline-components folder.They are "ExportRule.js","AnimationRecorder.js","AutoRecorder.js" and "Status.js".The ExportRule script is used to descript an export rule.Just add an export rule by dragging the "ExportRle.js" script into the property inspector of the Canvas node.Then set it in the property inspector and save the project after completing your setting. Finally,export what you want by clicking the "export node" item.
+How to export node
+------------------
+Asserting you have installed outline in your project.When you open it by creator editor,you can find these changes.Firstly, a item shown as "outline" appears in the menu bar.If you click it , a child item shown as "export rule" will appear.Secondly,In the assets panel,four script files occur in the outline-components folder.They are "ExportRule.js","AnimationRecorder.js","AutoRecorder.js" and "Status.js".The ExportRule script is used to descript an export rule.Just add an export rule by dragging the "ExportRle.js" script into the property inspector of the Canvas node.Then set it in the property inspector and save the project after completing your setting. Finally,export what you want by clicking the "export node" item. 
+ 
+  
+How to add customized components
+--------------------------------
+In creator,you can push some extra information to a node by adding your customized component script into the node.You can also export these information to a 2dx project through outline by just making a mark in the name of the component property.Outline provides two export schemes.A property taking  "o_" as its prefix,will be exported as a member variable of its creator struct;And a property taking "o__" as its prefix,will be exported into the mapAble member variable of its creator struct,with the format "key:value%o__%",that is to say,the data of all such properties of one node will spell a string and be exported as the mapAble member of its creator struct.In the format above,the "key" symbol is the name of exported property,and the "value" is its value,the "%o__%" symbol is the separator between two properties.Currently,the data types of properties outline can export  are int,float,string,bool and cc.SpriteFrame(the path string of its image file).The first scheme is suitable when the property has something about the project logic,such as defining some status of a node.The second scheme is suitale when the propery has nothing on logic,such as defining the node as a controller. 
+ 
+  
+How to export animation
+-----------------------
