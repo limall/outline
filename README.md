@@ -59,7 +59,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
 * "myAnimation1"为该播放行为的标记（会作为回调函数的参数传入） <br>
 * 第三个参数为是否重复播放 <br>
-* 可以传入第四个参数作为回调函数：
+* 可以传入第四个参数作为播放完的回调函数：
           
         
         anim->play(pNode,"someAnim",false,[=](string key){
