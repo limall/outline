@@ -35,7 +35,9 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
             
 2dx中使用outline
 ----------------
-        首先将需要的Resources文件夹中的资源文件（保持目录结构）复制到2dx项目的资源根目录下，在导入了outline.h头文件和对应的节点的hpp文件后，就可以直接通过命名空间O来访问导出节点的结构体，调用结构体的pIt函数获取单例，再调用它的create函数就可以创建需要的节点。如下 
+　　首先将assets中用到的文件（保持目录结构）复制到2dx项目的资源根目录下。 <br>
+　　include节点的hpp文件。 <br>
+　　通过命名空间O来访问导出节点的Creator结构体，调用结构体的pIt函数获取单例，再调用它的create函数就可以创建需要的节点。如下： <br> 
         
         O::MyNode::pIt()->create(NULL);  
         
