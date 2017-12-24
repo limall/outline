@@ -53,11 +53,20 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 * 让pNode播放动画的代码如下：  
         
         #include "clip_someAnim.hpp"
+        ...
         auto anim=Anims::SomeAnim::create();
         anim->play(pNode,"someAnim",false);  
         
-        其中mynode为需要播放动画的节点，"myAnimation1"为该播放行为的标记（会作为回调函数的参数传入）,第三个参数为是否重复播放，重载的第四个参数为播放完成后的回调函数,使用lambda形式 
+* "myAnimation1"为该播放行为的标记（会作为回调函数的参数传入） <br>
+* 第三个参数为是否重复播放 <br>
+* 可以传入第四个参数作为回调函数：
+          
         
+        anim->play(pNode,"someAnim",false,[=](string key){
+            if(key=="someAnim"){
+                ...
+            }
+        });
 使用前必读
 ---------
         1、第一次使用前需要设置，将creator中偏好设置-常规-导入图片时自动裁剪选项取消掉，才能保证2dx和creator的显示效果一致 
