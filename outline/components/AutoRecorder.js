@@ -31,7 +31,7 @@ cc.Class({
                 var clips=animation.getClips();
                 for(var i=0;i<clips.length;i++){
                     var clipName=clips[i].name;
-                    that.anims.push(new Anim(node,clipName));
+                    that.anims.push(new Anim(node,clipName,clips[i]));
                 }
             }
         }
@@ -39,28 +39,30 @@ cc.Class({
         this.i=-1;
         this.getData();
     },
-    getData:function(increments){
+    getData:function(animNodes){
         if(this.i>=0){
-            this.anims[this.i].increments=increments;
+            this.anims[this.i].animNodes=animNodes;
         }
         this.i=this.i+1;
         if(this.i<this.anims.length){
             var anim=this.anims[this.i];
             var node=anim.node;
+            var clip=anim.clip;
+            delete anim.clip;
             delete anim.node;
-            var clipName=anim.clipName;
             var animationRecorder=node.getComponent('AnimationRecorder');
-            animationRecorder.startRecord(clipName,this);
+            animationRecorder.startRecord(clip,this);
         }else if(this.anims.length>0){
             var obj={};
             obj.anims=this.anims;
             obj.dst=this.dst_path;
-            ws.send(JSON.stringify(obj));
+            cc.log(JSON.stringify(obj));
+            //ws.send(JSON.stringify(obj));
         }
     },
 });
-function Anim(node,clipName,increments){
+function Anim(node,clipName,clip){
     this.node=node;
     this.clipName=clipName;
-    this.increments=increments;
+    this.clip=clip;
 }
