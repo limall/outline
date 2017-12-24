@@ -36,10 +36,10 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 2dx中使用outline
 ----------------
 　　首先将assets中用到的文件（保持目录结构）复制到2dx项目的资源根目录下。 <br>
-　　include节点的hpp文件。 <br>
-　　通过命名空间O来访问导出节点的Creator结构体，调用结构体的pIt函数获取单例，再调用它的create函数就可以创建需要的节点。如下： <br> 
         
-        O::MyNode::pIt()->create(NULL);  
+        #include "view.hpp"
+        ...
+        O::MyNode::pIt()->create(NULL);  
         
         以上代码创建并返回创建了的节点的指针。如果传给create函数的是一个节点，那么将会调用这个节点的addChild函数把新创建的节点加入进来。通过这个单例还可以访问子节点的结构体实例。 每个单例都可以创建若干个节点，也可以调用reset函数将导出的节点的性状赋给传入的现有节点。更多api详见outline.h头文件  
         
