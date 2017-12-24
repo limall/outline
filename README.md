@@ -18,7 +18,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 
 导出动画
 --------
-        首先拖动AnimationRecorder.js脚本至合适的node中，将需要导出的animation clip拖到脚本的clips数组中。这样就完成了一个clip的设置，接着将AutoRecorder脚本拖入Canvas节点中，设置好导出的目录，在浏览器中运行项目。所有设置的动画都会在运行时自动逐个播放，都播完后会导出到指定目录。 
+        首先拖动AnimationRecorder.js脚本至合适的node中，将需要导出的animation clip拖到脚本的clips数组中。接着将AutoRecorder脚本拖入Canvas节点中，设置好导出的目录，再把需要导出动画的node拖到exportNode数组中。在浏览器中运行项目。所有设置的动画都会在运行时自动逐个播放，都播完后会导出到指定目录。 
             
 2dx中使用outline
 ----------------

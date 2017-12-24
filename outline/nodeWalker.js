@@ -12,7 +12,7 @@ var nodeWalker={
         walkOneNode(node);
     },
     //获取传入节点及所有子节点的outline数据，并保持父子结构
-    getDataByNode:(node,excludeNodes)=>{
+    getDataByNode:(node,excludeNodes,use_world_pos)=>{
         var root={};
         function walkOneNode(obj,node){
             if(node.outline){
@@ -33,18 +33,13 @@ var nodeWalker={
             }
         }
         walkOneNode(root,node);
-        //由于2dx和creator的坐标原点可能不同，这里需要转换坐标
+        //导出世界坐标还是节点坐标
         var parent=node.parent;
-        if(parent)
-            if(parent.name!=='Canvas'){
+        if(use_world_pos)
+            while(parent&&parent.name!=='Canvas'){
+                root.x+=parent.outline.x;
+                root.y+=parent.outline.y;
                 parent=parent.parent;
-                while(parent){
-                    root.x+=parent.x;
-                    root.y+=parent.y;
-                    if(parent.name==='Canvas')
-                        break;
-                    parent=parent.parent;
-                }
             }
         return JSON.stringify(root);
     },

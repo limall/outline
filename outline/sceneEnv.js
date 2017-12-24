@@ -37,9 +37,9 @@ module.exports = {
             for(var i=0;i<exportRules.length;i++){
                 var exportRule=exportRules[i];
                 if(hasName(exportRule.ruleName)){
-                    nodeWalker.init(exportRule.src_Node);
+                    nodeWalker.init(canvas);
                     var obj=new Object();
-                    obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.excludeNodes);
+                    obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.excludeNodes,exportRule.use_world_position);
                     obj.dst_hppPath=exportRule.dst_hppPath;
                     nodes.push(obj);
                 }
