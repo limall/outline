@@ -35,17 +35,16 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
             
 2dx中使用outline
 ----------------
-　　记得将assets中用到的文件（保持目录结构）复制到2dx项目的资源根目录下。 
+* **注意** 记得要将assets中用到的文件（保持目录结构）复制到2dx项目的资源根目录下。 
           
         #include "view.hpp"
         ...
         O::MyNode::pIt()->create(NULL); 
         
-        以上代码创建并返回创建了的节点的指针。 <br>
-        "view.hpp"为导出node的hpp文件 <br>
-        如果传给create函数的是一个节点，那么将会调用这个节点的addChild函数把新创建的节点加入进来。 <br>
-        通过这个单例还可以访问子节点的结构体实例。 每个单例都可以创建若干个节点，也可以调用reset函数将导出的节点的性状赋给传入的现有节点。 <br>
-        更多api详见outline.h头文件  
+* 以上代码创建并返回创建了的节点的指针。 <br>
+* "view.hpp"为导出node的hpp文件 <br>
+* 如果传给create函数的是一个节点，那么将会调用这个节点的addChild函数把新创建的节点加入进来。 <br>
+* 通过这个单例还可以访问子节点的结构体实例。 每个单例都可以创建若干个节点，也可以调用reset函数将导出的节点的性状赋给传入的现有节点...。 <br>
         
 播放动画
 --------
