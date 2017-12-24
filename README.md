@@ -14,9 +14,9 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 * **二、** 设置export rule: <br>
 　　　　rule name:　　　　　　export rule的名称,如"effectNode"; <br>
 　　　　dst_hpp_path:　　　　导出的文件的全局路径（包含文件名），如"E:/cocospro/Classes/effectNode/view.hpp"; <br>
-　　　　src_node:　　　　　　　需要导出的node，在creator直接把node拖过来即可; <br>
-　　　　exclude_nodes:　　　　导出node中需要剔除的子node; <br>
-　　　　use_world_position:　导出的node的position是世界坐标系，还是node坐标系。 <br>       　　 
+　　　　src_node:　　　　　　需要导出的node，在creator直接把node拖过来即可; <br>
+　　　　exclude_nodes:　　　导出node中需要剔除的子node; <br>
+　　　　use_world_position:　导出的node的position是世界坐标系，还是node坐标系。 <br>
 * **三、** 点击outline菜单子菜单export node，就会弹出选择export rule的对话框，勾选需要套用的export rule，然后点导出即可。
 
 添加自定义组件
