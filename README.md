@@ -35,8 +35,9 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
             
 2dx中使用outline
 ----------------
-　　首先将assets中用到的文件（保持目录结构）复制到2dx项目的资源根目录下。 <br>
-        
+　　首先将assets中用到的文件（保持目录结构）复制到2dx项目的资源根目录下。 <br> 
+   
+   
         #include "view.hpp"
         ...
         O::MyNode::pIt()->create(NULL);  
