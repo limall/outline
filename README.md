@@ -41,7 +41,7 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
         
         #include "view.hpp"
         ...
-        O::MyNode::pIt()->create(NULL); 
+        auto pNode=O::MyNode::pIt()->create(NULL); 
         
 * 以上代码创建并返回创建了的节点的指针。 <br>
 * "view.hpp"为导出node的hpp文件 <br>
