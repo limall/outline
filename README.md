@@ -17,10 +17,10 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 　　　　src_node:　　　　　　需要导出的node，在creator直接把node拖过来即可; <br>
 　　　　exclude_nodes:　　　导出node中需要剔除的子node; <br>
 　　　　use_world_position:　导出的node的position是世界坐标系，还是node坐标系。 <br>
-* **点击outline菜单子菜单export node，就会弹出选择export rule的对话框，勾选需要套用的export rule，然后点导出即可。**　
+* **点击outline菜单子菜单export node，就会弹出选择export rule的对话框，勾选需要套用的export rule，然后点导出即可。**　　
 
 添加自定义组件
--------------
+-------------　
 当需要为一个节点添加额外信息时，可以通过添加组件脚本的方式来进行。这和在普通creator项目中添加组件脚本并无二样。
 只不过组件的属性名称，需要作特殊标记,标记分两种，以"o__"为前缀和以"o_"为前缀。
 属性名以"o_"为前缀的，会被嵌入到对应的creator结构体中，直接作为它的成员变量（属性导出后会自动剔除前缀标记，下同）。
