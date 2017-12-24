@@ -23,6 +23,7 @@ cc.Class({
     onLoad () {
         this.anims=[];
         var that=this;
+        var exportNodes=this.exportNodes;
         for (var i=0;i<exportNodes.length;i++){
             var node=exportNodes[i];
             var animation=node.getComponent('AnimationRecorder');
