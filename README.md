@@ -12,9 +12,9 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 --------
 * **一、** 将资源面板outline-components目录下的ExportRule脚本拖至Canvas节点中 
 * **二、** 设置export rule: <br>
-           rule name:export rule的名称,如"effectNode"; <br>
-           dst_hpp_path:导出的文件的全局路径（包含文件名），如"E:/workspace/cocospro/Classes/effectNode/view.hpp"; <br>
-           src_node:需要导出的node，在creator直接把node拖过来即可; <br>
+           rule name:       export rule的名称,如"effectNode"; <br>
+           dst_hpp_path:    导出的文件的全局路径（包含文件名），如"E:/workspace/cocospro/Classes/effectNode/view.hpp"; <br>
+           src_node:        需要导出的node，在creator直接把node拖过来即可; <br>
            
            exclude_nodes:导出node中需要剔除的子node;  
            
