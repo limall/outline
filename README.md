@@ -21,12 +21,8 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 
 添加自定义组件
 -------------
-
-当需要为一个节点添加额外信息时，可以通过添加组件脚本的方式来进行。这和在普通creator项目中添加组件脚本并无二样。
-只不过组件的属性名称，需要作特殊标记,标记分两种，以"o__"为前缀和以"o_"为前缀。
-属性名以"o_"为前缀的，会被嵌入到对应的creator结构体中，直接作为它的成员变量（属性导出后会自动剔除前缀标记，下同）。
-以"o__"为前缀的，同一个node上的属性都会以"key:value%o__%"的形式组合成一个字符串，导出到对应creator的outline成员的mapAble成员变量中。其中key为  属性名，value为它的值，"%o__%"为每个属性的分隔符。 <br>
-（注：目前支持导出的数据类型为int,float,string,bool,cc.SpriteFrame（图片文件的路径））
+ 
+当需要为一个节点添加额外信息时，可以通过添加组件脚本的方式来进行。这和在普通creator项目中添加组件脚本并无二样。只不过组件的属性名称，需要作特殊标记,标记分两种，以"o__"为前缀和以"o_"为前缀。属性名以"o_"为前缀的，会被嵌入到对应的creator结构体中，直接作为它的成员变量（属性导出后会自动剔除前缀标记，下同）。以"o__"为前缀的，同一个node上的属性都会以"key:value%o__%"的形式组合成一个字符串，导出到对应creator的outline成员的mapAble成员变量中。其中key为  属性名，value为它的值，"%o__%"为每个属性的分隔符。 <br>（注：目前支持导出的数据类型为int,float,string,bool,cc.SpriteFrame（图片文件的路径））
 导出动画
 --------
         首先拖动AnimationRecorder.js脚本至合适的node中，将需要导出的animation clip拖到脚本的clips数组中。接着将AutoRecorder脚本拖入Canvas节点中，设置好导出的目录，再把需要导出动画的node拖到exportNode数组中。在浏览器中运行项目。所有设置的动画都会在运行时自动逐个播放，都播完后会导出到指定目录。 
