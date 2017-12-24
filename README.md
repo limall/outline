@@ -17,8 +17,12 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 　　　　src_node:　　　　　　需要导出的node，在creator直接把node拖过来即可; <br>
 　　　　exclude_nodes:　　　导出node中需要剔除的子node; <br>
 　　　　use_world_position:　导出的node的position是世界坐标系，还是node坐标系。 <br>
-* **点击outline菜单子菜单export node，就会弹出选择export rule的对话框，勾选需要套用的export rule，然后点导出即可。** 
+* **点击outline菜单子菜单export node，就会弹出选择export rule的对话框，勾选需要套用的export rule，然后点导出即可** . 
+
 添加自定义组件
+-------------
+hello
+
 导出动画
 --------
         首先拖动AnimationRecorder.js脚本至合适的node中，将需要导出的animation clip拖到脚本的clips数组中。接着将AutoRecorder脚本拖入Canvas节点中，设置好导出的目录，再把需要导出动画的node拖到exportNode数组中。在浏览器中运行项目。所有设置的动画都会在运行时自动逐个播放，都播完后会导出到指定目录。 
