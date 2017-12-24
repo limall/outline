@@ -10,7 +10,14 @@ outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue
 
 导出node
 --------
-        假设已经安装了outline（如果还不清楚如何安装creator 扩展，可以移步官网），那么打开creator时，会发现菜单栏多了outline选项，点击后会出现export node子菜单；另外在资源面板中会出现outline-components目录，里面包含ExportRule.js、AnimationRecorder.js、AutoRecorder.js、Status.js四个脚本。ExportRule用来描述一个导出规则，直接拖动ExportRule脚本至Canvas节点中，接着为它取个名称(rule name字段)，再设置导出的位置及名称(dst hpp path字段)，导出哪个node(surc_node字段)。保存一下项目，接着点击outline菜单子菜单export node，就会弹出选择export rule的对话框，勾选需要套用的export rule，然后点导出即可。可以在Canvas节点中添加多个ExportRule脚本，以分别导出需要的node。 目前export rule还支持剔除子node的功能，方便将封装的多个node组合到一个scene钟。
+* **一、** 将资源面板outline-components目录下的ExportRule脚本拖至Canvas节点中 
+* **二、** 设置export rule: 
+           rule name:export rule的名称,如"effectNode"; 
+           dst_hpp_path:导出的文件的全局路径（包含文件名），如"E:/workspace/cocospro/Classes/effectNode/view.hpp"; 
+           src_node:需要导出的node，在creator直接把node拖过来即可; 
+           exclude_nodes:导出node中需要剔除的子node; 
+           use_world_position:导出的node的position是世界坐标系，还是node坐标系。 
+* **三、** 点击outline菜单子菜单export node，就会弹出选择export rule的对话框，勾选需要套用的export rule，然后点导出即可。
 
 添加自定义组件
 -------------
