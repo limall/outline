@@ -16,13 +16,10 @@ cc.Class({
         
         for(var i=0;i<this.animNodes.length;i++){
             var node=this.animNodes[i].node;
-            var statuses=this.animNodes[i].statuses;
-            var increments=this.animNodes[i].increments;
-
             var status=new this.Status(node);
 
-            if(statuses>0){
-                var preStatus=statuses[statuses.length-1];
+            if(this.animNodes[i].statuses.length>0){
+                var preStatus=this.animNodes[i].statuses[this.animNodes[i].statuses.length-1];
                 var increment={};
                 for(var propName in preStatus){
                     var preProp=preStatus[propName];
@@ -31,13 +28,13 @@ cc.Class({
                         increment[propName]=propName==='spriteFrame'?prop:prop-preProp;
                     }
                 }
-                increments.push(increment);
+                this.animNodes[i].increments.push(increment);
             }
 
             if(this.isFirst){
                 this.isFirst=false;
             }else
-                statuses.push(status);
+                this.animNodes[i].statuses.push(status);
         }
         if(this.last){
             this.recordAble=false;
@@ -50,18 +47,19 @@ cc.Class({
         }
     },
     startRecord:function(clip,autoRecorder){
-        this.clipName=clip.name;
+        var clipName=clip.name;
         this.recordAble=true;
         this.last=false;
         this.autoRecorder=autoRecorder;
-        this.animNodes=[new AnimNode(this.node)];
+        this.animNodes=[new AnimNode(this.node,'/')];
 
-        var paths=clip.curveData;
+        var paths=clip.curveData.paths;
         if(paths){
             for(var propName in paths){
                 var prop=paths[propName];
                 var node=cc.find(propName,this.node);
-                this.animNodes.push(new AnimNode(node));
+                if(node)
+                    this.animNodes.push(new AnimNode(node,propName));
             }
         }
 
@@ -72,8 +70,8 @@ cc.Class({
     last:false,
 });
 
-function AnimNode(node){
-    this.name=node.name;
+function AnimNode(node,nodePath){
+    this.name=nodePath;
     this.node=node;
     this.statuses=[];
     this.increments=[];

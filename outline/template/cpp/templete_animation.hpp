@@ -12,7 +12,12 @@ namespace Anims {
 			frameIndex = 0;
 			played = false;
 		}
+/*children*/
 	public:
+	    virtual void play(Node *pNode, const std::string &key,bool loop){
+/*childreninit*/
+			AnimBase::play(pNode,key,loop);
+		}
 		static /*Anim*/* create() {
 			auto pAnim = new /*Anim*/;
 			return pAnim;

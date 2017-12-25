@@ -114,11 +114,13 @@ static auto createNode = [](Creator *creator, Node *parent)->Node* {
 struct AnimBase {
 protected:
 	//减少因float转int截断产生的偏差
-	float offset;
+	map<Node*,float> offsets;
 	void addOpacity(Node* node, float addOpacity){
-		addOpacity += offset;
+		if (!offsets.count(node))
+			offsets[node] = 0;
+		addOpacity += offsets[node];
 		int trueAdd = (int)addOpacity;
-		offset = addOpacity - trueAdd;
+		offsets[node] = addOpacity - trueAdd;
 
 		int opacity = node->getOpacity();
 		int newOpacity = opacity + trueAdd;
@@ -127,6 +129,33 @@ protected:
 		else if (newOpacity < 0)
 			newOpacity = 0;
 		node->setOpacity(newOpacity);
+	}
+
+
+	Node *getChild(Node *parent,string path){
+		Node *child = NULL;
+		vector<string> names;
+		string name = path;
+		int index = name.find("/");
+		while (name != ""&&index != 0) {
+			if (index > 0) {
+				names.push_back(name.substr(0, index));
+				name = name.substr(index + 1);
+				index = name.find("/");
+			}
+			else {
+				names.push_back(name);
+				break;
+			}
+		}
+		if (names.size() > 0) {
+			child = parent;
+			for (int i = 0; i < names.size(); i++) {
+				if (child)
+					child = child->getChildByName(names[i]);
+			}
+		}
+		return child;
 	}
 public:
 	//播放到的帧数
@@ -143,11 +172,13 @@ public:
 	void pause() {
 		node->unschedule(key);
 	}
+
 	void stop() {
 		node->unschedule(key);
 		delete this;
 	}
-	void play(Node *pNode, const std::string &key,bool loop) {
+
+	virtual void play(Node *pNode, const std::string &key,bool loop) {
 		this->offset = 0;
 		this->node = pNode;
 		this->key = key;
@@ -160,15 +191,10 @@ public:
 		}
 	}
 	void play(Node *pNode, const std::string &key,bool loop, std::function<void(string)> callback) {
-		this->node = pNode;
-		this->key = key;
-		this->frameIndex = 0;
-		this->loop = loop;
 		if (pNode) {
-			played = true;
 			this->callback = callback;
-			resume();
 		}
+		play(pNode, key, loop);
 	}
 	virtual void resume() = 0;
 };
