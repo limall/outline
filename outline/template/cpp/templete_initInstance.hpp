@@ -21,5 +21,6 @@ outline_/*PnodeName*/->type.value=
 outline_/*PnodeName*/->colorR=
 outline_/*PnodeName*/->colorG=
 outline_/*PnodeName*/->colorB=
+outline_/*PnodeName*/->name=
 
     

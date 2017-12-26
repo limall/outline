@@ -69,7 +69,7 @@ function buildContent(nodeDataObj){
 
   //根节点的定义
   var para={name:node_outline.name};
-  var attrNames=['x','y','width','height','anchorX','anchorY','scaleX','scaleY','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB'];
+  var attrNames=['x','y','width','height','anchorX','anchorY','scaleX','scaleY','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB','name'];
   function isAttrName(attrName){
     for(var i=0;i<attrNames.length;i++)
         if(attrNames[i]===attrName)
@@ -79,6 +79,13 @@ function buildContent(nodeDataObj){
   var attrs=[];
   for(var attrName in node_outline){
     if(isAttrName(attrName))
+      if(attrName==='name')
+        attrs.push({
+          name:attrName,
+          value:'"'+node_outline.name+'"',
+          nodeName:node_outline.name,
+        });
+      else
         attrs.push({
           name:attrName,
           value:node_outline[attrName],
@@ -97,8 +104,17 @@ function buildContent(nodeDataObj){
       var obj=sorted[i][j];
       var para={name:obj.name,parent:getPName(obj.parent),PName:getPName(obj)};       
       var attrs=[];
-      for(var attrName in obj){
-        if(isAttrName(attrName))
+      for(var attrName in o
+        
+        bj){
+        if(attrName==='name')
+          attrs.push({
+            name:attrName,
+            value:'"'+obj.name+'"',
+            nodeName:getPName(obj),
+          });
+        else
+          if(isAttrName(attrName))
             attrs.push({
               name:attrName,
               value:obj[attrName],

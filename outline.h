@@ -20,6 +20,7 @@ struct Outline {
 	Node *lastNode;
 
 	//模板信息
+	string name;
 	float x = 0;
 	float y = 0;
 	float width = 0;
@@ -51,6 +52,7 @@ struct Outline {
 	//创造node，包括子node
 	Node *create(Node *parent) {
 		auto node = lastNode = createNode(pOit, parent);
+		node->setName(name);
 		reset(node);
 		for (int i = 0; i < children.size(); i++) {
 			children[i]->create(node);

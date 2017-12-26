@@ -34,9 +34,10 @@ function addSpriteFrame(file){
     return p1+p2+p3+p4;
 }
   
-function addSprite(file){
-    var p1='auto sprite=dynamic_cast<Sprite*>(that->node);';
-    var p2='sprite->setSpriteFrame(frame["'+file+'"]);';
+function addSprite(file,varName){
+    var p0='if(that->'+varName+'){\n'
+    var p1='auto sprite=dynamic_cast<Sprite*>(that->'+varName+');';
+    var p2='sprite->setSpriteFrame(frame["'+file+'"]);\n}';
     return p1+p2;
 }
   
@@ -82,34 +83,35 @@ module.exports.write=function(anims,dst){
         var spriteFrameInit='';
         var content='';
 
-        animNodes.forEach(function(animNode){
-            var increments=animNode.increments;
-            var varName=animNode.name.replace(/\//g,'_');
-            for(var j=0;j<increments.length;j++){
-                var increment=increments[j];
-                var oneFrameContent='';
+        var frameLength=animNodes[0].increments.length;
+
+        for(var k=0;k<frameLength;k++){
+            var oneFrameContent='';
+            animNodes.forEach(function(animNode){
+                var varName=animNode.name.replace(/\//g,'_');
+                var increment=animNode.increments[k];
                 for(var name in increment){
                     if(name==='spriteFrame'){
                         spriteFrameInit+=addSpriteFrame(increment[name]);
-                        oneFrameContent+=addSprite(increment[name]);
+                        oneFrameContent+=addSprite(increment[name],varName);
                     }
                     else if(name==='x')
-                        oneFrameContent+=addX(increment[name]);
+                        oneFrameContent+=addX(increment[name],varName);
                     else if(name==='y')
-                        oneFrameContent+=addY(increment[name]);
+                        oneFrameContent+=addY(increment[name],varName);
                     else if(name==='scaleX')
-                        oneFrameContent+=addScaleX(increment[name]);
+                        oneFrameContent+=addScaleX(increment[name],varName);
                     else if(name==='scaleY')
-                        oneFrameContent+=addScaleY(increment[name]);
+                        oneFrameContent+=addScaleY(increment[name],varName);
                     else if(name==='rotation')
-                        oneFrameContent+=addRotation(increment[name]);
+                        oneFrameContent+=addRotation(increment[name],varName);
                     else if(name==='opacity')
-                        oneFrameContent+=addOpacity(increment[name]);
+                        oneFrameContent+=addOpacity(increment[name],varName);
                 }
-                if(oneFrameContent);
-                    content+=addFrame(j,oneFrameContent);
-            }
-        });
+            });
+            if(oneFrameContent);
+                content+=addFrame(k,oneFrameContent);
+        }
 
         text=text.replace(/\/\*Anim\*\//g,structName);
         text=text.replace(/\/\*define_h\*\//g,structName.toUpperCase()+'_H');

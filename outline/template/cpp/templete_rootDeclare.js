@@ -13,7 +13,7 @@ function getInit(name){
 }
 
 var attrStr=textOrigin.substring(textOrigin.indexOf(sign)+sign.length);
-var attrNames=['x','y','width','height','anchorX','anchorY','scaleX','scaleY','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB'];
+var attrNames=['x','y','width','height','anchorX','anchorY','scaleX','scaleY','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB','name'];
 var attrs={};
 var start=attrStr.indexOf('outline_');
 var nameIndex=0;

@@ -21,3 +21,4 @@
     outline_/*nodeName*/->colorR=
     outline_/*nodeName*/->colorG=
     outline_/*nodeName*/->colorB=
+    outline_/*nodeName*/->name=
