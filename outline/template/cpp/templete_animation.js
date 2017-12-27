@@ -3,27 +3,27 @@ var fs=require('fs');
 var templete_origin_path=path+'templete_animation.hpp';               //模板文件的路径
 
 function addX(x,varName){
-    return 'if(that->'+varName+')that->'+varName+'->setPositionX(node->getPositionX()+'+x+');';
+    return 'that->'+varName+'->setPositionX(node->getPositionX()+'+x+');';
 }
   
 function addY(y,varName){
-    return 'if(that->'+varName+')that->'+varName+'->setPositionY(node->getPositionY()+'+y+');';
+    return 'that->'+varName+'->setPositionY(node->getPositionY()+'+y+');';
 }
   
 function addScaleX(scaleX,varName){
-    return 'if(that->'+varName+')that->'+varName+'->setScaleX(node->getScaleX()+'+scaleX+');';
+    return 'that->'+varName+'->setScaleX(node->getScaleX()+'+scaleX+');';
 }
   
 function addScaleY(scaleY,varName){
-    return 'if(that->'+varName+')that->'+varName+'->setScaleY(node->getScaleY()+'+scaleY+');';
+    return 'that->'+varName+'->setScaleY(node->getScaleY()+'+scaleY+');';
 }
   
 function addRotation(rotation,varName){
-    return 'if(that->'+varName+')that->'+varName+'->setRotation(node->getRotation()+'+rotation+');';
+    return 'that->'+varName+'->setRotation(node->getRotation()+'+rotation+');';
 }
   
 function addOpacity(opacity,varName){
-    return 'if(that->'+varName+')addOpacity(that->'+varName+','+opacity+');';
+    return 'addOpacity(that->'+varName+','+opacity+');';
 }
   
 function addSpriteFrame(file){
@@ -42,7 +42,7 @@ function addSprite(file,varName){
 }
   
 function addFrame(frameIndex,content){
-    return '                case '+frameIndex+':'+content+'break;\n';
+    return '                case '+frameIndex+':'+content+'                        break;\n';
 }
 
 module.exports.write=function(anims,dst){
@@ -63,7 +63,7 @@ module.exports.write=function(anims,dst){
         childNames.forEach(function(childName){
             var varName=childName.replace(/\//g,'_');
             childrenTxt+='        Node* '+varName+';\n';
-            childrenInitTxt+='            '+varName+'=getChild(pNode,'+childName+');\n';
+            childrenInitTxt+='            '+varName+'=getChild(pNode,"'+childName+'");\n';
         });
         var text=textOrigin.replace(/\/\*children\*\//,childrenTxt);
         text=text.replace(/\/\*childreninit\*\//,childrenInitTxt);
@@ -87,26 +87,52 @@ module.exports.write=function(anims,dst){
 
         for(var k=0;k<frameLength;k++){
             var oneFrameContent='';
+            var haveNode=false;
             animNodes.forEach(function(animNode){
-                var varName=animNode.name.replace(/\//g,'_');
+                var varName;
+                if(animNode.name==='/')
+                    varName='node';
+                else
+                    varName=animNode.name.replace(/\//g,'_');
+
                 var increment=animNode.increments[k];
+                var haveprop=false;
+                var oneNodeContent='';
                 for(var name in increment){
                     if(name==='spriteFrame'){
                         spriteFrameInit+=addSpriteFrame(increment[name]);
-                        oneFrameContent+=addSprite(increment[name],varName);
+                        oneNodeContent+=addSprite(increment[name],varName);
+                        haveprop=true;
                     }
-                    else if(name==='x')
-                        oneFrameContent+=addX(increment[name],varName);
-                    else if(name==='y')
-                        oneFrameContent+=addY(increment[name],varName);
-                    else if(name==='scaleX')
-                        oneFrameContent+=addScaleX(increment[name],varName);
-                    else if(name==='scaleY')
-                        oneFrameContent+=addScaleY(increment[name],varName);
-                    else if(name==='rotation')
-                        oneFrameContent+=addRotation(increment[name],varName);
-                    else if(name==='opacity')
-                        oneFrameContent+=addOpacity(increment[name],varName);
+                    else if(name==='x'){
+                        oneNodeContent+=addX(increment[name],varName);
+                        haveprop=true;
+                    }
+                    else if(name==='y'){
+                        oneNodeContent+=addY(increment[name],varName);
+                        haveprop=true;
+                    } 
+                    else if(name==='scaleX'){
+                        oneNodeContent+=addScaleX(increment[name],varName);
+                        haveprop=true;
+                    }
+                    else if(name==='scaleY'){
+                        oneNodeContent+=addScaleY(increment[name],varName);
+                        haveprop=true;
+                    }
+                    else if(name==='rotation'){
+                        oneNodeContent+=addRotation(increment[name],varName);
+                        haveprop=true;
+                    }
+                    else if(name==='opacity'){
+                        oneNodeContent+=addOpacity(increment[name],varName);
+                        haveprop=true;
+                    }
+                }
+                var empty=haveNode?'                        ':'';
+                if(haveprop){
+                    oneFrameContent+=empty+'if(that->'+varName+'){'+oneNodeContent+'}\n';
+                    haveNode=true;
                 }
             });
             if(oneFrameContent);
@@ -117,7 +143,8 @@ module.exports.write=function(anims,dst){
         text=text.replace(/\/\*define_h\*\//g,structName.toUpperCase()+'_H');
         text=text.replace(/\/\*frame\*\//,spriteFrameInit);
         text=text.replace(/\/\*content\*\//,content);
-        text=text.replace(/\/\*max\*\//,increments.length);
+        text=text.replace(/\/\*max\*\//,frameLength);
+
         fs.writeFile(filepath,text,function(err){
             if(err)
                 Editor.log(err);

@@ -29,10 +29,10 @@ cc.Class({
             var animation=node.getComponent('AnimationRecorder');
             if(animation){
                 var clips=animation.getClips();
-                for(var i=0;i<clips.length;i++){
-                    var clipName=clips[i].name;
-                    that.anims.push(new Anim(node,clipName,clips[i]));
-                }
+                clips.forEach(function(clip){
+                    var clipName=clip.name;
+                    that.anims.push(new Anim(node,clipName,clip));
+                });
             }
         }
 
@@ -57,7 +57,7 @@ cc.Class({
             obj.anims=this.anims;
             obj.dst=this.dst_path;
             cc.log(JSON.stringify(obj));
-            //ws.send(JSON.stringify(obj));
+            ws.send(JSON.stringify(obj));
         }
     },
 });

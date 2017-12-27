@@ -104,9 +104,7 @@ function buildContent(nodeDataObj){
       var obj=sorted[i][j];
       var para={name:obj.name,parent:getPName(obj.parent),PName:getPName(obj)};       
       var attrs=[];
-      for(var attrName in o
-        
-        bj){
+      for(var attrName in obj){
         if(attrName==='name')
           attrs.push({
             name:attrName,
