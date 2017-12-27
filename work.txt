@@ -1,4 +1,4 @@
-﻿1、导出lua。export rule导出world pos 还是node pos的功能
+﻿1、导出lua。导出资源
 2、析构函数（程序结束时会自动清理，所以可先不急着做）
 4、添加key
 5、支持子node的animation
