@@ -109,7 +109,7 @@ function buildContent(nodeDataObj){
           attrs.push({
             name:attrName,
             value:'"'+obj.name+'"',
-            nodeName:getPName(obj),
+            PnodeName:getPName(obj),
           });
         else
           if(isAttrName(attrName))

@@ -24,6 +24,7 @@ namespace Anims {
 		}
 		void resume() {
 			auto that = this;
+/*initOffset*/
 			std::map<string, SpriteFrame*> frame;
 			Sprite* temp;
     /*frame*/

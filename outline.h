@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include <map>
+
 using namespace cocos2d;
 using namespace std;
 
@@ -118,8 +119,6 @@ protected:
 	//减少因float转int截断产生的偏差
 	map<Node*,float> offsets;
 	void addOpacity(Node* node, float addOpacity){
-		if (!offsets.count(node))
-			offsets[node] = 0;
 		addOpacity += offsets[node];
 		int trueAdd = (int)addOpacity;
 		offsets[node] = addOpacity - trueAdd;
@@ -181,7 +180,6 @@ public:
 	}
 
 	virtual void play(Node *pNode, const std::string &key,bool loop) {
-		this->offset = 0;
 		this->node = pNode;
 		this->key = key;
 		this->frameIndex = 0;

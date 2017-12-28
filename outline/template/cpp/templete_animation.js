@@ -3,23 +3,23 @@ var fs=require('fs');
 var templete_origin_path=path+'templete_animation.hpp';               //模板文件的路径
 
 function addX(x,varName){
-    return 'that->'+varName+'->setPositionX(node->getPositionX()+'+x+');';
+    return 'that->'+varName+'->setPositionX(that->'+varName+'->getPositionX()+'+x+');';
 }
   
 function addY(y,varName){
-    return 'that->'+varName+'->setPositionY(node->getPositionY()+'+y+');';
+    return 'that->'+varName+'->setPositionY(that->'+varName+'->getPositionY()+'+y+');';
 }
   
 function addScaleX(scaleX,varName){
-    return 'that->'+varName+'->setScaleX(node->getScaleX()+'+scaleX+');';
+    return 'that->'+varName+'->setScaleX(that->'+varName+'->getScaleX()+'+scaleX+');';
 }
   
 function addScaleY(scaleY,varName){
-    return 'that->'+varName+'->setScaleY(node->getScaleY()+'+scaleY+');';
+    return 'that->'+varName+'->setScaleY(that->'+varName+'->getScaleY()+'+scaleY+');';
 }
   
 function addRotation(rotation,varName){
-    return 'that->'+varName+'->setRotation(node->getRotation()+'+rotation+');';
+    return 'that->'+varName+'->setRotation(that->'+varName+'->getRotation()+'+rotation+');';
 }
   
 function addOpacity(opacity,varName){
@@ -60,14 +60,16 @@ module.exports.write=function(anims,dst){
         });
         var childrenTxt='';
         var childrenInitTxt='';
+        var offsetInit='';
         childNames.forEach(function(childName){
             var varName=childName.replace(/\//g,'_');
+            offsetInit+='            offsets['+varName+']=0;\n';
             childrenTxt+='        Node* '+varName+';\n';
             childrenInitTxt+='            '+varName+'=getChild(pNode,"'+childName+'");\n';
         });
         var text=textOrigin.replace(/\/\*children\*\//,childrenTxt);
         text=text.replace(/\/\*childreninit\*\//,childrenInitTxt);
-
+        text=text.replace(/\/\*initOffset\*\//,offsetInit);
         var filepath;
         if(dst==='out'){
             filepath=Editor.projectPath+'/out';
