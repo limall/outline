@@ -7,3 +7,4 @@ ExtraData设计思路：
 
 任意组件的以'o_'为前缀的属性都能保存到这个组件的map中，另外要特殊对待一下SpriteFrame类型的属性
 使用时可以自定义一个extraStatus类型来记录node的一些状态，然后那些其他值可以设为null，这样就不会导出来
+通过outline->set(node,x,y...);函数减少生成带码的长度
