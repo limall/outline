@@ -1,6 +1,9 @@
 //根据值推断类型，目前支持int float string bool类型
 var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
 function getType(value){
+    if(value instanceof cc.Vec2)
+        return 'Vec2';
+
     var valueStr=''+value;
     if(valueStr==='true'||valueStr==='false')
         return 'bool'
@@ -38,6 +41,8 @@ function getType(value){
 function ExtraData(name,value,type){
     if(type==='string')
         value='"'+value+'"';
+    if(type==='Vec2')
+        value='Vec2'+value;
     var obj={
         name:name,
         value:value,
