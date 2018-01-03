@@ -14,8 +14,11 @@ namespace Anims {
 		}
 /*children*/
 	public:
-	    virtual void play(Node *pNode, const std::string &key,bool loop){
+	    virtual void play(Node *pNode, const std::string &key,bool loop,std::function<void(string)> callback){
 /*childreninit*/
+            if (pNode) {
+			    this->callback = callback;
+		    }
 			AnimBase::play(pNode,key,loop);
 		}
 		static /*Anim*/* create() {

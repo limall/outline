@@ -179,7 +179,7 @@ public:
 		delete this;
 	}
 
-	virtual void play(Node *pNode, const std::string &key,bool loop) {
+	void play(Node *pNode, const std::string &key,bool loop) {
 		this->node = pNode;
 		this->key = key;
 		this->frameIndex = 0;
@@ -190,7 +190,7 @@ public:
 			resume();
 		}
 	}
-	void play(Node *pNode, const std::string &key,bool loop, std::function<void(string)> callback) {
+	virtual void play(Node *pNode, const std::string &key,bool loop, std::function<void(string)> callback) {
 		if (pNode) {
 			this->callback = callback;
 		}
