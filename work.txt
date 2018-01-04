@@ -1,5 +1,6 @@
-﻿1、导出lua。导出资源，添加set ExportRule批量设置功能
-2、析构函数（程序结束时会自动清理，所以可先不急着做）
+1、Outline.parse(string outlineStr);Outline.stringify(string outline);
+2、兼容cocos2d-js。导出资源，添加set ExportRule批量设置功能
+3、析构函数（程序结束时会自动清理，所以可先不急着做）
 4、添加key
 5、支持子node的animation
 添加export rule的备份还原机制。
