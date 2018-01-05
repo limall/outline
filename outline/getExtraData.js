@@ -55,8 +55,8 @@ function ExtraData(name,value,type){
 module.exports=function(node){
     var components=node._components;
     var extradata={};
-    var sprite=node.getComponent(cc.Sprite);
     var mapAble='';
+    var sprite=node.getComponent(cc.Sprite);
     if(sprite){
         var fullPath=sprite.spriteFrame._textureFilename;
         extradata.isSprite=true;
@@ -75,6 +75,29 @@ module.exports=function(node){
             mapAble+='insetRight:'+insetRight+'%o__%';
         }
     }
+
+    var partical=node.getComponent(cc.ParticleSystem);
+    if(partical){
+        mapAble+='particleSystem:true%o__%';
+        mapAble+='file:'+partical.file.substring(partical.file.indexOf('/assets/')+8)+'%o__%';
+        if(partical.custom){
+            mapAble+='custom:true%o__%';
+            var props=['duration','emissionRate','life','totalParticles','startColor','startColorVar','endColor','endColorVar','angle','startSize','endSize','startSpin','endSpin','angleVar','startSizeVar','endSizeVar','startSpinVar','endSpinVar','lifeVar','positionType','emitterMode','speed','speedVar','tangentialAccel','tangentialAccelVar','radialAccel','radialAccelVar','rotationIsDir','startRadius','startRadiusVar','endRadius','endRadiusVar','rotatePerS','rotatePerSVar'];
+            props.forEach(function(propName){
+                mapAble+=propName+':'+partical[propName]+'%o__%';
+            });
+            if(partical.texture!=''){
+                mapAble+='texture:'+partical.texture.substring(fullPath.indexOf('/assets/')+8)+'%o__%';
+            }
+            mapAble+='gravityX:'+partical.gravity.x+'%o__%';
+            mapAble+='gravityY:'+partical.gravity.y+'%o__%';
+            mapAble+='sourcePosY:'+partical.sourcePos.y+'%o__%';
+            mapAble+='posVarX:'+partical.posVar.x+'%o__%';
+            mapAble+='sourcePosX:'+partical.sourcePos.x+'%o__%';
+            mapAble+='posVarY:'+partical.posVar.y+'%o__%';
+        }
+    }
+
     var label=node.getComponent(cc.Label);
     if(label){
         extradata.isLabel=true;
