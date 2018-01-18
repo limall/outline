@@ -1,5 +1,5 @@
 //把所有node整理进有层次的二维数组
-module.exports.sort=(obj)=>{
+function sort(obj){
     var pre=[obj];
     var sorted=[pre];
     while(pre.length>0){
@@ -31,6 +31,19 @@ module.exports.sort=(obj)=>{
     }
     return sorted;
 };
+
+module.exports.sort=sort;
+
+module.exports.getArray=function(obj){
+    var sorted=sort(obj);
+    var array=[];
+    sorted.forEach(function(outlines){
+        outlines.forEach(function(outline){
+            array.push(outline);
+        });
+    });
+    return array;
+}
 
 module.exports.bottomUp=(sorted)=>{
     var newSorted=[];

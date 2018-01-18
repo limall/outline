@@ -37,7 +37,10 @@ var Outline=function(
     this.node=node;
     if(node){
         node.outline=this;
-        this.extraData=getExtraData(node);
+        var extraData=getExtraData(node);
+        for(var propName in extraData){
+            this[propName]=extraData[propName];
+        }
     }
     if(name)
         this.name=name;

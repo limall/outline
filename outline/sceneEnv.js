@@ -40,7 +40,8 @@ module.exports = {
                     nodeWalker.init(canvas);
                     var obj=new Object();
                     obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.excludeNodes,exportRule.use_world_position);
-                    obj.dst_hppPath=exportRule.dst_hppPath;
+                    obj.dstPath=exportRule.dstPath;
+                    obj.language=exportRule.language;
                     nodes.push(obj);
                 }
             }

@@ -116,6 +116,7 @@ module.exports=function(node){
             return name;
         }
     }
+    extradata.components={};
     for(var i=0;i<components.length;i++){
         var component=components[i];
         var componentName=getComponentName(component.name);
@@ -143,9 +144,9 @@ module.exports=function(node){
             }
         }
         if(props.length>0)
-            extradata[componentName]=props;
+            extradata.components[componentName]=props;
     }
     if(mapAble!='')
-        extradata.mapAble=mapAble;
+        extradata.mapAble='"'+mapAble+'"';
     return extradata;
 }
