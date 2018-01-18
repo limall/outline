@@ -78,7 +78,7 @@ function Outline.new(nodeInfo)
 
     if(nodeInfo) then
         for k,v in pairs(nodeInfo)do
-            obj[k]=v
+            outline[k]=v
         end
     end
 

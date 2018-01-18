@@ -11,7 +11,7 @@ module.exports = {
                 var obj={};
                 obj.ruleName=temp[i].ruleName;
                 obj.src=temp[i].src_Node.name;
-                obj.dst=temp[i].dst_hppPath;
+                obj.dst=temp[i].dstPath;
                 exportRules.push(obj);
             }
             var data=JSON.stringify(exportRules);
