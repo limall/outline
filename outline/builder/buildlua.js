@@ -1,6 +1,7 @@
 var outlineBuilder=require('./lua/buildOutline');
 var creatorBuilder=require('./lua/buildCreator');
 var relationshipBuilder=require('./lua/buildRelationship');
+var animationBuilder=require('./lua/buildAnimation');
 var writeFile=require('./writeFile');
 var sort=require('./sort');
 var util=require('./util');
@@ -12,10 +13,10 @@ var buildCreators=creatorBuilder.buildCreators;
 var buildCreatorRelationship=relationshipBuilder.buildCreatorRelationship;
 var buildOutlineRelationship=relationshipBuilder.buildOutlineRelationship;
 
-luaBuilder.build=function(nodeDataObj,dstPath){
+luaBuilder.buildNode=function(nodeDataObj,dstPath){
   var outlines=sort.getArray(nodeDataObj);
 
-  var luaCode='';
+  var luaCode='local Base=require"outline.outline"\n';
 
   var outlineCode='--outline\n';
   outlineCode+=buildOutlines(outlines);

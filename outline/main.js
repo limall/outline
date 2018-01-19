@@ -1,4 +1,4 @@
-var luaBuilder=require('./template/buildlua');
+var luaBuilder=require('./builder/buildlua');
 
 var LANGUAGE_CPP=1;
 var LANGUAGE_LUA=2;
@@ -57,6 +57,6 @@ module.exports = {
  */
 function exportNode(nodeDataObj,dstPath,language){
   if(language===LANGUAGE_LUA){
-    luaBuilder.build(nodeDataObj,dstPath);
+    luaBuilder.buildNode(nodeDataObj,dstPath);
   }
 }

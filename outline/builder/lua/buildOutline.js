@@ -35,7 +35,7 @@ function isRightProp(propName){
  */
 function buildOneOutline(outline){
     var pname=util.getPName(outline);
-    var luaCode='local outline_'+pname+'=O.Outline.new({\n';
+    var luaCode='local outline_'+pname+'=Base.createOutline({\n';
     for(var propName in outline){
         if(isRightProp(propName)&&luaDefault[propName]!==outline[propName]){
             var value=outline[propName];
