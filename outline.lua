@@ -118,6 +118,7 @@ local function getIntPart(x)
     return x
 end
 
+--private
 local function addOpacity(self,node,opacityi,key)
     opacityi=opacityi+self.offsets_opacity[key]
     local trueAdd=getIntPart(opacityi)
@@ -134,6 +135,7 @@ local function addOpacity(self,node,opacityi,key)
     node:setOpacity(newOpacity)
 end
 
+--private
 local function getChild(parent,...)
     local child=parent
     for index,name in ipairs{...}do
@@ -151,6 +153,7 @@ local function stop(self)
     self=nil
 end
 
+--private
 local function play(self,node,loop,callback,key)
     self.callback=callback
     self.node=node
@@ -160,6 +163,20 @@ local function play(self,node,loop,callback,key)
     if(node)then
         self.played=true
         self:resume()
+    end
+end
+
+local function whenFrameEnd(self)
+    if(self.loop)then
+        self.frameIndex=0
+    else
+        self:pause()
+    end
+    if(self.callback)then
+        self.callback(self.key)
+        if(not self.loop)then
+            self.callback=nil
+        end
     end
 end
 
@@ -175,6 +192,7 @@ exports.createAnim=function()
 
     anim.addOpacity=addOpacity
     anim.getChild=getChild
+    anim.whenFrameEnd=whenFrameEnd;
     anim.pause=pause
     anim.play=play
     anim.stop=stop

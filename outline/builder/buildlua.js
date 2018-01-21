@@ -1,7 +1,7 @@
 var outlineBuilder=require('./lua/buildOutline');
 var creatorBuilder=require('./lua/buildCreator');
 var relationshipBuilder=require('./lua/buildRelationship');
-var animationBuilder=require('./lua/buildAnimation');
+var buildAnimation=require('./lua/buildAnimation');
 var writeFile=require('./writeFile');
 var sort=require('./sort');
 var util=require('./util');
@@ -43,6 +43,13 @@ luaBuilder.buildNode=function(nodeDataObj,dstPath){
 
   writeFile(luaCode,dstPath,rootName,'lua');
 
+}
+
+luaBuilder.buildAnimations=function(anims,dst){
+  anims.forEach(function(anim){
+    var luaCode=buildAnimation(anim);
+    writeFile(luaCode,dst,anim.clipName,'lua');
+  });
 }
 
 module.exports=luaBuilder;

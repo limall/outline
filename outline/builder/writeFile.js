@@ -1,12 +1,12 @@
 var fs=require('fs');
 
-module.exports=function(content,path,nodeName,suffix){
+module.exports=function(content,path,name,suffix,isAnimation){
     var filepath;
     if(path==='out'){
         filepath=Editor.projectPath+'/out';
         if(!fs.existsSync(filepath))
             fs.mkdirSync(filepath);
-        filepath+='/'+nodeName+'.'+suffix;
+        filepath+='/'+name+'.'+suffix;
     }else if(path===''){
         Editor.log('please input your dst hpp path');
     }else{
@@ -17,7 +17,10 @@ module.exports=function(content,path,nodeName,suffix){
             if(err){
                 Editor.error('dst hpp path is error\n'+err);
             }else{
-                Editor.success('export node '+nodeName+' successfully');
+                if(isAnimation)
+                    Editor.success('export animation '+name+' successfully');
+                else
+                    Editor.success('export node '+name+' successfully');
             }
         });
     }

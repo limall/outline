@@ -11,12 +11,18 @@ ws.onerror = function (event) {
 ws.onclose = function (event) {
     console.log("WebSocket instance closed.");
 };
-
+var LanguageType=cc.Enum({
+    cpp:1,
+    lua:2
+});
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        dst_path:'',
+        language:{
+            default:LanguageType.cpp,
+            type:LanguageType
+        },
         exportNodes:[cc.Node],
     },
 
@@ -55,7 +61,7 @@ cc.Class({
         }else if(this.anims.length>0){
             var obj={};
             obj.anims=this.anims;
-            obj.dst=this.dst_path;
+            obj.language=this.language;
             cc.log(JSON.stringify(obj));
             ws.send(JSON.stringify(obj));
         }

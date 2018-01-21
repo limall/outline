@@ -12,7 +12,8 @@ module.exports = {
       ws.on('message',(msg)=>{
         if(preMsg!=msg){
           var obj=JSON.parse(msg);
-          animationBuilder.write(obj.anims,obj.dst);
+          if(obj.language=LANGUAGE_LUA)
+              luaBuilder.buildAnimations(obj.anims,'out');
           preMsg=msg;
         }
       });
