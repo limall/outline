@@ -16,7 +16,7 @@ var buildOutlineRelationship=relationshipBuilder.buildOutlineRelationship;
 luaBuilder.buildNode=function(nodeDataObj,dstPath){
   var outlines=sort.getArray(nodeDataObj);
 
-  var luaCode='local Base=require"outline.outline"\n';
+  var luaCode='local Base=require "outline.outline"\n';
 
   var outlineCode='--outline\n';
   outlineCode+=buildOutlines(outlines);

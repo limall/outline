@@ -103,68 +103,6 @@ exports.createCreator=function(outline)
     return creator
 end
 
---function addX(node,xi)
---    node:setPositionX(node:getPositionX()+xi)
---end
-
---function addY(node,yi)
---    node:setPositionY(node:getPositionY()+yi)
---end
-
---function addScaleX(node,scaleXi)
---    node:setScaleX(node:getScaleX()+scaleXi)
---end
-
---function addScaleY(node,scaleYi)
---    node:setScaleY(node:getScaleY()+scaleYi)
---end
-
---function addWidth(node,widthi)
---    node:setWidth(node:getWidth()+widthi)
---end
-
---function addHeight(node,heighti)
---    node:setHeight(node:getHeight()+heighti)
---end
-
---function addAnchorX(node,anchorXi)
---    local point=node:getAnchorPoint()
---    point.x=point.x+anchorXi
---    node:setAnchorPoint(point)
---end
-
---function addAnchorY(node,anchorYi)
---    local point=node:getAnchorPoint()
---    point.y=point.y+anchorYi
---    node:setAnchorPoint(point)
---end
-
---function addRotation(node,rotationi)
---    node:setRotation(node:getRotation()+rotationi)
---end
-
---function addOpacity(node,opacityi)
---    node:setOpacity(node:getOpacity()+opacityi)
---end
-
---function addZOrder(node,zOrderi)
---    node:setZOrder(node:getLocalZOrder()+zOrderi)
---end
-
---function addColor(node,ri,gi,bi)
---    local color=node:getColor()
---    if(ri)then
---        color.r=color.r+ri
---    end
---    if(gi)then
---        color.g=color.g+gi
---    end
---    if(bi)then
---        color.b=color.b+bi
---    end
---    node:setColor(color)
---end
-
 Anims={}
 
 local function getIntPart(x)
@@ -180,8 +118,7 @@ local function getIntPart(x)
     return x
 end
 
-local function addOpacity(self,node,opacityi)
-    local key=node:getName()
+local function addOpacity(self,node,opacityi,key)
     opacityi=opacityi+self.offsets_opacity[key]
     local trueAdd=getIntPart(opacityi)
 
@@ -201,9 +138,6 @@ local function getChild(parent,...)
     local child=parent
     for index,name in ipairs{...}do
         child=child:getChildByName(name)
-    end
-    if(child==parent)then
-        child=nil
     end
     return child
 end
