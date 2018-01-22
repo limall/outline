@@ -3,7 +3,6 @@ cc.Class({
     properties: {
     },
     onLoad:function(){
-        this.isFirst=true;
         this.Status=require('status');
         var that=this;
         this.on('finished',function(){
@@ -30,12 +29,10 @@ cc.Class({
                 }
                 this.animNodes[i].increments.push(increment);
             }
-
-            if(this.isFirst){
-                this.isFirst=false;
-            }else
+            if(this.frameIndex!==0)
                 this.animNodes[i].statuses.push(status);
         }
+        this.frameIndex++;
         if(this.last){
             this.recordAble=false;
             for(var i=0;i<this.animNodes.length;i++){
@@ -52,6 +49,7 @@ cc.Class({
         this.last=false;
         this.autoRecorder=autoRecorder;
         this.animNodes=[new AnimNode(this.node,'/')];
+        this.frameIndex=0;
 
         var paths=clip.curveData.paths;
         if(paths){
@@ -68,6 +66,7 @@ cc.Class({
     autoRecorder:null,
     recordAble:false,
     last:false,
+    frameIndex:0, 
 });
 
 function AnimNode(node,nodePath){

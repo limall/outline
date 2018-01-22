@@ -15,7 +15,7 @@ module.exports=function(content,path,name,suffix,isAnimation){
     if(filepath){
         fs.writeFile(filepath,content,(err)=>{
             if(err){
-                Editor.error('dst hpp path is error\n'+err);
+                Editor.error('dst path is error\n'+err);
             }else{
                 if(isAnimation)
                     Editor.success('export animation '+name+' successfully');

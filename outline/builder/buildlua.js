@@ -48,7 +48,7 @@ luaBuilder.buildNode=function(nodeDataObj,dstPath){
 luaBuilder.buildAnimations=function(anims,dst){
   anims.forEach(function(anim){
     var luaCode=buildAnimation(anim);
-    writeFile(luaCode,dst,anim.clipName,'lua');
+    writeFile(luaCode,dst,anim.clipName,'lua',true);
   });
 }
 

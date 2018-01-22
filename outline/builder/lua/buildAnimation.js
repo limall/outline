@@ -166,18 +166,18 @@ function buildContent(anim){
     });
 
     for(var i=0;i<childFullNames.length;i++){
-        var childName=childFullNames[i].replace(/\//g,'_');
-        if(childFullNames[i]==='_'){
+        var childName=childFullNames[i].replace(/\//g,'.');
+        if(childName==='.'){
             childName='node';
         }else{
-            var path=childName.split('_');
+            var path=childName.split('.');
             for(var j=0;j<path.length;j++){
                 path[j]='"'+path[j]+'"';
             }
             path=path.join(',');
             luaCode+='    self.'+childName+'=self.getChild(self.node,'+path+')\n';
         }
-        luaCode+='    self.offsets_opacity["'+childName+'"]=0\n';
+        luaCode+='    self.offsets_opacity["'+childName+'"]=0\n\n';
     }
     luaCode+='    local that=self\n';
     luaCode+='    function update(dt)\n';
