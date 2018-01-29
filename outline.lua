@@ -9,7 +9,25 @@ local createNode_default=function(creator,parent)
     if(creator) then
         local outline=creator.outline
         if(outline.isSprite) then
-            node=display.newSprite(outline.imageFile)
+            local imageFile=outline.imageFile
+            local spriteFrameName=outline.spriteFrameName
+            local cache=cc.SpriteFrameCache:getInstance()
+            if(spriteFrameName)then
+                local dotIndex=string.find(imageFile,'%.')
+                local plistFile=string.sub(imageFile,0,dotIndex)..'plist'
+                if(not cache:isSpriteFramesWithFileLoaded(plistFile))then
+                    cache:addSpriteFrames(plistFile)
+                end
+                local frame=cache:getSpriteFrame(spriteFrameName)
+                if(not frame)then
+                    spriteFrameName=spriteFrameName .. '.png'
+                end
+            end
+            if(spriteFrameName)then
+                node=cc.Sprite:createWithSpriteFrameName(spriteFrameName)
+            else
+                node=display.newSprite(imageFile)
+            end
         elseif (outline.isLabel) then
             node=cc.Label:createWithSystemFont(outline.label_string, "Arial", outline.label_fontSize)
         else

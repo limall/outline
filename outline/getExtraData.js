@@ -1,3 +1,4 @@
+var getSpriteFrame=require('./getSpriteFrame');
 //根据值推断类型，目前支持int float string bool类型
 var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
 function getType(value){
@@ -57,10 +58,15 @@ module.exports=function(node){
     var extradata={};
     var mapAble='';
     var sprite=node.getComponent(cc.Sprite);
+
     if(sprite){
         var fullPath=sprite.spriteFrame._textureFilename;
         extradata.isSprite=true;
         extradata.imageFile='"'+fullPath.substring(fullPath.indexOf('/assets/')+8)+'"';
+        var spriteFrameName=getSpriteFrame(sprite);
+        if(spriteFrameName){
+            extradata.spriteFrameName='"'+spriteFrameName+'"';
+        }
 
         var insetTop=sprite.spriteFrame.insetTop;
         var insetBottom=sprite.spriteFrame.insetBottom;
