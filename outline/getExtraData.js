@@ -1,4 +1,5 @@
 var getSpriteFrame=require('./getSpriteFrame');
+var getWidget=require('./getWidget')
 //根据值推断类型，目前支持int float string bool类型
 var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
 function getType(value){
@@ -57,6 +58,11 @@ module.exports=function(node){
     var components=node._components;
     var extradata={};
     var mapAble='';
+
+    var widget=getWidget(node);
+    if(widget)
+        mapAble+=widget;
+    
     var sprite=node.getComponent(cc.Sprite);
 
     if(sprite){
