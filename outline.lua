@@ -46,6 +46,8 @@ function Outline:create( parent )
     local node=self.createNode(self.creator,parent)
     node:setName(self.name)
     self:reset(node)
+    self:applyWidget(parent,node)
+
     if(self.children)then
         for index,child in pairs(self.children)do
             child:create(node)
@@ -68,6 +70,72 @@ function Outline:reset( node )
     node:setVisible(self.visible);
     node:setLocalZOrder(self.zOrder);
     node:setColor(cc.c3b(self.colorR, self.colorG, self.colorB));
+end
+
+local UNITTYPE_PX=1
+local UNITTYPE_RATE=2
+function Outline:applyWidget(parent,child)
+    local size_parent=parent:getContentSize()--getRealSize(parent)
+    local size_child=child:getContentSize()--getRealSize(child)
+    local anchor_child=child:getAnchorPoint()
+
+    local verticalCenter=self.extraData.widget_VerticalCenter
+    local horizontalCenter=self.extraData.widget_HorizontalCenter
+
+    if(verticalCenter)then
+        local newY=0.5*size_parent.height-(0.5-anchor_child.y)*size_child.height
+        child:setPositionY(newY)
+    else
+        local bottom=self.extraData.widget_bottom
+        local top=self.extraData.widget_top
+        local unit_bottom=self.extraData.widget_unit_bottom
+        if(unit_bottom==UNITTYPE_RATE)then
+            bottom=size_parent.height*bottom
+        end
+        local unit_top=self.extraData.widget_unit_top
+        if(unit_top==UNITTYPE_RATE)then
+            top=size_parent.height*top
+        end
+
+        if(bottom and not top)then
+            child:setPositionY(bottom+size_child.height*anchor_child.y)
+        elseif(bottom and top)then
+            local newHeight=size_parent.height-top-bottom
+            if(newHeight>0)then
+                child:setPositionY(bottom+newHeight*anchor_child.y)
+                child:setScaleY(child:getScaleY()*newHeight/size_child.height)
+            end
+        elseif(not bottom and top)then
+            child:setPositionY(size_parent.height-top-size_child.height*(1-anchor_child.y))
+        end
+    end
+
+    if(horizontalCenter)then
+        local newX=0.5*size_parent.width-(0.5-anchor_child.x)*size_child.width
+        child:setPositionX(newX)
+    else
+        local left=self.extraData.widget_left
+        local right=self.extraData.widget_right
+        local unit_left=self.extraData.widget_unit_left
+        if(unit_left==UNITTYPE_RATE)then
+            left=size_parent.width*left
+        end
+        local unit_right=self.extraData.widget_unit_right
+        if(unit_right==UNITTYPE_RATE)then
+            right=size_parent.width*right
+        end
+        if(left and (not right))then
+            child:setPositionX(left+size_child.width*anchor_child.x)
+        elseif(left and right)then
+            local newWidth=size_parent.width-left-right
+            if(newWidth)then
+                child:setPositionX(left+newWidth*anchor_child.x)
+                child:setScaleX(child:getScaleX()*newWidth/size_child.width)
+            end
+        elseif(not left and right)then
+            child:setPositionX(size_parent.width-right-size_child.width*(1-anchor_child.x))
+        end
+    end
 end
 
 exports.createOutline=function(nodeInfo)
@@ -94,6 +162,7 @@ exports.createOutline=function(nodeInfo)
     outline.createNode=createNode_default
     outline.create=Outline.create
     outline.reset=Outline.reset
+    outline.applyWidget=Outline.applyWidget
 
     if(nodeInfo) then
         for k,v in pairs(nodeInfo)do
@@ -218,5 +287,24 @@ exports.createAnim=function()
 end
 
 Vec2=cc.p;
+
+function getScale(node)
+    local scaleX=1
+    local scaleY=1
+    local parent=node
+    while(parent)do
+        scaleX = scaleX * parent:getScaleX()
+        scaleY = scaleY * parent:getScaleY()
+        parent = parent:getParent()
+    end
+    return scaleX,scaleY
+end
+
+function getRealSize(node)
+    local realScaleX,realScaleY=getScale(node)
+    local size=node:getContentSize()
+    local realSize=cc.size(size.width*realScaleX,size.height*realScaleY)
+    return realSize
+end
 
 return exports
