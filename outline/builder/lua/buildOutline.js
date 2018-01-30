@@ -101,7 +101,7 @@ function buildOneOutline(outline){
                 luaCode+=buildMapable(value.substring(1,value.length-1));
             }else{
                 if(propName==='name')
-                value='"'+value+'"';
+                    value='"'+value+'"';
                 luaCode+='    '+propName+'='+value+',\n';
             }
             hasDot=true;

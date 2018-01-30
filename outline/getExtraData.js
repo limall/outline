@@ -59,6 +59,10 @@ module.exports=function(node){
     var extradata={};
     var mapAble='';
 
+    var button=node.getComponent(cc.Button);
+    if(button)
+        mapAble+='buttonType:1%o__%';
+
     var widget=getWidget(node);
     if(widget)
         mapAble+=widget;
@@ -113,8 +117,8 @@ module.exports=function(node){
     var label=node.getComponent(cc.Label);
     if(label){
         extradata.isLabel=true;
-        extradata.string='"'+label.string+'"';
-        extradata.fontSize=label.fontSize;
+        extradata.label_string='"'+label.string+'"';
+        extradata.label_fontSize=label.fontSize;
     }
     var componentNames={};
     function getComponentName(name){
