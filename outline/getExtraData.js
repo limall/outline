@@ -72,11 +72,12 @@ module.exports=function(node){
     if(sprite){
         var fullPath=sprite.spriteFrame._textureFilename;
         extradata.isSprite=true;
-        extradata.imageFile='"'+fullPath.substring(fullPath.indexOf('/assets/')+8)+'"';
+        extradata.spriteFrame=fullPath.substring(fullPath.indexOf('/assets/')+8);
         var spriteFrameName=getSpriteFrame(sprite);
         if(spriteFrameName){
-            extradata.spriteFrameName='"'+spriteFrameName+'"';
+            extradata.spriteFrame+=':'+spriteFrameName;
         }
+        extradata.spriteFrame='"'+extradata.spriteFrame+'"';
 
         var insetTop=sprite.spriteFrame.insetTop;
         var insetBottom=sprite.spriteFrame.insetBottom;

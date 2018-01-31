@@ -4,29 +4,41 @@ O={}
 
 local Outline={}
 
+function getFrame(framePath)
+    local frame
+    local sep=string.find(framePath,'%:')
+    if(sep>0)then
+        local imageFile=string.sub(framePath,0,sep-1)
+        local spriteFrameName=string.sub(framePath,sep+1)
+
+        local cache=cc.SpriteFrameCache:getInstance()
+        local dotIndex=string.find(imageFile,'%.')
+        local plistFile=string.sub(imageFile,0,dotIndex)..'plist'
+        if(not cache:isSpriteFramesWithFileLoaded(plistFile))then
+            cache:addSpriteFrames(plistFile)
+        end
+        frame=cache:getSpriteFrame(spriteFrameName)
+        if(not frame)then
+            spriteFrameName=spriteFrameName .. '.png'
+            frame=cache:getSpriteFrame(spriteFrameName)
+        end
+    else
+        frame=cc.SpriteFrame:create(framePath)
+    end
+    return frame    
+end
+
 local createNode_default=function(creator,parent)
     local node
     if(creator) then
         local outline=creator.outline
         if(outline.isSprite) then
-            local imageFile=outline.imageFile
-            local spriteFrameName=outline.spriteFrameName
-            local cache=cc.SpriteFrameCache:getInstance()
-            if(spriteFrameName)then
-                local dotIndex=string.find(imageFile,'%.')
-                local plistFile=string.sub(imageFile,0,dotIndex)..'plist'
-                if(not cache:isSpriteFramesWithFileLoaded(plistFile))then
-                    cache:addSpriteFrames(plistFile)
-                end
-                local frame=cache:getSpriteFrame(spriteFrameName)
-                if(not frame)then
-                    spriteFrameName=spriteFrameName .. '.png'
-                end
-            end
-            if(spriteFrameName)then
-                node=cc.Sprite:createWithSpriteFrameName(spriteFrameName)
+            local spriteFrame=outline.spriteFrame
+            local frame=getFrame(spriteFrame)
+            if(frame)then
+                node=cc.Sprite:createWithSpriteFrame(frame)
             else
-                node=display.newSprite(imageFile)
+                node=display.newNode()
             end
         elseif (outline.isLabel) then
             node=cc.Label:createWithSystemFont(outline.label_string, "Arial", outline.label_fontSize)
@@ -42,11 +54,137 @@ local createNode_default=function(creator,parent)
     return node
 end
 
+local UNITTYPE_PX=1
+local UNITTYPE_RATE=2
+local function getApplyWidget(outline)
+    if(not outline.extraData)then return end
+
+    local function applyWidget(self,cascade)
+        local parent=self:getParent()
+        local child=self
+
+        local size_parent=parent:getContentSize()--getRealSize(parent)
+        local size_child=child:getContentSize()--getRealSize(child)
+        local anchor_child=child:getAnchorPoint()
+
+        local aLeft=outline.extraData.widget_ALeft
+        local aRight=outline.extraData.widget_ARight
+        local aBottom=outline.extraData.widget_ABottom
+        local aTop=outline.extraData.widget_ATop
+
+        local AHCenter=outline.extraData.widget_AHCenter
+        local HCenter=outline.extraData.widget_HCenter
+        local UHCenter=outline.extraData.widget_UHCenter
+
+        local AVCenter=outline.extraData.widget_AVCenter
+        local VCenter=outline.extraData.widget_VCenter
+        local UVCenter=outline.extraData.widget_UVCenter
+
+        if(AVCenter)then
+            anchor_child.y=0.5
+            child:setAnchorPoint(anchor_child)
+            if(UVCenter==UNITTYPE_RATE)then
+                VCenter=size_parent.height*VCenter
+            end
+            child:setPositionY(0.5*size_parent.height+VCenter)
+        else
+            local bottom=outline.extraData.widget_bottom
+            local top=outline.extraData.widget_top
+            local unit_bottom=outline.extraData.widget_unit_bottom
+            if(unit_bottom==UNITTYPE_RATE)then
+                bottom=size_parent.height*bottom
+            end
+            local unit_top=outline.extraData.widget_unit_top
+            if(unit_top==UNITTYPE_RATE)then
+                top=size_parent.height*top
+            end
+
+            if(aBottom and not aTop)then
+                anchor_child.y=0
+                child:setAnchorPoint(anchor_child)
+                child:setPositionY(bottom)
+            elseif(aBottom and aTop)then
+                local newHeight=size_parent.height-top-bottom
+                if(newHeight>0 and not outline.isLabel)then
+                    child:setPositionY(bottom+newHeight*anchor_child.y)
+                    if(outline.isSprite and not outline.extraData.slice)then
+                        size_child.height=outline.extraData.widget_originHeight
+                        child:setContentSize(size_child)
+                        child:setScaleY(newHeight/size_child.height)
+                    else
+                        size_child.height=newHeight
+                        child:setContentSize(size_child)
+                    end
+                end
+            elseif(not aBottom and aTop)then
+                anchor_child.y=1
+                child:setAnchorPoint(anchor_child)
+                child:setPositionY(size_parent.height-top)
+            end
+        end
+
+        if(HCenter)then
+            anchor_child.x=0.5
+            child:setAnchorPoint(anchor_child)
+            if(UHCenter==UNITTYPE_RATE)then
+                HCenter=size_parent.height*HCenter
+            end
+            child:setPositionX(0.5*size_parent.width+HCenter)
+        else
+            local left=outline.extraData.widget_left
+            local right=outline.extraData.widget_right
+            local unit_left=outline.extraData.widget_unit_left
+            if(unit_left==UNITTYPE_RATE)then
+                left=size_parent.width*left
+            end
+            local unit_right=outline.extraData.widget_unit_right
+            if(unit_right==UNITTYPE_RATE)then
+                right=size_parent.width*right
+            end
+            if(aLeft and (not aRight))then
+                anchor_child.x=0
+                child:setAnchorPoint(anchor_child)
+                child:setPositionX(left)
+            elseif(aLeft and aRight)then
+                local newWidth=size_parent.width-left-right
+                if(newWidth>0 and not outline.isLabel)then
+                    child:setPositionX(left+newWidth*anchor_child.x)
+                    if(outline.isSprite and not outline.extraData.slice)then
+                        size_child.width=outline.extraData.widget_originWidth
+                        child:setContentSize(size_child)
+                        child:setScaleX(newWidth/size_child.width)
+                    else
+                        size_child.width=newWidth
+                        child:setContentSize(size_child)
+                    end
+                end
+            elseif(not aLeft and aRight)then
+                anchor_child.x=1
+                child:setAnchorPoint(anchor_child)
+                child:setPositionX(size_parent.width-right)
+            end
+        end
+
+        if(cascade)then
+            local children=self:getChildren()
+            for k,v in pairs(children)do
+                if(v.applyWidget)then
+                    v:applyWidget(true)
+                end
+            end
+        end
+    end
+    return applyWidget
+end
+
 function Outline:create( parent )
     local node=self.createNode(self.creator,parent)
     node:setName(self.name)
     self:reset(node)
-    self:applyWidget(parent,node)
+    node.applyWidget=getApplyWidget(self)
+    if(node.applyWidget)then
+        node:applyWidget()
+    end
 
     if(self.children)then
         for index,child in pairs(self.children)do
@@ -72,71 +210,6 @@ function Outline:reset( node )
     node:setColor(cc.c3b(self.colorR, self.colorG, self.colorB));
 end
 
-local UNITTYPE_PX=1
-local UNITTYPE_RATE=2
-function Outline:applyWidget(parent,child)
-    local size_parent=parent:getContentSize()--getRealSize(parent)
-    local size_child=child:getContentSize()--getRealSize(child)
-    local anchor_child=child:getAnchorPoint()
-
-    local verticalCenter=self.extraData.widget_VerticalCenter
-    local horizontalCenter=self.extraData.widget_HorizontalCenter
-
-    if(verticalCenter)then
-        local newY=0.5*size_parent.height-(0.5-anchor_child.y)*size_child.height
-        child:setPositionY(newY)
-    else
-        local bottom=self.extraData.widget_bottom
-        local top=self.extraData.widget_top
-        local unit_bottom=self.extraData.widget_unit_bottom
-        if(unit_bottom==UNITTYPE_RATE)then
-            bottom=size_parent.height*bottom
-        end
-        local unit_top=self.extraData.widget_unit_top
-        if(unit_top==UNITTYPE_RATE)then
-            top=size_parent.height*top
-        end
-
-        if(bottom and not top)then
-            child:setPositionY(bottom+size_child.height*anchor_child.y)
-        elseif(bottom and top)then
-            local newHeight=size_parent.height-top-bottom
-            if(newHeight>0)then
-                child:setPositionY(bottom+newHeight*anchor_child.y)
-                child:setScaleY(child:getScaleY()*newHeight/size_child.height)
-            end
-        elseif(not bottom and top)then
-            child:setPositionY(size_parent.height-top-size_child.height*(1-anchor_child.y))
-        end
-    end
-
-    if(horizontalCenter)then
-        local newX=0.5*size_parent.width-(0.5-anchor_child.x)*size_child.width
-        child:setPositionX(newX)
-    else
-        local left=self.extraData.widget_left
-        local right=self.extraData.widget_right
-        local unit_left=self.extraData.widget_unit_left
-        if(unit_left==UNITTYPE_RATE)then
-            left=size_parent.width*left
-        end
-        local unit_right=self.extraData.widget_unit_right
-        if(unit_right==UNITTYPE_RATE)then
-            right=size_parent.width*right
-        end
-        if(left and (not right))then
-            child:setPositionX(left+size_child.width*anchor_child.x)
-        elseif(left and right)then
-            local newWidth=size_parent.width-left-right
-            if(newWidth)then
-                child:setPositionX(left+newWidth*anchor_child.x)
-                child:setScaleX(child:getScaleX()*newWidth/size_child.width)
-            end
-        elseif(not left and right)then
-            child:setPositionX(size_parent.width-right-size_child.width*(1-anchor_child.x))
-        end
-    end
-end
 
 exports.createOutline=function(nodeInfo)
     local outline={

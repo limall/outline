@@ -1,3 +1,4 @@
+var getSpriteFrameName=require('./getSpriteFrame');
 module.exports=function(node){
     this.x=node.x;
     this.y=node.y;
@@ -14,6 +15,12 @@ module.exports=function(node){
     this.anchorY=node.anchorY;
     this.skewX=node.skewX;
     this.skewY=node.skewY;
-    if(node.spriteFrame)
-        this.spriteFrame=node.spriteFrame._textureFilename;
+    var sprite=node.getComponent(cc.Sprite);
+    if(sprite){
+        var fullPath=sprite.spriteFrame._textureFilename;
+        this.spriteFrame=fullPath.substring(fullPath.indexOf('/assets/')+16);
+        var spriteFrameName=getSpriteFrameName(sprite);
+        if(spriteFrameName)
+            this.spriteFrame+=':'+spriteFrameName;
+    }
 }

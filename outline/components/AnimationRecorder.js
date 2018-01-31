@@ -16,25 +16,44 @@ cc.Class({
         for(var i=0;i<this.animNodes.length;i++){
             var node=this.animNodes[i].node;
             var status=new this.Status(node);
-
-            if(this.animNodes[i].statuses.length>0){
-                var preStatus=this.animNodes[i].statuses[this.animNodes[i].statuses.length-1];
-                var increment={};
-                for(var propName in preStatus){
-                    var preProp=preStatus[propName];
-                    var prop=status[propName];
-                    if(preProp!=prop){
-                        increment[propName]=propName==='spriteFrame'?prop:prop-preProp;
-                    }
-                }
-                this.animNodes[i].increments.push(increment);
-            }
-            if(this.frameIndex!==0)
-                this.animNodes[i].statuses.push(status);
+            this.animNodes[i].statuses.push(status);
         }
+
         this.frameIndex++;
+
         if(this.last){
             this.recordAble=false;
+
+            for(var i=0;i<this.animNodes.length;i++){
+                var node=this.animNodes[i].node;
+                var statuses=this.animNodes[i].statuses;
+                cc.log(statuses.length);
+                var haveSpriteFrame=false;
+                for(var j=1;j<statuses.length;j++){
+                    var status=statuses[j];
+                    var preStatus=statuses[j-1];
+                    var increment={};
+                    for(var propName in preStatus){
+                        var preProp=preStatus[propName];
+                        var prop=status[propName];
+                        if(preProp!=prop){
+                            if(propName==='spriteFrame'){
+                                haveSpriteFrame=true;
+                                increment[propName]=prop;
+                            }else
+                                increment[propName]=prop-preProp;
+                        }
+                    }
+                    this.animNodes[i].increments.push(increment);
+                }
+                if(haveSpriteFrame){
+                    var increment={
+                        spriteFrame:statuses[0].spriteFrame
+                    };
+                    this.animNodes[i].increments.splice(0, 0, increment);
+                }
+            }
+
             for(var i=0;i<this.animNodes.length;i++){
                 delete this.animNodes[i].node;
                 delete this.animNodes[i].statuses;

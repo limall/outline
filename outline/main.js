@@ -4,13 +4,14 @@ var LANGUAGE_CPP=1;
 var LANGUAGE_LUA=2;
 
 var path=Editor.projectPath+'/packages/outline/';
-let wss=new (require('ws').Server)({port:20383});
+let wss=new (require('ws').Server)({port:30383});
 var preMsg;
 module.exports = {
   load () {
     wss.on('connection',(ws)=>{
       ws.on('message',(msg)=>{
         if(preMsg!=msg){
+          Editor.log('msg');
           var obj=JSON.parse(msg);
           if(obj.language=LANGUAGE_LUA)
               luaBuilder.buildAnimations(obj.anims,'out');

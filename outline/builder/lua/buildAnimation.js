@@ -64,7 +64,9 @@ function addColorB(name,value){
     return luaCode;
 }
 function addSpriteFrame(name,value){
-    return 'that.'+name+':setTexture('+value+');';
+    var luaCode='local frame=getFrame("'+value+'");';
+    luaCode+='that.'+name+':setSpriteFrame(frame);';
+    return luaCode;
 }
 
 function buildOneIncrement(increment,nodeName){
@@ -125,8 +127,11 @@ function buildOneIncrement(increment,nodeName){
     return luaCode;
 }
 
+var newAnim=false;
 function buildOneFrame(frameIndex,increments,nodeNames){
     var luaCode='';
+    if(frameIndex===0)
+        newAnim=true;
 
     var haveFrame=false;
     for(var i=0;i<increments.length;i++){
@@ -140,8 +145,10 @@ function buildOneFrame(frameIndex,increments,nodeNames){
     }
     
     if(haveFrame){
-        if(frameIndex==0)
-            luaCode='        if(that.frameIndex==0)then\n'+luaCode;
+        if(newAnim){
+            luaCode='        if(that.frameIndex=='+frameIndex+')then\n'+luaCode;
+            newAnim=false;
+        }
         else
             luaCode='        elseif(that.frameIndex=='+frameIndex+')then\n'+luaCode;
     }
@@ -203,7 +210,7 @@ function buildContent(anim){
         luaCode+=buildOneFrame(i,increments,nodeNames);
     }
 
-    luaCode+='        else\n';
+    luaCode+='        elseif(that.frameIndex=='+frameLength+')then\n';
     luaCode+='            that:whenFrameEnd()\n';
     luaCode+='            return\n';
     luaCode+='        end\n';

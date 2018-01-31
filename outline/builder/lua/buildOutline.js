@@ -18,7 +18,7 @@ var luaDefault={
     colorG:255,
     colorB:255
 };
-var exportProperties=['x','y','width','height','anchorX','anchorY','scaleX','scaleY','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB','name','isSprite','imageFile','isLabel','label_string','label_fontSize','mapAble','spriteFrameName'];
+var exportProperties=['x','y','width','height','anchorX','anchorY','scaleX','scaleY','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB','name','isSprite','isLabel','label_string','label_fontSize','mapAble','spriteFrame'];
 
 function isRightProp(propName){
     for(var i=0;i<exportProperties.length;i++){
