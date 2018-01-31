@@ -1,12 +1,14 @@
 //获取Canvas中的ExportRule信息，及其选中的node的数据
 var nodeWalker=require('./nodeWalker');
+var getExportRules=require('./getExportRule');
+var assetsExportor=require('./assetsExportor');
 module.exports = {
     //用于获取Canvas上所有export rule的信息
     'getExportRules':function(event){
         var canvas = cc.find('Canvas');
         if(canvas){
             var exportRules=[];
-            var temp=canvas.getComponents('ExportRule');
+            var temp=getExportRules(canvas);
             for(var i=0;i<temp.length;i++){
                 var obj={};
                 obj.ruleName=temp[i].ruleName;
@@ -20,8 +22,8 @@ module.exports = {
             }
         }
     },
-    //用于获取所有选中的export rule制定的node的数据
-    'getNode': function (event,exportRuleNames) {
+    //用于获取所有选中的export rule指定的node的数据
+    'getNode': function (event,exportRuleNames,projectPath) {
         exportRuleNames=JSON.parse(exportRuleNames);
         function hasName(name){
             for(var i=0;i<exportRuleNames.length;i++){
@@ -32,17 +34,21 @@ module.exports = {
         }
         var canvas = cc.find('Canvas');
         if(canvas){
-            var exportRules=canvas.getComponents('ExportRule');
+            var exportRules=getExportRules(canvas);
             var nodes=[];
             for(var i=0;i<exportRules.length;i++){
                 var exportRule=exportRules[i];
                 if(hasName(exportRule.ruleName)){
+                    if(exportRule.resFolder&&exportRule.resFolder!='')
+                        assetsExportor.setFolder(exportRule.resFolder,projectPath);
                     nodeWalker.init(canvas);
                     var obj=new Object();
                     obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.excludeNodes,exportRule.use_world_position);
                     obj.dstPath=exportRule.dstPath;
                     obj.language=exportRule.language;
                     nodes.push(obj);
+                    if(exportRule.resFolder&&exportRule.resFolder!='')
+                        assetsExportor.startCopy();
                 }
             }
             if(event.reply) {

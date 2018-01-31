@@ -16,6 +16,10 @@ cc.Class({
         language:{
             default:LanguageType.cpp,
             type:LanguageType
+        },
+        resFolder:{
+            default:'',
+            displayName:'res_dst'
         }
         //exportRes:false,
         //dst_resolutionWidth:960,

@@ -1,5 +1,6 @@
 var getSpriteFrame=require('./getSpriteFrame');
-var getWidget=require('./getWidget')
+var getWidget=require('./getWidget');
+var assetsExportor=require('./assetsExportor');
 //根据值推断类型，目前支持int float string bool类型
 var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
 function getType(value){
@@ -73,6 +74,7 @@ module.exports=function(node){
         var fullPath=sprite.spriteFrame._textureFilename;
         extradata.isSprite=true;
         extradata.spriteFrame=fullPath.substring(fullPath.indexOf('/assets/')+8);
+        assetsExportor.addFile(extradata.spriteFrame);
         var spriteFrameName=getSpriteFrame(sprite);
         if(spriteFrameName){
             extradata.spriteFrame+=':'+spriteFrameName;

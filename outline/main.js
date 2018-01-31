@@ -1,4 +1,5 @@
 var luaBuilder=require('./builder/buildlua');
+var assetsExportor=require('./assetsExportor');
 
 var LANGUAGE_CPP=1;
 var LANGUAGE_LUA=2;
@@ -39,7 +40,7 @@ module.exports = {
     },
     //按照选中的export rule导出node
     'export-node' (event,ruleNames){
-      Editor.Scene.callSceneScript('outline', 'getNode',ruleNames,function (data) {
+      Editor.Scene.callSceneScript('outline', 'getNode',ruleNames,Editor.projectPath,function (data) {
         var dataObj=JSON.parse(data);
         for(var i=0;i<dataObj.length;i++){
           var obj=dataObj[i];
