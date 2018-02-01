@@ -1,4 +1,4 @@
-var getSpriteFrame=require('./getSpriteFrame');
+var spriteSource=require('./spriteSource');
 var getWidget=require('./getWidget');
 var assetsExportor=require('./assetsExportor');
 //根据值推断类型，目前支持int float string bool类型
@@ -71,15 +71,11 @@ module.exports=function(node){
     var sprite=node.getComponent(cc.Sprite);
 
     if(sprite){
-        var fullPath=sprite.spriteFrame._textureFilename;
+        assetsExportor.addFile(spriteSource.getImageFile(sprite.spriteFrame));
+        assetsExportor.addFile(spriteSource.getPList(sprite.spriteFrame));
+
         extradata.isSprite=true;
-        extradata.spriteFrame=fullPath.substring(fullPath.indexOf('/assets/')+8);
-        assetsExportor.addFile(extradata.spriteFrame);
-        var spriteFrameName=getSpriteFrame(sprite);
-        if(spriteFrameName){
-            extradata.spriteFrame+=':'+spriteFrameName;
-        }
-        extradata.spriteFrame='"'+extradata.spriteFrame+'"';
+        extradata.spriteFrame='"'+spriteSource.getSpriteFrame(sprite.spriteFrame)+'"';
 
         var insetTop=sprite.spriteFrame.insetTop;
         var insetBottom=sprite.spriteFrame.insetBottom;
@@ -98,7 +94,11 @@ module.exports=function(node){
     var partical=node.getComponent(cc.ParticleSystem);
     if(partical){
         mapAble+='particleSystem:true%o__%';
-        mapAble+='file:'+partical.file.substring(partical.file.indexOf('/assets/')+8)+'%o__%';
+
+        var file=partical.file.substring(partical.file.indexOf('/assets/')+8)+'%o__%';
+        assetsExportor.addFile(file);
+        mapAble+='file:'+file;
+
         if(partical.custom){
             mapAble+='custom:true%o__%';
             var props=['duration','emissionRate','life','totalParticles','startColor','startColorVar','endColor','endColorVar','angle','startSize','endSize','startSpin','endSpin','angleVar','startSizeVar','endSizeVar','startSpinVar','endSpinVar','lifeVar','positionType','emitterMode','speed','speedVar','tangentialAccel','tangentialAccelVar','radialAccel','radialAccelVar','rotationIsDir','startRadius','startRadiusVar','endRadius','endRadiusVar','rotatePerS','rotatePerSVar'];
@@ -106,7 +106,9 @@ module.exports=function(node){
                 mapAble+=propName+':'+partical[propName]+'%o__%';
             });
             if(partical.texture!=''){
-                mapAble+='texture:'+partical.texture.substring(fullPath.indexOf('/assets/')+8)+'%o__%';
+                var texture=partical.texture.substring(fullPath.indexOf('/assets/')+8)+'%o__%';
+                assetsExportor.addFile(texture);
+                mapAble+='texture:'+texture;
             }
             mapAble+='gravityX:'+partical.gravity.x+'%o__%';
             mapAble+='gravityY:'+partical.gravity.y+'%o__%';
@@ -145,16 +147,18 @@ module.exports=function(node){
                 var name=propName.substring(3);
                 var value=component[propName];
                 if(value instanceof cc.SpriteFrame){
-                    var fullPath=value._textureFilename;
-                    value=fullPath.substring(fullPath.indexOf('/assets/')+8);
+                    assetsExportor.addFile(spriteSource.getImageFile(value));
+                    assetsExportor.addFile(spriteSource.getPList(value));
+                    value=spriteSource.getSpriteFrame(value);
                 }
                 mapAble+=name+':'+value+'%o__%';
             }else if(propName.indexOf('o_')===0){
                 var name=propName.substring(2);
                 var value=component[propName];
                 if(value instanceof cc.SpriteFrame){
-                    var fullPath=value._textureFilename;
-                    value=fullPath.substring(fullPath.indexOf('/assets/')+8);
+                    assetsExportor.addFile(spriteSource.getImageFile(value));
+                    assetsExportor.addFile(spriteSource.getPList(value));
+                    value=spriteSource.getSpriteFrame(value);
                 }
                 var type=getType(value);
                 if(type){

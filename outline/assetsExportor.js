@@ -19,18 +19,25 @@ module.exports.setFolder=function(path,projectPath){
     Editor.projectPath=projectPath;
 }
 module.exports.addFile=function (path) {
-    if(!global.assetsExportor)
+    if((!global.assetsExportor)||(!path))
         return;
     var src=Editor.projectPath+global.sep+'assets'+global.sep+path;
-    path=global.assetsExportor.folder+path;
+    var dst=global.assetsExportor.folder+path;
+    
     var name=path.replace(/\//g,'_');
     name=name.replace(/\./,'_');
     name=name.replace(/\\/g,'_');
     name=name.replace(/\:/,'_');
+
+    src=src.replace(/\//g,global.sep);
+    src=src.replace(/\\/g,global.sep);
+    dst=dst.replace(/\//g,global.sep);
+    dst=dst.replace(/\\/g,global.sep);
+
     if(!global.assetsExportor[name])
         global.assetsExportor[name]={
             src:src,
-            dst:path
+            dst:dst
         };
 };
 module.exports.startCopy=function(){
