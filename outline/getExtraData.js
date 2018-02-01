@@ -1,6 +1,8 @@
 var spriteSource=require('./spriteSource');
 var getWidget=require('./getWidget');
 var assetsExportor=require('./assetsExportor');
+var getEditBox=require('./getEditBox');
+
 //根据值推断类型，目前支持int float string bool类型
 var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
 function getType(value){
@@ -89,6 +91,12 @@ module.exports=function(node){
             mapAble+='insetLeft:'+insetLeft+'%o__%';
             mapAble+='insetRight:'+insetRight+'%o__%';
         }
+    }
+
+    var editBox=node.getComponent(cc.EditBox);
+    if(editBox){
+        var str_editBox=getEditBox(editBox);
+        mapAble+=str_editBox;
     }
 
     var partical=node.getComponent(cc.ParticleSystem);

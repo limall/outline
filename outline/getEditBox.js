@@ -9,7 +9,7 @@ module.exports=function(editBox){
         mapAble+='editbox_string:'+str+'%o__%';
 
     var backgroundImage=editBox.backgroundImage;
-    if(backgroundImage && backgroundImage!="default_progressbar")
+    if(backgroundImage && backgroundImage._textureFilename.lastIndexOf("default_progressbar.png")<0)
         mapAble+='editbox_backgroundImage:'+spriteSource.getSpriteFrame(backgroundImage)+'%o__%';
 
     var inputMode=editBox.inputMode;
