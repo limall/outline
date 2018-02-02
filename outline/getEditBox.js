@@ -1,20 +1,32 @@
 var spriteSource=require('./spriteSource');
 module.exports=function(editBox){
-    //mapAble+='gravityX:'+partical.gravity.x+'%o__%';
     var mapAble='';
+
+    var backgroundImage=editBox.backgroundImage;
+    if(backgroundImage && backgroundImage._textureFilename.lastIndexOf("default_progressbar.png")<0){
+        mapAble+='editbox_backgroundImage:'+spriteSource.getSpriteFrame(backgroundImage)+'%o__%';
+    }else{
+        return mapAble;
+        Editor.error('must set backgroundImage of EditBox');
+    }
+
+    var node=editBox.node;
+    mapAble+='editbox_width:'+node.width+'%o__%';
+    mapAble+='editbox_height:'+node.height+'%o__%';
+
     mapAble+='isEditBox:true%o__%';
 
     var str=editBox.string;
     if(str && str!='')
         mapAble+='editbox_string:'+str+'%o__%';
 
-    var backgroundImage=editBox.backgroundImage;
-    if(backgroundImage && backgroundImage._textureFilename.lastIndexOf("default_progressbar.png")<0)
-        mapAble+='editbox_backgroundImage:'+spriteSource.getSpriteFrame(backgroundImage)+'%o__%';
-
     var inputMode=editBox.inputMode;
     if(inputMode!=6)
         mapAble+='editbox_inputMode:'+inputMode+'%o__%';
+
+    var inputFlag=editBox.inputFlag;
+    if(inputFlag!=5)
+        mapAble+='editbox_inputFlag:'+inputFlag+'%o__%';
 
     var fontSize=editBox.fontSize;
     if(fontSize!=29)

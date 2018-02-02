@@ -10,6 +10,7 @@ function createDir(path){
         }
     }
 }
+
 module.exports.setFolder=function(path,projectPath){
     global.sep='\\';
     if(path.indexOf(sep)<0)
@@ -18,6 +19,7 @@ module.exports.setFolder=function(path,projectPath){
     global.assetsExportor.folder=path+global.sep;
     Editor.projectPath=projectPath;
 }
+
 module.exports.addFile=function (path) {
     if((!global.assetsExportor)||(!path))
         return;
