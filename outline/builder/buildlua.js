@@ -1,7 +1,7 @@
-var outlineBuilder=require('./lua/buildOutline');
-var creatorBuilder=require('./lua/buildCreator');
-var relationshipBuilder=require('./lua/buildRelationship');
-var buildAnimation=require('./lua/buildAnimation');
+var outlineBuilder=require('./buildOutline');
+var creatorBuilder=require('./buildCreator');
+var relationshipBuilder=require('./buildRelationship');
+var buildAnimation=require('./buildAnimation');
 var writeFile=require('./writeFile');
 var sort=require('./sort');
 var util=require('./util');

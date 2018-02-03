@@ -53,7 +53,6 @@ cc.Class({
         }else if(this.anims.length>0){
             var obj={};
             obj.anims=this.anims;
-            obj.language=this.language;
             cc.log(JSON.stringify(obj));
             ws.send(JSON.stringify(obj));
         }
