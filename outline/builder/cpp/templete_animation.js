@@ -1,4 +1,4 @@
-var path=Editor.projectPath+'/packages/outline/template/cpp/';  //该文件夹的绝对路径
+var path=Editor.projectPath+'/packages/outline/builder/cpp/';  //该文件夹的绝对路径
 var fs=require('fs');
 var templete_origin_path=path+'templete_animation.hpp';               //模板文件的路径
 

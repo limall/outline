@@ -1,4 +1,4 @@
-var ws = new WebSocket("ws://localhost:30383");
+var ws = new WebSocket("ws://localhost:20383");
 ws.onopen = function (event) {
     console.log("Send Text WS was opened.");
 };

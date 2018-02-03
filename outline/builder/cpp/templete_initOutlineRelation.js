@@ -1,4 +1,4 @@
-var path=Editor.projectPath+'/packages/outline/template/cpp/';
+var path=Editor.projectPath+'/packages/outline/builder/cpp/';
 
 var templete=require('fs').readFileSync(path+'templete_initOutlineRelation.hpp').toString();
 function getOne(name,children){

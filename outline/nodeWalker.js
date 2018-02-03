@@ -1,9 +1,11 @@
-var Outline=require('./outline');
+var initOutline=require('./outline');
+
 var nodeWalker={
     //为传入节点及其所有子节点创建并添加一个Outline实例
     init:(node)=>{
         function walkOneNode(parent){
-            Outline.create(parent);
+            Editor.log(initOutline);
+            initOutline(parent);
             var children=parent.children;
             for(var i=0;i<children.length;i++){
                 walkOneNode(children[i]);

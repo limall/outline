@@ -1,4 +1,4 @@
-var path=Editor.projectPath+'/packages/outline/template/cpp/';  //该文件夹的绝对路径
+var path=Editor.projectPath+'/packages/outline/builder/cpp/';  //该文件夹的绝对路径
 
 var fs=require('fs');
 

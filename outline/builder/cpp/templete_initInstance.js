@@ -1,4 +1,4 @@
-var path=Editor.projectPath+'/packages/outline/template/cpp/';
+var path=Editor.projectPath+'/packages/outline/builder/cpp/';
 
 var fs=require('fs');
 

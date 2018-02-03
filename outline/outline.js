@@ -1,4 +1,5 @@
 var getExtraData=require('./getExtraData');
+
 //用于记录node的轮廓，以及一些组件信息
 var Outline=function(
     x,
@@ -66,7 +67,7 @@ var Outline=function(
     };
 }
 
-Outline.create=function(node,name){
+module.exports==function(node,name){
     var x=node.x;
     if(node.parent)
         x+=node.parent.width*node.parent.anchorX;
@@ -93,6 +94,4 @@ Outline.create=function(node,name){
         name||node.name
     );
     return outline;
-}
-
-module.exports=Outline;
+};

@@ -1,24 +1,16 @@
-//加载主模板的构造模块
-var fileBuilder=require('./template/cpp/templete.js');
-//加载结构体的定义的构造模块
-var structBuilder=require('./template/cpp/templete_struct');
-//加载根节点的定义的构造模块
-var rootBuilder=require('./template/cpp/templete_rootDeclare');
-//加载所有子节点的定义的构造模块
-var instanceBuilder=require('./template/cpp/templete_initInstance');
-//加载处理所有子节点outliene关系的构造模块
-var relationBuilder=require('./template/cpp/templete_initOutlineRelation');
-//加载筛选节点到相应层级的模块
-var sort=require('./sort');
-//加载构造动画的模块
-var animationBuilder=require('./template/cpp/templete_animation');
-//加载构造自定义组件数据的模块
-var extraStructBuilder=require('./template/cpp/template_extraStruct');
-
-var fs=require('fs');
+var fileBuilder=require('./cpp/templete.js');       //加载主模板的构造模块
+var structBuilder=require('./cpp/templete_struct'); //加载结构体的定义的构造模块
+var rootBuilder=require('./cpp/templete_rootDeclare');//加载根节点的定义的构造模块
+var instanceBuilder=require('./cpp/templete_initInstance');//加载所有子节点的定义的构造模块
+var relationBuilder=require('./cpp/templete_initOutlineRelation');//加载处理所有子节点outliene关系的构造模块
+var sort=require('./sort');                         //加载筛选节点到相应层级的模块
+var animationBuilder=require('./cpp/templete_animation');//加载构造动画的模块
+var extraStructBuilder=require('./cpp/template_extraStruct');//加载构造自定义组件数据的模块
+var writeFile=require('./writeFile');               //用来写文件
+var util=require('./util');
 
 //构造导出文件的主体内容部分
-function buildContent(nodeDataObj){
+function buildNode(nodeDataObj,dstPath){
     var node_outline=nodeDataObj;
     //一个二维数组，每个子数组按顺序依次存放0、1、2...层的节点的数据
     var sorted=sort.sort(node_outline);
@@ -133,5 +125,8 @@ function buildContent(nodeDataObj){
     var text_initRelation=relationBuilder.getRelation(relations);
     text=fileBuilder.insertRelation(text,text_initRelation);
     
-    return text;
+    var rootName=util.firstCaseUp(nodeDataObj.name);
+    writeFile(text,dstPath,rootName,'cpp');
 }
+
+module.exports.buildNode=buildNode;

@@ -1,11 +1,13 @@
 var luaBuilder=require('./builder/buildlua');
+var cppBuilder=require('./builder/buildcpp');
+
 var assetsExportor=require('./assetsExportor');
 
 var LANGUAGE_CPP=1;
 var LANGUAGE_LUA=2;
 
 var path=Editor.projectPath+'/packages/outline/';
-let wss=new (require('ws').Server)({port:30383});
+let wss=new (require('ws').Server)({port:20383});
 var preMsg;
 module.exports = {
   load () {
@@ -61,5 +63,7 @@ module.exports = {
 function exportNode(nodeDataObj,dstPath,language){
   if(language===LANGUAGE_LUA){
     luaBuilder.buildNode(nodeDataObj,dstPath);
+  }else if(language===LANGUAGE_CPP){
+    cppBuilder.buildNode(nodeDataObj,dstPath);
   }
 }
