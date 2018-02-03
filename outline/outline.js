@@ -67,7 +67,7 @@ var Outline=function(
     };
 }
 
-module.exports==function(node,name){
+module.exports=function(node,name){
     var x=node.x;
     if(node.parent)
         x+=node.parent.width*node.parent.anchorX;

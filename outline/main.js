@@ -1,10 +1,6 @@
 var luaBuilder=require('./builder/buildlua');
-var cppBuilder=require('./builder/buildcpp');
 
 var assetsExportor=require('./assetsExportor');
-
-var LANGUAGE_CPP=1;
-var LANGUAGE_LUA=2;
 
 var path=Editor.projectPath+'/packages/outline/';
 let wss=new (require('ws').Server)({port:20383});
@@ -14,10 +10,8 @@ module.exports = {
     wss.on('connection',(ws)=>{
       ws.on('message',(msg)=>{
         if(preMsg!=msg){
-          Editor.log('msg');
           var obj=JSON.parse(msg);
-          if(obj.language=LANGUAGE_LUA)
-              luaBuilder.buildAnimations(obj.anims,'out');
+          luaBuilder.buildAnimations(obj.anims,'out');
           preMsg=msg;
         }
       });
@@ -47,23 +41,9 @@ module.exports = {
         for(var i=0;i<dataObj.length;i++){
           var obj=dataObj[i];
           var nodeDataObj=JSON.parse(obj.nodeData);
-          exportNode(nodeDataObj,obj.dstPath,obj.language);
+          luaBuilder.buildNode(nodeDataObj,obj.dstPath);
         }
       });
     }
   },
 };
-
-/**
- * @method exportNode 执行导出数据
- * @param {"Object"} nodeDataObj 节点的数据 
- * @param {String} dstPath 导出文件路径
- * @param {Integer} language 导出的语言
- */
-function exportNode(nodeDataObj,dstPath,language){
-  if(language===LANGUAGE_LUA){
-    luaBuilder.buildNode(nodeDataObj,dstPath);
-  }else if(language===LANGUAGE_CPP){
-    cppBuilder.buildNode(nodeDataObj,dstPath);
-  }
-}

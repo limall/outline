@@ -1,7 +1,3 @@
-var LanguageType=cc.Enum({
-    cpp:1,
-    lua:2
-});
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -12,10 +8,6 @@ cc.Class({
         use_world_position:{
             default:false,
             tooltip: "是否将此节点的坐标转为世界坐标"
-        },
-        language:{
-            default:LanguageType.cpp,
-            type:LanguageType
         },
         resFolder:{
             default:'',

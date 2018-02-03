@@ -11,18 +11,10 @@ ws.onerror = function (event) {
 ws.onclose = function (event) {
     console.log("WebSocket instance closed.");
 };
-var LanguageType=cc.Enum({
-    cpp:1,
-    lua:2
-});
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        language:{
-            default:LanguageType.cpp,
-            type:LanguageType
-        },
         exportNodes:[cc.Node],
     },
 
