@@ -1,4 +1,4 @@
-var util=require ('../util');
+var util=require ('./util');
 
 /**
  * @method buildOneCreator 生成一个creator的lua代码

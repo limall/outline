@@ -1,4 +1,4 @@
-var util=require ('../util')
+var util=require ('./util')
 
 function addX(name,value){
     return 'that.'+name+':setPositionX(that.'+name+':getPositionX()+'+value+');';
