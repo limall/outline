@@ -129,10 +129,33 @@ module.exports=function(node){
 
     var label=node.getComponent(cc.Label);
     if(label){
+
         extradata.isLabel=true;
         extradata.label_string='"'+label.string+'"';
-        extradata.label_fontSize=label.fontSize;
+        var font=label.font;
+        if(font){
+            if(font instanceof cc.LabelAtlas){
+                mapAble+='isLabelAtlas:true%o__%';
+                mapAble+='labelAtlas_atlas:'+spriteSource.getSpriteFrame(font.spriteFrame)+'%o__%';
+                var temp=font._fntConfig.fontDefDictionary;
+                var isFirst=true;
+                for(var propName in temp){
+                    var prop=temp[propName];
+                    if(prop.rect){
+                        if(isFirst){
+                            mapAble+='labelAtlas_startChar:'+propName+'%o__%';
+                            mapAble+='labelAtlas_itemWidth:'+prop.rect.width+'%o__%';
+                            mapAble+='labelAtlas_itemHeight:'+prop.rect.height+'%o__%';
+                            isFirst=false
+                        }
+                    }
+                }
+
+            }
+        }else
+            extradata.label_fontSize=label.fontSize;
     }
+
     var componentNames={};
     function getComponentName(name){
         name=name.substring(name.indexOf('<')+1,name.indexOf('>'));
