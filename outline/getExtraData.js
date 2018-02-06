@@ -2,7 +2,7 @@ var spriteSource=require('./spriteSource');
 var getWidget=require('./getWidget');
 var assetsExportor=require('./assetsExportor');
 var getEditBox=require('./getEditBox');
-
+var getProgressBar=require('./getProgressbar');
 //根据值推断类型，目前支持int float string bool类型
 var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
 function getType(value){
@@ -76,20 +76,25 @@ module.exports=function(node){
         assetsExportor.addFile(spriteSource.getImageFile(sprite.spriteFrame));
         assetsExportor.addFile(spriteSource.getPList(sprite.spriteFrame));
 
-        extradata.isSprite=true;
-        extradata.spriteFrame='"'+spriteSource.getSpriteFrame(sprite.spriteFrame)+'"';
+        var progressbar=node.getComponent(cc.ProgressBar);
+        if(progressbar){
+            mapAble+=getProgressBar(progressbar);
+        }else{
+            extradata.isSprite=true;
+            extradata.spriteFrame='"'+spriteSource.getSpriteFrame(sprite.spriteFrame)+'"';
 
-        var insetTop=sprite.spriteFrame.insetTop;
-        var insetBottom=sprite.spriteFrame.insetBottom;
-        var insetLeft=sprite.spriteFrame.insetLeft;
-        var insetRight=sprite.spriteFrame.insetRight;
+            var insetTop=sprite.spriteFrame.insetTop;
+            var insetBottom=sprite.spriteFrame.insetBottom;
+            var insetLeft=sprite.spriteFrame.insetLeft;
+            var insetRight=sprite.spriteFrame.insetRight;
 
-        if(sprite.type===cc.Sprite.Type.SLICED){
-            mapAble+='slice:true%o__%';
-            mapAble+='insetTop:'+insetTop+'%o__%';
-            mapAble+='insetBottom:'+insetBottom+'%o__%';
-            mapAble+='insetLeft:'+insetLeft+'%o__%';
-            mapAble+='insetRight:'+insetRight+'%o__%';
+            if(sprite.type===cc.Sprite.Type.SLICED){
+                mapAble+='slice:true%o__%';
+                mapAble+='insetTop:'+insetTop+'%o__%';
+                mapAble+='insetBottom:'+insetBottom+'%o__%';
+                mapAble+='insetLeft:'+insetLeft+'%o__%';
+                mapAble+='insetRight:'+insetRight+'%o__%';
+            }
         }
     }
 
