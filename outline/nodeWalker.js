@@ -38,8 +38,8 @@ var nodeWalker={
         var parent=node.parent;
         if(use_world_pos)
             while(parent&&parent.name!=='Canvas'){
-                root.x+=parent.outline.x;
-                root.y+=parent.outline.y;
+                root.x+=parent.outline.x-parent.outline.width*parent.outline.anchorX;
+                root.y+=parent.outline.y-parent.outline.height*parent.outline.anchorY;
                 parent=parent.parent;
             }
         return JSON.stringify(root);

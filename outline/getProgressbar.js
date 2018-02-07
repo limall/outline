@@ -7,7 +7,8 @@ function getProgressBar(progressbar){
         str+='progressbar_spriteFrame:'+spriteFrame+'%o__%';
         str+='progressbar_mode:'+progressbar.mode+'%o__%';
         str+='progressbar_progress:'+progressbar.progress+'%o__%';
-        str+='progressbar_reverse:'+progressbar.reverse+'%o__%';
+        if(progressbar.reverse)
+            str+='progressbar_reverse:'+progressbar.reverse+'%o__%';
     }
     return str;
 }

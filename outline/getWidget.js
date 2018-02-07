@@ -13,7 +13,7 @@ module.exports=function(node){
     var widget=node.getComponent(cc.Widget);
     var temp=cloneWidget(widget);
     if(widget){
-        var str='';
+        var str='hasWidget:true%o__%';
         var isAlignLeft=widget.isAlignLeft;
         var isAlignRight=widget.isAlignRight;
         var isAlignTop=widget.isAlignTop;
