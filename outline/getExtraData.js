@@ -156,6 +156,12 @@ module.exports=function(node){
                     }
                 }
 
+            }else{
+                var fontName=font._rawFiles[0];
+                if(fontName){
+                    extradata.label_fontSize=label.fontSize;
+                    mapAble+='label_fontName:'+fontName+'%o__%';
+                }
             }
         }else
             extradata.label_fontSize=label.fontSize;

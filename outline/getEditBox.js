@@ -31,10 +31,6 @@ module.exports=function(editBox){
     var fontSize=editBox.fontSize;
     if(fontSize!=29)
         mapAble+='editbox_fontSize:'+fontSize+'%o__%';
-    
-    var lineHeight=editBox.lineHeight;
-    if(lineHeight!=40)
-        mapAble+='editbox_lineHeight:'+lineHeight+'%o__%';
 
     var colorR=editBox.fontColor.r;
     if(colorR!=0)
