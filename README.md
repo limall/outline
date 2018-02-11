@@ -41,6 +41,7 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 lua中使用outline
 ----------------
 * **注意** 记得要将assets中用到的资源（保持目录结构），复制到2dx项目的资源根目录下。可以在ExportRule设置res_dst来自动导出 <br>
+* 需要先导入outline.lua文件，并保证其他文件能通过```require("outline.outline")```找到它 <br>
 * 创建node的代码如下：   
 ```
   require "xxx.exportView"
@@ -53,30 +54,20 @@ lua中使用outline
   O.ExportNode:create(parent)
 ```
 
-* 以上代码创建并返回创建了的节点的指针。 <br>
-* "view.hpp"为导出node的hpp文件 <br>
-* 如果传给create函数的是一个节点，那么将会调用这个节点的addChild函数把新创建的节点加入进来。 <br>
-* 通过这个单例还可以访问子节点的结构体实例。 每个单例都可以创建若干个节点，也可以调用reset函数将导出的节点的性状赋给传入的现有节点...。 <br>
-        
+* 每个单例都可以创建若干个节点，也可以调用reset方法将导出的节点的性状赋给作为参数传入的节点...。 <br>
+* outline支持Widget组件，不过如果想在父节点size变化后能适配，记得在变化后调用node:applyWidget方法 <br>
+* outline.lua目前只有三百多行，支持的ui控件很少，有兴趣的朋友可以看看我的另一个项目outline-idea，里面有我写的几个控件 <br>
+        
 播放动画
 --------
-* 让pNode播放动画的代码如下：  
-        
-        #include "clip_someAnim.hpp"
-        ...
-        auto anim=Anims::SomeAnim::create();
-        anim->play(pNode,"someAnim",false);  
-        
-* "myAnimation1"为该播放行为的标记（会作为回调函数的参数传入） <br>
-* 第三个参数为是否重复播放 <br>
-* 可以传入第四个参数作为播放完的回调函数：
-          
-        
-        anim->play(pNode,"someAnim",false,[=](string key){
-            if(key=="someAnim"){
-                ...
-            }
-        });
+* 让node播放动画的代码如下：  
+```
+require("xxx.exportClip")
+local animation=Anims.ExportClip:create()
+animation:play(node)
+```        
+* 用法与cpp版相近  
+
 使用前必读
 ---------
         1、第一次使用前需要设置，将creator中偏好设置-常规-导入图片时自动裁剪选项取消掉，才能保证2dx和creator的显示效果一致 
