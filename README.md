@@ -37,17 +37,22 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 * 拖动AnimationRecorder.js脚本至播放的node中，将需要导出的animation clip拖到它的clips数组中。 <br>
 * 接着将AutoRecorder脚本拖入Canvas节点中，设置好导出的目录，再把需要导出动画的node拖到exportNode数组中。 <br>
 * 在浏览器中运行项目。所有设置的动画都会在运行时自动逐个播放，都播完后会导出到指定目录。 
-            
-2dx中使用outline
+            
+lua中使用outline
 ----------------
-* **注意** 记得要将assets中用到的资源（保持目录结构），复制到2dx项目的资源根目录下。 <br>
+* **注意** 记得要将assets中用到的资源（保持目录结构），复制到2dx项目的资源根目录下。可以在ExportRule设置res_dst来自动导出 <br>
 * 创建node的代码如下：   
-        
-        
-        #include "view.hpp"
-        ...
-        auto pNode=O::MyNode::pIt()->create(NULL); 
-        
+```
+  require "xxx.exportView"
+  local exportNode=O.ExportNode:create()
+  parent:addChild(exportNode)
+```  
+  也可以这样写：  
+```
+  require "xxx.exportView"
+  O.ExportNode:create(parent)
+```
+
 * 以上代码创建并返回创建了的节点的指针。 <br>
 * "view.hpp"为导出node的hpp文件 <br>
 * 如果传给create函数的是一个节点，那么将会调用这个节点的addChild函数把新创建的节点加入进来。 <br>
