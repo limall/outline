@@ -37,7 +37,8 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 * 拖动AnimationRecorder.js脚本至播放的node中，将需要导出的animation clip拖到它的clips数组中。 <br>
 * 接着将AutoRecorder脚本拖入Canvas节点中，设置好导出的目录，再把需要导出动画的node拖到exportNode数组中。 <br>
 * 在浏览器中运行项目。所有设置的动画都会在运行时自动逐个播放，都播完后会导出到指定目录。 
-            
+              
+              
 lua中使用outline
 ----------------
 * **注意** 记得要将assets中用到的资源（保持目录结构），复制到2dx项目的资源根目录下。可以在ExportRule设置res_dst来自动导出 <br>
@@ -57,7 +58,8 @@ lua中使用outline
 * 每个单例都可以创建若干个节点，也可以调用reset方法将导出的节点的性状赋给作为参数传入的节点...。 <br>
 * outline支持Widget组件，不过如果想在父节点size变化后能适配，记得在变化后调用node:applyWidget方法 <br>
 * outline.lua目前只有三百多行，支持的ui控件很少，有兴趣的朋友可以看看我的另一个项目outline-idea，里面有我写的几个控件 <br>
-        
+          
+          
 播放动画
 --------
 * 让node播放动画的代码如下：  
@@ -67,7 +69,8 @@ local animation=Anims.ExportClip:create()
 animation:play(node)
 ```        
 * 用法与cpp版相近  
-
+  
+  
 使用前必读
 ---------
         1、第一次使用前需要设置，将creator中偏好设置-常规-导入图片时自动裁剪选项取消掉，才能保证2dx和creator的显示效果一致 
