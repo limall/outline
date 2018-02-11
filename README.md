@@ -1,10 +1,16 @@
-outline &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
 =======
 简介
 -------
-* **特点：** outline致力于为2dx引入组件化工作流的同时，保持较高的兼容性、易用性和易迁移性。不同于官方版本，outline支持2dx3.14以下版本(我的项目3.10可以使用，具体最低支持到哪个版本还未测试)，任意node都能被单独导出，并且支持导出自定义组件。
-* **导出源码：** outline直接导出c++源码，每一次导出的node整体，或者每个animation clip都会存放于单个hpp文件中，开发者只需include对应的hpp文件即可直接使用。导出节点时，导出的源码将会包含整个导出节点的模板树，这里我把它称为creator树，creator树上的每个creator实例与导出节点一一对应，都可以生产对应的节点。creator树以结构体指针嵌套构成，利用ide的代码提示可以快速找到树上的任一creator实例，调用这个实例的create便能生产想要的节点。直接导出源码的方案，优势和劣势都很明显。优势是快，所有设计信息都会编译为机器码，不需要额外的io操作和字符串操作，也不易被同行copy，使用起来更灵活；劣势是不能进行热更新（后续如有lua版本应该就能支持了）。
-* **设计思路：** 正如其名，outline将会把注意力放在node的轮廓上。因为我发现，用编辑器写界面相比较于手写，最大的优势莫过于能够直观的设置node的position、scale、rotation等属性，这些都可以概括为node的轮廓。
+* **特点：** outline-lua(以下简称outline)致力于为2dx引入组件化工作流。不同于官方版本，outline支持2dx3.14以下版本(我的项目3.10可以使用，具体最低支持到哪个版本还未测试)，并且支持导出自定义组件。
+* **导出源码：** outline直接导出lua源码，每一次导出的node整体，或者每个animation clip都会存放于单个lua文件中，开发者只需require对应的lua文件即可直接使用。
+* **节点模板：** require文件后，并非直接生成节点，而是生成每个节点的模板(名称是该节点名称的首字母改为大写)，通过节点模板的create方法便可生产该节点实例。例如：  
+```local node1=O.Node1:create()```  
+* **完整的节点模板索引：** 导出的节点模板，将会保持父子关系，并且所有根节点模板都挂在全局变量O中。例如，导出了节点root1,要访问其子节点child1的模板的代码：  
+```O.Root1.Child1```   
+如果已经生产过节点实例，则可以通过lastNode方法获取到最新生产的节点实例，例如：  
+```O.Root1.Child1:lastNode():setVisible(false)```  
+获取节点模板的过程是很快的，因为它支持babel的代码提示。  
 
 导出node
 --------
