@@ -7,7 +7,8 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 * **节点模板：** require文件后，并非直接生成节点，而是生成每个节点的模板(名称是该节点名称的首字母改为大写)，通过节点模板的create方法便可生产该节点实例。例如：  
 ```local node1=O.Node1:create()```  
 
-* **完整的节点模板索引：** 导出的节点模板，将会保持父子关系，并且所有根节点模板都挂在全局变量O中。例如，导出了节点root1,要访问其子节点child1的模板的代码：```O.Root1.Child1```,如果已经生产过节点实例，则可以通过lastNode方法获取到最新生产的节点实例，例如：```O.Root1.Child1:lastNode():setVisible(false)```    
+* **完整的节点模板索引：** 导出的节点模板，将会保持父子关系，并且所有根节点模板都挂在全局变量O中。例如，导出了节点root1,要访问其子节点child1的模板的代码：```O.Root1.Child1```,如果已经生产过节点实例，则可以通过lastNode方法获取到最新生产的节点实例，例如：```O.Root1.Child1:lastNode():setVisible(false)```  
+
   获取节点模板的过程是很快的，因为它支持babel的代码提示。  
 
 导出node
