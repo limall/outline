@@ -1,4 +1,2 @@
-1、lua
-2、解决exportRule变多不好管理的问题
-3、导出资源
-4、针对particleSystem的动画
+1、添加导出无依赖文件的功能
+2、针对particleSystem的动画
