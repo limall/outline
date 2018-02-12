@@ -28,7 +28,7 @@ function isRightProp(propName){
     return false;
 }
 
-function buildMapable(mapAble){
+function buildMapable(mapAble,dependent){
     var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
     function ifCharIsNumber(char){
         for(var i=0;i<numChars.length;i++){
@@ -78,7 +78,27 @@ function buildMapable(mapAble){
         var key=keyValue.substring(0,seperate);
         var value=keyValue.substring(seperate+1);
         if(key&&key!=''&&value&&value!=''&&value!='null'){
+            if(key==='isEditBox')
+                dependent.editBox=true;
+            if(key==='particleSystem')
+                dependent.particleSystem=true;
+            if(key==='isProgressBar')
+                dependent.progressBar=true;
+            if(key==='hasWidget')
+                dependent.widget=true;
             value=produceValue(value);
+            if(key==='buttonType'){
+                dependent.btn=true;
+                dependent.isBtn=true;
+                if(value==='1')
+                    dependent.scale=true;
+                if(value==='2')
+                    dependent.color=true;
+                if(value==='3')
+                    dependent.sprite=true;
+                if(value==='4')
+                    dependent.select=true;
+            }
             luaCode+='        '+key+'='+value+',\n';
         }
     });
@@ -91,17 +111,19 @@ function buildMapable(mapAble){
  * @param {"Object"} outline 一个outline
  * @returns {string} 一个outline的lua代码
  */
-function buildOneOutline(outline){
+function buildOneOutline(outline,dependent){
     var pname=util.getPName(outline);
     var luaCode='local outline_'+pname+'=Base.createOutline({\n';
     for(var propName in outline){
         if(isRightProp(propName)&&luaDefault[propName]!==outline[propName]){
             var value=outline[propName];
             if(propName==='mapAble'){
-                luaCode+=buildMapable(value.substring(1,value.length-1));
+                luaCode+=buildMapable(value.substring(1,value.length-1),dependent);
             }else{
                 if(propName==='name')
                     value='"'+value+'"';
+                if(propName==='isLabel')
+                    dependent.label=true;
                 luaCode+='    '+propName+'='+value+',\n';
             }
             hasDot=true;
@@ -116,10 +138,12 @@ function buildOneOutline(outline){
  * @param {"Array"} outlines 多个outline
  * @returns {string} 多个outline的lua代码
  */
-module.exports.buildOutlines=function(outlines){
+module.exports.buildOutlines=function(outlines,dependent,st){
+    if(!dependent)
+        dependent={};
     var luaCode='';
     outlines.forEach(function(outline){
-        luaCode+=buildOneOutline(outline)+'\n';
+        luaCode+=buildOneOutline(outline,dependent)+'\n';
     });
     return luaCode;
 }

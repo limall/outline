@@ -46,6 +46,7 @@ module.exports = {
                     obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.excludeNodes,exportRule.use_world_position);
                     obj.dstPath=exportRule.dstPath;
                     obj.language=exportRule.language;
+                    obj.export_independent_file=exportRule.export_independent_file;
                     nodes.push(obj);
                     if(exportRule.resFolder&&exportRule.resFolder!='')
                         assetsExportor.startCopy();

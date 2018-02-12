@@ -1,4 +1,5 @@
 var luaBuilder=require('./builder/buildlua');
+var independentLuaBuilder=require('./independentBuilder/buildlua');
 
 var assetsExportor=require('./assetsExportor');
 
@@ -41,7 +42,10 @@ module.exports = {
         for(var i=0;i<dataObj.length;i++){
           var obj=dataObj[i];
           var nodeDataObj=JSON.parse(obj.nodeData);
-          luaBuilder.buildNode(nodeDataObj,obj.dstPath);
+          if(obj.export_independent_file)
+            independentLuaBuilder.buildNode(nodeDataObj,obj.dstPath);
+          else
+            luaBuilder.buildNode(nodeDataObj,obj.dstPath);
         }
       });
     }

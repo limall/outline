@@ -9,7 +9,8 @@ function buildOneCreator(outline){
     var pname=util.getPName(outline);
     var creatorName=util.firstCaseUp(pname);
     var outlineName='outline_'+pname;
-    var luaCode='local '+creatorName+'=Base.createCreator('+outlineName+')\n';
+    var luaCode='local '+creatorName+'={};';
+    luaCode+='Base.createCreator('+outlineName+','+creatorName+')\n';
     var components=outline.components;
     for(var propName in components){
         var code=creatorName+'.'+propName+'={\n';
