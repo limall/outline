@@ -2,3 +2,4 @@
 规范组件和creator控件信息的导出
 重构信息获取源码
 phaser.js
+英文注释和英文Readme
