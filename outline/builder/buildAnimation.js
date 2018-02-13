@@ -40,7 +40,7 @@ function addRotation(name,value){
     return 'that.'+name+':setRotation(that.'+name+':getRotation()+'+value+');';
 }
 function addOpacity(name,value){
-    return 'that:addOpacity(that.'+name+','+value+','+name+');';
+    return 'that:addOpacity(that.'+name+','+value+',"'+name+'");';
 }
 function addZOrder(name,value){
     return 'that.'+name+':setLocalZOrder(that.'+name+':getLocalZOrder()+'+value+');';    
