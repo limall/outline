@@ -20,6 +20,7 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 　　　　src_node:　　　　　　需要导出的node，在creator直接把node拖过来即可; 
 　　　　exclude_nodes:　　　导出node中需要剔除的子node; 
 　　　　use_world_position:　导出的node的position是世界坐标系，还是node坐标系。
+       export_independent_file:  如果选为true，则导出的代码不再依赖outline.lua。具有很强的兼容性的同时，文件体积会变大
        res_dst:            同时导出的资源文件，包括plist、图片、字体等。这里需填写导出的目录位置，空着则不导出
 ```
 * 点击outline菜单子菜单export node，就会弹出选择export rule的对话框，勾选需要套用的export rule，然后点导出即可  
