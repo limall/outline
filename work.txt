@@ -1,1 +1,4 @@
 在ExportRule中添加设置挂载的全局名称的功能
+规范组件和creator控件信息的导出
+重构信息获取源码
+phaser.js
