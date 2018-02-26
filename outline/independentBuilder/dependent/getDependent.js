@@ -17,7 +17,7 @@ function getCode(file,key){
         return code;
     }
 }
-
+obj.outline_head=getCode('outlineTemplate.lua','head');
 obj.outline_main=getCode('outlineTemplate.lua','main');
 obj.outline_widget=getCode('outlineTemplate.lua','widget');
 
@@ -35,7 +35,7 @@ obj.createNode_createParticleSystem=getCode('createNodeTemplate.lua','createPart
 obj.createNode_processBtn=getCode('createNodeTemplate.lua','processBtn');
 
 obj.getDependent=function(dependent){
-    var code='';
+    var code=obj.outline_head;
     if(dependent.isBtn)
         code+=obj.btn_main+'\n';
     if(dependent.scale)

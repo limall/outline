@@ -1,5 +1,7 @@
 --start createEditBox
-local function createEditBox(extraData)
+local function createEditBox(outline)
+    local extraData=outline.extraData
+
     local back=extraData.editbox_backgroundImage
     if(back)then
         local backSprite=ccui.Scale9Sprite:createWithSpriteFrame(getFrame(back))
@@ -25,22 +27,19 @@ local function createEditBox(extraData)
             editBox:setFontSize(fontSize)
         end
 
-        local colorR=extraData.editbox_fontColorR
-        local colorG=extraData.editbox_fontColorG
-        local colorB=extraData.editbox_fontColorB
-        local colorA=extraData.editbox_fontColorA
-        if(colorR~=nil or colorG~=nil or colorB~=nil or colorA~=nil)then
-            if(nil==colorB)then colorB=0 end
-            if(nil==colorG)then colorG=0 end
-            if(nil==colorR)then colorR=0 end
-            if(nil==colorA)then colorA=255 end
-            local color=cc.c4b(colorR,colorG,colorB,colorA)
+        local color=extraData.editbox_fontColor
+        if(nil ~=color )then
             editBox:setFontColor(color)
+        end
+
+        local str=extraData.editbox_string
+        if(nil ~= str)then
+            editBox:setText('' .. str)
         end
 
         local placeholder=extraData.editbox_placeholder
         if(nil~=placeholder)then
-            editBox:setPlaceHolder(placeholder)
+            editBox:setPlaceHolder('' .. placeholder)
         end
 
         local placeholderFontSize=extraData.editbox_placeholderFontSize
@@ -63,9 +62,11 @@ local function createEditBox(extraData)
 end
 --end createEditBox
 --start progressBar
-local function createProgressBar(extraData)
+local function createProgressBar(outline)
+    local extraData=outline.extraData
+
     local horizontal=false
-    if(extraData==0)then
+    if(extraData.progressbar_mode==0)then
         horizontal=true
     end
 
@@ -100,18 +101,24 @@ end
 local function createLabel(outline)
     local extraData=outline.extraData
     local label
+    local label_string='' .. extraData.label_string
     if(extraData.isLabelAtlas)then
         local startChar=extraData.labelAtlas_startChar
         local atlas=extraData.labelAtlas_atlas
         local width=extraData.labelAtlas_itemWidth
         local height=extraData.labelAtlas_itemHeight
-        label=cc.LabelAtlas:_create(outline.label_string,atlas,width,height,startChar)
+        label=cc.LabelAtlas:_create(label_string,atlas,width,height,startChar)
     elseif(extraData.label_fontName)then
         local fontsHolder=extraData.label_fontsHolder
-        local fontStr=fontsHolder.. '/' ..extraData.label_fontName
-        label=cc.Label:createWithTTF(outline.label_string,fontStr,outline.label_fontSize)
+        local fontStr
+        if(nil ~= fontsHolder)then
+            fontStr=fontsHolder.. '/' ..extraData.label_fontName
+        else
+            fontStr=extraData.label_fontName
+        end
+        label=cc.Label:createWithTTF(label_string,fontStr,extraData.label_fontSize)
     else
-        label = cc.Label:createWithSystemFont(outline.label_string,'Arial',outline.label_fontSize)
+        label = cc.Label:createWithSystemFont(label_string,'Arial',extraData.label_fontSize)
     end
     return label
 end
@@ -119,38 +126,40 @@ end
 --start createParticleSystem
 local EMITTERMODE_GRAVITY=0
 local EMITTERMODE_RADIUS=1
-local function createParticleSystem(extraData)
-    local ps=cc.ParticleSystemQuad:create(extraData.file)
+local function createParticleSystem(outline)
+    local extraData=outline.extraData
+
+    local ps=cc.ParticleSystemQuad:create(extraData.ps_file)
     ps:setAutoRemoveOnFinish(true)
-    if(extraData.texture)then
-        local temp=display.newSprite(extraData.texture)
+    if(extraData.ps_texture)then
+        local temp=display.newSprite(extraData.ps_texture)
         ps:setTexture(temp:getTexture())
     end
-    if(extraData.custom)then
-        ps:setEmissionRate(extraData.emissionRate)
-        ps:setLife(extraData.life)
-        ps:setLifeVar(extraData.lifeVar)
-        ps:setDuration(extraData.duration)
-        ps:setTotalParticles(extraData.totalParticles)
-        ps:setStartColor(extraData.startColor)
-        ps:setStartColorVar(extraData.startColorVar)
-        ps:setEndColor(extraData.endColor)
-        ps:setEndColorVar(extraData.endColorVar)
-        ps:setAngle(extraData.angle)
-        ps:setStartSize(extraData.startSize)
-        ps:setEndSize(extraData.endSize)
-        ps:setStartSpin(extraData.startSpin)
-        ps:setEndSpin(extraData.endSpin)
-        ps:setAngleVar(extraData.angleVar)
-        ps:setStartSizeVar(extraData.startSizeVar)
-        ps:setEndSizeVar(extraData.endSizeVar)
-        ps:setStartSpinVar(extraData.startSpinVar)
-        ps:setEndSpinVar(extraData.endSpinVar)
-        ps:setLifeVar(extraData.lifeVar)
-        ps:setSourcePosition(cc.p(extraData.sourcePosX,extraData.sourcePosY))
-        ps:setPosVar(cc.p(extraData.posVarX,extraData.posVarY))
+    if(extraData.ps_custom)then
+        ps:setEmissionRate(extraData.ps_emissionRate)
+        ps:setLife(extraData.ps_life)
+        ps:setLifeVar(extraData.ps_lifeVar)
+        ps:setDuration(extraData.ps_duration)
+        ps:setTotalParticles(extraData.ps_totalParticles)
+        ps:setStartColor(extraData.ps_startColor)
+        ps:setStartColorVar(extraData.ps_startColorVar)
+        ps:setEndColor(extraData.ps_endColor)
+        ps:setEndColorVar(extraData.ps_endColorVar)
+        ps:setAngle(extraData.ps_angle)
+        ps:setStartSize(extraData.ps_startSize)
+        ps:setEndSize(extraData.ps_endSize)
+        ps:setStartSpin(extraData.ps_startSpin)
+        ps:setEndSpin(extraData.ps_endSpin)
+        ps:setAngleVar(extraData.ps_angleVar)
+        ps:setStartSizeVar(extraData.ps_startSizeVar)
+        ps:setEndSizeVar(extraData.ps_endSizeVar)
+        ps:setStartSpinVar(extraData.ps_startSpinVar)
+        ps:setEndSpinVar(extraData.ps_endSpinVar)
+        ps:setLifeVar(extraData.ps_lifeVar)
+        ps:setSourcePosition(extraData.ps_sourcePos)
+        ps:setPosVar(extraData.ps_posVar)
 
-        local temp=extraData.positionType
+        local temp=extraData.ps_positionType
 		local positionType = cc.POSITION_TYPE_FREE
 		if (temp == 2)then
 			positionType = cc.POSITION_TYPE_RELATIVE;
@@ -158,23 +167,23 @@ local function createParticleSystem(extraData)
 			positionType = cc.POSITION_TYPE_GROUPED;
         end
 		ps:setPositionType(positionType) 
-		ps:setEmitterMode(extraData.emitterMode);
+		ps:setEmitterMode(extraData.ps_emitterMode);
 
-        if(extraData.emitterMode==EMITTERMODE_GRAVITY)then
-            ps:setSpeed(extraData.speed)
-            ps:setSpeedVar(extraData.speedVar)
-            ps:setTangentialAccel(extraData.tangentialAccel)
-            ps:setTangentialAccelVar(extraData.tangentialAccelVar)
-            ps:setRadialAccel(extraData.radialAccel)
-            ps:setRotationIsDir(extraData.rotationIsDir)
-            ps:setGravity(cc.p(extraData.gravityX,extraData.gravityY))
-        elseif(extraData.emitterMode==EMITTERMODE_RADIUS)then
-            ps:setStartRadius(extraData.startRadius)
-			ps:setStartRadiusVar(extraData.startRadiusVar)
-			ps:setEndRadius(extraData.endRadius)
-			ps:setEndRadiusVar(extraData.endRadiusVar);
-			ps:setRotatePerSecond(extraData.rotatePerS);
-			ps:setRotatePerSecondVar(extraData.rotatePerSVar);
+        if(extraData.ps_emitterMode==EMITTERMODE_GRAVITY)then
+            ps:setSpeed(extraData.ps_speed)
+            ps:setSpeedVar(extraData.ps_speedVar)
+            ps:setTangentialAccel(extraData.ps_tangentialAccel)
+            ps:setTangentialAccelVar(extraData.ps_tangentialAccelVar)
+            ps:setRadialAccel(extraData.ps_radialAccel)
+            ps:setRotationIsDir(extraData.ps_rotationIsDir)
+            ps:setGravity(extraData.ps_gravity)
+        elseif(extraData.ps_emitterMode==EMITTERMODE_RADIUS)then
+            ps:setStartRadius(extraData.ps_startRadius)
+			ps:setStartRadiusVar(extraData.ps_startRadiusVar)
+			ps:setEndRadius(extraData.ps_endRadius)
+			ps:setEndRadiusVar(extraData.ps_endRadiusVar);
+			ps:setRotatePerSecond(extraData.ps_rotatePerS);
+			ps:setRotatePerSecondVar(extraData.ps_rotatePerSVar);
         end
     end
     return ps
@@ -182,7 +191,6 @@ end
 --end createParticleSystem
 --start processBtn
 local function processBtn(node,extraData)
-    local btnFactory=require "outline.BtnFactory"
     local buttonType=extraData.buttonType
 
     local image_disabled=extraData.image_disabled
@@ -228,23 +236,27 @@ end
 --end processBtn
 --start main
 local function createSprite(outline)
+    
     local extraData=outline.extraData
-    local spriteFrame=outline.spriteFrame
+    local spriteFrame=extraData.sprite_spriteFrame
+
     local index=string.find(spriteFrame,'splash.png')
     if(index)then
         return
     end
+
     local frame=getFrame(spriteFrame)
     if(not frame)then
         return
     end
-    if(extraData and extraData.slice)then
+
+    if(extraData.sprite_isSliced)then
         local scale9
         scale9=cc.Scale9Sprite:createWithSpriteFrame(frame)
-        scale9:setInsetBottom(extraData.insetBottom)
-		scale9:setInsetLeft(extraData.insetLeft)
-		scale9:setInsetRight(extraData.insetRight)
-		scale9:setInsetTop(extraData.insetTop)
+        scale9:setInsetBottom(extraData.sprite_insetBottom)
+		scale9:setInsetLeft(extraData.sprite_insetLeft)
+		scale9:setInsetRight(extraData.sprite_insetRight)
+		scale9:setInsetTop(extraData.sprite_insetTop)
         return scale9
     else
         return cc.Sprite:createWithSpriteFrame(frame)
@@ -255,36 +267,41 @@ local function createNode(creator,parent)
     local outline=creator.outline
     local node
     local extraData=outline.extraData
+    
     if(extraData)then 
-        local isProgressBar=outline.extraData.isProgressBar
-        if(isProgressBar)then
-            node=createProgressBar(outline.extraData)
+        if(extraData.isProgressBar)then
+            node=createProgressBar(outline)
+        end
+
+        if(extraData.isSprite)then
+            node=createSprite(outline)
+        end
+
+        if(extraData.isLabel)then
+            node=createLabel(outline)
+        end
+
+        if(extraData.isEditBox)then
+            node=createEditBox(outline)
+        end
+
+        if(extraData.isParticleSystem)then
+            node=createParticleSystem(outline)
         end
     end
-    local isSprite=outline.isSprite
-    if(isSprite)then
-        node=createSprite(outline)
-    end
-    local isLabel=outline.isLabel
-    if(isLabel)then
-        node=createLabel(outline)
-    end
-    if(extraData and extraData.isEditBox)then
-        local createEditBox=require "outline.createEditBox"
-        node=createEditBox(extraData)
-    end
-    if(extraData and extraData.particleSystem)then
-        node=createParticleSystem(extraData)
-    end
+    
     if(not node)then
         node=display.newNode()
     end
+
     if(extraData and extraData.buttonType)then
         processBtn(node,extraData)
     end
+
     if(parent)then
         parent:addChild(node)
     end
+
     return node
 end
 --end main

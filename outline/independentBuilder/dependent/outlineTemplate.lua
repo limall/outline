@@ -123,11 +123,11 @@ local function getApplyWidget(outline)
 end
 --end widget
 
---start main
-local function getFrame(framePath)
+--start head
+function getFrame(framePath)
     local frame
     local sep=string.find(framePath,'%:')
-    if(sep>0)then
+    if(sep and sep>0)then
         local imageFile=string.sub(framePath,0,sep-1)
         local spriteFrameName=string.sub(framePath,sep+1)
 
@@ -143,11 +143,13 @@ local function getFrame(framePath)
             frame=cache:getSpriteFrame(spriteFrameName)
         end
     else
-        frame=cc.SpriteFrame:create(framePath)
+        local temp=display.newSprite(framePath)
+        frame=temp:getSpriteFrame()
     end
     return frame    
 end
-
+--end head
+--start main
 local Outline={}
 function Outline:create( parent )
     local node=self.createNode(self.creator,parent)
@@ -232,4 +234,27 @@ local createCreator=function(outline,creator)
     creator.create=Creator.create
     creator.lastNode=Creator.lastNode
 end
+
+function getScale(node)
+    local scaleX=1
+    local scaleY=1
+    local parent=node
+    while(parent)do
+        scaleX = scaleX * parent:getScaleX()
+        scaleY = scaleY * parent:getScaleY()
+        parent = parent:getParent()
+    end
+    return scaleX,scaleY
+end
+
+function getRealSize(node)
+    local realScaleX,realScaleY=getScale(node)
+    local size=node:getContentSize()
+    local realSize=cc.size(size.width*realScaleX,size.height*realScaleY)
+    return realSize
+end
+
+Vec2=cc.p;
+Color=cc.c4b;
+Size=cc.size;
 --end main

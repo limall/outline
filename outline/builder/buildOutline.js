@@ -18,7 +18,28 @@ var luaDefault={
     colorG:255,
     colorB:255
 };
-var exportProperties=['x','y','width','height','anchorX','anchorY','scaleX','scaleY','rotation','opacity','visible','zOrder','key','value','colorR','colorG','colorB','name','isSprite','isLabel','label_string','label_fontSize','mapAble','spriteFrame'];
+
+var exportProperties=[
+    'x',
+    'y',
+    'width',
+    'height',
+    'anchorX',
+    'anchorY',
+    'scaleX',
+    'scaleY',
+    'rotation',
+    'opacity',
+    'visible',
+    'zOrder',
+    'key',
+    'value',
+    'colorR',
+    'colorG',
+    'colorB',
+    'name',
+    'extraData'
+];
 
 function isRightProp(propName){
     for(var i=0;i<exportProperties.length;i++){
@@ -28,56 +49,16 @@ function isRightProp(propName){
     return false;
 }
 
-function buildMapable(mapAble,dependent){
-    var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
-    function ifCharIsNumber(char){
-        for(var i=0;i<numChars.length;i++){
-            var numChar=numChars[i];
-            if(numChar===char)
-                return i;
-        }
-        return -1;
-    }
-
-    function isNumber(str){
-        var chars=str.split('');
-        var haveDot=false;
-        for(var i=0;i<chars.length;i++){
-            var char=chars[i];
-            var index=ifCharIsNumber(char);
-            if(index===-1)
-                return false;
-            else{
-                if(index===11&&i!==0)
-                    return false;
-                if(haveDot&&index===10)
-                    return false;
-                if(index===10)
-                    haveDot=true;
+function buildTypeInfo(typeInfo,dependent){
+    var hasInfo=false;
+    var luaCode='';
+    for(var key in typeInfo){
+        var value=typeInfo[key];
+        if(value&&value!=''&&value!='null'){
+            if(!hasInfo){
+                luaCode+='    extraData={\n';
+                hasInfo=true;
             }
-        }
-        return true;
-    }
-
-    function produceValue(value){
-        if(isNumber(value))
-            return value;
-        else if(value.indexOf('rgba')===0){
-            value=value.replace(/rgba/,'cc.c4b');
-            return value;
-        }else if(value.indexOf('Vec2')===0||value==='true'||value==='false'){
-            return value;
-        }
-        return '"'+value+'"';
-    }
-
-    var luaCode='    extraData={\n';
-    var keyValues=mapAble.split('%o__%');
-    keyValues.forEach(function(keyValue){
-        var seperate=keyValue.indexOf(':');
-        var key=keyValue.substring(0,seperate);
-        var value=keyValue.substring(seperate+1);
-        if(key&&key!=''&&value&&value!=''&&value!='null'){
             if(key==='isEditBox')
                 dependent.editBox=true;
             if(key==='particleSystem')
@@ -86,7 +67,6 @@ function buildMapable(mapAble,dependent){
                 dependent.progressBar=true;
             if(key==='hasWidget')
                 dependent.widget=true;
-            value=produceValue(value);
             if(key==='buttonType'){
                 dependent.btn=true;
                 dependent.isBtn=true;
@@ -99,10 +79,13 @@ function buildMapable(mapAble,dependent){
                 if(value==='4')
                     dependent.select=true;
             }
+            if(key==='isLabel')
+                dependent.label=true;
             luaCode+='        '+key+'='+value+',\n';
         }
-    });
-    luaCode+='    },\n';
+    }
+    if(hasInfo)
+        luaCode+='    },\n';
     return luaCode;
 }
 
@@ -117,13 +100,11 @@ function buildOneOutline(outline,dependent){
     for(var propName in outline){
         if(isRightProp(propName)&&luaDefault[propName]!==outline[propName]){
             var value=outline[propName];
-            if(propName==='mapAble'){
-                luaCode+=buildMapable(value.substring(1,value.length-1),dependent);
+            if(propName==='extraData'){
+                luaCode+=buildTypeInfo(outline.extraData.typeInfo,dependent);
             }else{
                 if(propName==='name')
                     value='"'+value+'"';
-                if(propName==='isLabel')
-                    dependent.label=true;
                 luaCode+='    '+propName+'='+value+',\n';
             }
             hasDot=true;

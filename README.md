@@ -9,6 +9,7 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 
 * **完整的节点模板索引：** 导出的节点模板，将会保持父子关系，并且所有根节点模板都挂在全局变量O中。例如，导出了节点root1,要访问其子节点child1的模板的代码：```O.Root1.Child1```,如果已经生产过节点实例，则可以通过lastNode方法获取到最新生产的节点实例，例如：```O.Root1.Child1:lastNode():setVisible(false)```  
   **获取节点模板的过程是很快的，因为它支持babel的代码提示。**  
+* **较高的向后兼容性：** 导出节点时可以选择作为独立文件导出，导出的文件即使在creator版本升级后，或者outline版本升级后，仍然可以正常使用，不需任何修改  
 
 导出node
 --------
@@ -46,13 +47,13 @@ lua中使用outline
 * 需要先导入outline.lua文件，并保证其他文件能通过```require("outline.outline")```找到它 <br>
 * 创建node的代码如下：   
 ```
-  require "xxx.exportView"
+  require "_yourPath_.view"
   local exportNode=O.ExportNode:create()
   parent:addChild(exportNode)
 ```  
   也可以这样写：  
 ```
-  require "xxx.exportView"
+  require "_yourPath_.view"
   O.ExportNode:create(parent)
 ```
 
@@ -65,7 +66,7 @@ lua中使用outline
 --------
 * 让node播放动画的代码如下：  
 ```
-require("xxx.exportClip")
+require("_yourPath_.exportClip")
 local animation=Anims.ExportClip:create()
 animation:play(node)
 ```        

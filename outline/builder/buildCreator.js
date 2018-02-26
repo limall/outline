@@ -11,16 +11,18 @@ function buildOneCreator(outline){
     var outlineName='outline_'+pname;
     var luaCode='local '+creatorName+'={};';
     luaCode+='Base.createCreator('+outlineName+','+creatorName+')\n';
-    var components=outline.components;
-    for(var propName in components){
-        var code=creatorName+'.'+propName+'={\n';
-        var component=components[propName];
-        component.forEach(function(extraData){
-            code+='    '+extraData.name+'='+extraData.value+',\n'
-        });
+    
+    var userDatas=outline.extraData.userDatas;
+    userDatas.forEach(function(userData){
+        var code=creatorName+'.'+userData.UserDataName+'={\n';
+        for(var propName in userData){
+            if(propName!=='UserDataName'){
+                code+='    '+propName+'='+userData[propName]+',\n'
+            }
+        }
         code+='}\n'
         luaCode+=code+'\n';
-    }
+    });
     return luaCode;
 }
 

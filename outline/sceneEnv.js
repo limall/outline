@@ -1,14 +1,15 @@
-//获取Canvas中的ExportRule信息，及其选中的node的数据
-var nodeWalker=require('./nodeWalker');
-var getExportRules=require('./getExportRule');
-var assetsExportor=require('./assetsExportor');
+var catcher=require('./catcher/Catcher');
+var catchExportRules=catcher.catchExportRules;
+var catchOutline=catcher.catchOutline;
+
+var assetsExportor=require('./AssetsExportor');
 module.exports = {
     //用于获取Canvas上所有export rule的信息
     'getExportRules':function(event){
         var canvas = cc.find('Canvas');
         if(canvas){
             var exportRules=[];
-            var temp=getExportRules(canvas);
+            var temp=catchExportRules(canvas);
             for(var i=0;i<temp.length;i++){
                 var obj={};
                 obj.ruleName=temp[i].ruleName;
@@ -34,16 +35,15 @@ module.exports = {
         }
         var canvas = cc.find('Canvas');
         if(canvas){
-            var exportRules=getExportRules(canvas);
+            var exportRules=catchExportRules(canvas);
             var nodes=[];
             for(var i=0;i<exportRules.length;i++){
                 var exportRule=exportRules[i];
                 if(hasName(exportRule.ruleName)){
                     if(exportRule.resFolder&&exportRule.resFolder!='')
                         assetsExportor.setFolder(exportRule.resFolder,projectPath);
-                    nodeWalker.init(canvas);
                     var obj=new Object();
-                    obj.nodeData=nodeWalker.getDataByNode(exportRule.src_Node,exportRule.excludeNodes,exportRule.use_world_position);
+                    obj.nodeData=catchOutline(exportRule);
                     obj.dstPath=exportRule.dstPath;
                     obj.language=exportRule.language;
                     obj.export_independent_file=exportRule.export_independent_file;

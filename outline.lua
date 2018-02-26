@@ -33,16 +33,17 @@ local createNode_default=function(creator,parent)
     local node
     if(creator) then
         local outline=creator.outline
-        if(outline.isSprite) then
-            local spriteFrame=outline.spriteFrame
+        local extraData=outline.extraData
+        if(extraData and extraData.isSprite)then
+            local spriteFrame=extraData.spriteFrame
             local frame=getFrame(spriteFrame)
             if(frame)then
                 node=cc.Sprite:createWithSpriteFrame(frame)
             else
                 node=display.newNode()
             end
-        elseif (outline.isLabel) then
-            node=cc.Label:createWithSystemFont(outline.label_string, "Arial", outline.label_fontSize)
+        elseif (extraData and extraData.isLabel) then
+            node=cc.Label:createWithSystemFont("" .. extraData.label_string, "Arial", extraData.label_fontSize)
         else
             node=display.newNode()
         end

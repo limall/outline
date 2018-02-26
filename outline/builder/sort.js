@@ -18,11 +18,13 @@ function sort(obj){
                 hasName.push(originName);
                 return originName;
             }
-            for(var j=0;j<children.length;j++){
-                var child=children[j];
-                child.name=getNewName(child.name);
-                child.parent=pre[i];
-                thisLevel.push(child);
+            if(children){
+                for(var j=0;j<children.length;j++){
+                    var child=children[j];
+                    child.name=getNewName(child.name);
+                    child.parent=pre[i];
+                    thisLevel.push(child);
+                }
             }
         }
         pre=thisLevel;

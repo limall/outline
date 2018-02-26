@@ -1,3 +1,5 @@
+var getValueStr=require('./ValueStr');
+
 var UNITTYPE_PX=1
 var UNITTYPE_RATE=2
 
@@ -9,11 +11,17 @@ function cloneWidget(widget){
     return newWidget;
 }
 
-module.exports=function(node){
+module.exports=function(node,typeInfo){
     var widget=node.getComponent(cc.Widget);
+    
+    //In order to get the origin size of this node,we need to change properties of its widget.
+    //Before doing this,we have to clone the origin widget as a backup.
+    //So after the size is got,we can restore the widget.
     var temp=cloneWidget(widget);
+
     if(widget){
-        var str='hasWidget:true%o__%';
+        typeInfo.add('hasWidget',getValueStr(true));
+
         var isAlignLeft=widget.isAlignLeft;
         var isAlignRight=widget.isAlignRight;
         var isAlignTop=widget.isAlignTop;
@@ -36,14 +44,14 @@ module.exports=function(node){
         if(isAlignBottom&&isAlignTop){
             var heightTemp=node.height;
             widget.isAlignBottom=false;
-            str+='widget_originHeight:'+node.height+'%o__%';
+            typeInfo.add('widget_originHeight',getValueStr(node.height));
             node.height=heightTemp;
         }
 
         if(isAlignLeft&&isAlignRight){
             var widthTemp=node.width;
             widget.isAlignLeft=false;
-            str+='widget_originWidth:'+node.width+'%o__%';
+            typeInfo.add('widget_originWidth',getValueStr(node.width));
             node.width=widthTemp;
         }
 
@@ -52,47 +60,45 @@ module.exports=function(node){
         }
 
         if(isAlignHorizontalCenter){
-            str+='widget_AHCenter:true%o__%';
-            str+='widget_HCenter:'+horizontalCenter+'%o__%';
+            typeInfo.add('widget_AHCenter',getValueStr(true));
+            typeInfo.add('widget_HCenter',getValueStr(horizontalCenter));
             var unit_horizontalCenter=isAbsoluteHorizontalCenter?UNITTYPE_PX:UNITTYPE_RATE;
-            str+='widget_UHCenter:'+unit_horizontalCenter+'%o__%';
+            typeInfo.add('widget_UHCenter',getValueStr(unit_horizontalCenter));
         }else{
             if(isAlignLeft){
-                str+='widget_ALeft:true%o__%';
-                str+='widget_left:'+left+'%o__%';
+                typeInfo.add('widget_ALeft',getValueStr(true));
+                typeInfo.add('widget_left',getValueStr(left));
                 var unit_left=isAbsoluteLeft?UNITTYPE_PX:UNITTYPE_RATE;
-                str+='widget_unit_left:'+unit_left+'%o__%';
+                typeInfo.add('widget_unit_left',getValueStr(unit_left));
             }
 
             if(isAlignRight){
-                str+='widget_ARight:true%o__%';
-                str+='widget_right:'+right+'%o__%';
+                typeInfo.add('widget_ARight',getValueStr(true));
+                typeInfo.add('widget_right',getValueStr(right));
                 var unit_right=isAbsoluteRight?UNITTYPE_PX:UNITTYPE_RATE;
-                str+='widget_unit_right:'+unit_right+'%o__%';
+                typeInfo.add('widget_unit_right',getValueStr(unit_right));
             }
         }
 
         if(isAlignVerticalCenter){
-            str+='widget_AVCenter:true%o__%';
-            str+='widget_VCenter:'+verticalCenter+'%o__%';
+            typeInfo.add('widget_AVCenter',getValueStr(true));
+            typeInfo.add('widget_VCenter',getValueStr(verticalCenter));
             var unit_verticalCenter=isAbsoluteVerticalCenter?UNITTYPE_PX:UNITTYPE_RATE;
-            str+='widget_UVCenter:'+unit_verticalCenter+'%o__%';
+            typeInfo.add('widget_UVCenter',getValueStr(unit_verticalCenter));
         }else{
             if(isAlignBottom){
-                str+='widget_ABottom:true%o__%';
-                str+='widget_bottom:'+bottom+'%o__%';
+                typeInfo.add('widget_ABottom',getValueStr(true));
+                typeInfo.add('widget_bottom',getValueStr(bottom));
                 var unit_bottom=isAbsoluteBottom?UNITTYPE_PX:UNITTYPE_RATE;
-                str+='widget_unit_bottom:'+unit_bottom+'%o__%';
+                typeInfo.add('widget_unit_bottom',getValueStr(unit_bottom));
             }
     
             if(isAlignTop){
-                str+='widget_ATop:true%o__%';
-                str+='widget_top:'+top+'%o__%';
+                typeInfo.add('widget_ATop',getValueStr(true));
+                typeInfo.add('widget_top',getValueStr(top));
                 var unit_top=isAbsoluteTop?UNITTYPE_PX:UNITTYPE_RATE;
-                str+='widget_unit_top:'+unit_top+'%o__%';
+                typeInfo.add('widget_unit_top',getValueStr(unit_top));
             }
         }
-        
-        return str;
     }
 }
