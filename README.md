@@ -73,10 +73,10 @@ animation:play(node)
 * 用法与cpp版相近  
   
   
-使用前必读
+注意
 ---------
         1、第一次使用前需要设置，将creator中偏好设置-常规-导入图片时自动裁剪选项取消掉，才能保证2dx和creator的显示效果一致  
         
         2、导出node前必须先要保存scene 
         
-        3、弹出的export rule选择界面可能会比较小，把窗口拉大即可
+        3、在creator中编辑动画时，建议让第一帧作为prepare，在prepare帧中我们会把动画节点准备到我们希望的动画前的状态，outline将不会录制prepare帧，但将来有可能会生成一个prepare方法
