@@ -1,3 +1,7 @@
+/**
+ * 本文件用来获取值的数据类型
+ */
+
 function isVec2(value){
     return value instanceof cc.Vec2;
 }

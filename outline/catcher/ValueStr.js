@@ -1,3 +1,7 @@
+/**
+ * 本文件用来根据值，来获取代表该值的用来生成源码的string
+ */
+
 var getType=require('./Type');
 var imageSource=require('./ImageSource');
 
@@ -6,7 +10,7 @@ function getIntStr(value){
 }
 
 function getFloatStr(value,precision){
-    precision = precision || 3;
+    precision = precision || 4;
     var valueStr=''+value;
     var dotIndex=valueStr.indexOf('.');
     if(dotIndex>=0){

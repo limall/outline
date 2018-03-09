@@ -1,3 +1,9 @@
+/**
+ * 本文件用来获取用户自定义组件。
+ * 包括以'o_'作开头的属性（需要生成组件名）
+ * 以及'o__'作开头的属性（TypeInfo类在ExtraData.js中定义）
+ */
+
 var getValueStr=require('./ValueStr');
 
 function UserData(){

@@ -1,9 +1,30 @@
+function Status(node){
+    this.x=node.x;
+    this.y=node.y;
+    this.scaleX=node.scaleX;
+    this.scaleY=node.scaleY;
+    this.rotation=node.rotation;
+    this.width=node.width;
+    this.height=node.height;
+    this.colorR=node.color.getR();
+    this.colorG=node.color.getG();
+    this.colorB=node.color.getB();
+    this.opacity=node.opacity;
+    this.anchorX=node.anchorX;
+    this.anchorY=node.anchorY;
+    this.skewX=node.skewX;
+    this.skewY=node.skewY;
+    var sprite=node.getComponent(cc.Sprite);
+    if(sprite){
+        this.spriteFrame=sprite.spriteFrame;
+    }
+}
+
 cc.Class({
     extends: cc.Animation,
     properties: {
     },
     onLoad:function(){
-        this.Status=require('status');
         var that=this;
         this.on('finished',function(){
             that.last=true;
@@ -13,21 +34,23 @@ cc.Class({
         if(!this.recordAble)
             return;
         
-        for(var i=0;i<this.animNodes.length;i++){
-            var node=this.animNodes[i].node;
-            var status=new this.Status(node);
-            this.animNodes[i].statuses.push(status);
+        if(this.frameIndex>0){
+            for(var i=0;i<this.animNodes.length;i++){
+                var node=this.animNodes[i].node;
+                var status=new Status(node);
+                this.animNodes[i].statuses.push(status);
+            }
         }
 
         this.frameIndex++;
 
+        //动画播完后处理录制的数据
         if(this.last){
             this.recordAble=false;
 
             for(var i=0;i<this.animNodes.length;i++){
                 var node=this.animNodes[i].node;
                 var statuses=this.animNodes[i].statuses;
-                cc.log(statuses.length);
                 var haveSpriteFrame=false;
                 for(var j=1;j<statuses.length;j++){
                     var status=statuses[j];
@@ -40,8 +63,13 @@ cc.Class({
                             if(propName==='spriteFrame'){
                                 haveSpriteFrame=true;
                                 increment[propName]=prop;
-                            }else
-                                increment[propName]=prop-preProp;
+                            }else{
+                                var value;
+                                var temp=value=prop-preProp;
+                                if(temp<0)temp=-temp;
+                                if(temp>0.00005)
+                                    increment[propName]=value;
+                            }
                         }
                     }
                     this.animNodes[i].increments.push(increment);

@@ -1,70 +1,86 @@
 var util=require ('./util')
+var getValueStr=require('../catcher/ValueStr');
 
 function addX(name,value){
+    value=getValueStr(value);
     return 'that.'+name+':setPositionX(that.'+name+':getPositionX()+'+value+');';
 }
 function addY(name,value){
+    value=getValueStr(value);
     return 'that.'+name+':setPositionY(that.'+name+':getPositionY()+'+value+');';
 }
 function addScaleX(name,value){
+    value=getValueStr(value);
     return 'that.'+name+':setScaleX(that.'+name+':getScaleX()+'+value+');';
 }
 function addScaleY(name,value){
+    value=getValueStr(value);
     return 'that.'+name+':setScaleY(that.'+name+':getScaleY()+'+value+');';
 }
 function addWidth(name,value){
+    value=getValueStr(value);
     var luaCode='local sizeForW=that.'+name+':getContentSize();';
     luaCode+='sizeForW.width=sizeForW.width+'+value+';';
     luaCode+='that.'+name+':setContentSize(sizeForW);';
     return luaCode;
 }
 function addHeight(name,value){
+    value=getValueStr(value);
     var luaCode='local sizeForH=that.'+name+':getContentSize();';
     luaCode+='sizeForH.height=sizeForH.height+'+value+';';
     luaCode+='that.'+name+':setContentSize(sizeForH);';
     return luaCode;
 }
 function addAnchorX(name,value){
+    value=getValueStr(value);
     var luaCode='local pForX=that.'+name+':getAnchorPoint();';
     luaCode+='pForX.x=pForX.x+'+value+';';
     luaCode+='that.'+name+':setAnchorPoint(pForX);';
     return luaCode;
 }
 function addAnchorY(name,value){
+    value=getValueStr(value);
     var luaCode='local pForY=that.'+name+':getAnchorPoint();';
     luaCode+='pForY.y=pForY.y+'+value+';';
     luaCode+='that.'+name+':setAnchorPoint(pForY);';
     return luaCode;
 }
 function addRotation(name,value){
+    value=getValueStr(value);
     return 'that.'+name+':setRotation(that.'+name+':getRotation()+'+value+');';
 }
 function addOpacity(name,value){
+    value=getValueStr(value);
     return 'that:addOpacity(that.'+name+','+value+',"'+name+'");';
 }
 function addZOrder(name,value){
+    value=getValueStr(value);
     return 'that.'+name+':setLocalZOrder(that.'+name+':getLocalZOrder()+'+value+');';    
 }
 function addColorR(name,value){
+    value=getValueStr(value);
     var luaCode='local colorForR=that.'+name+':getColor();';
     luaCode+='colorForR.r=colorForR.r+'+value+';';
     luaCode+='that.'+name+':setColor(colorForR);';
     return luaCode;
 }
 function addColorG(name,value){
+    value=getValueStr(value);
     var luaCode='local colorForG=that.'+name+':getColor();';
     luaCode+='colorForG.g=colorForG.g+'+value+';';
     luaCode+='that.'+name+':setColor(colorForG);';
     return luaCode;
 }
 function addColorB(name,value){
+    value=getValueStr(value);
     var luaCode='local colorForB=that.'+name+':getColor();';
     luaCode+='colorForB.b=colorForB.b+'+value+';';
     luaCode+='that.'+name+':setColor(colorForB);';
     return luaCode;
 }
 function addSpriteFrame(name,value){
-    var luaCode='local frame=getFrame("'+value+'");';
+    value=getValueStr(value);
+    var luaCode='local frame=getFrame('+value+');';
     luaCode+='that.'+name+':setSpriteFrame(frame);';
     return luaCode;
 }

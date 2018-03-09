@@ -1,3 +1,7 @@
+/**
+ * 本文用来获取node上的组件，包括引擎自带的，和用户自定义的
+ */
+
 var getValueStr=require('./ValueStr');
 var getSprite=require('./Sprite');
 var getProgressBar=require('./ProgressBar');
@@ -7,6 +11,7 @@ var getLabel=require('./Label');
 var getWidget=require('./Widget');
 var getCustomComponent=require('./CustomComponent');
 
+//该类处理以'o__'开头的自定义组件的属性，以及引擎自带组件
 function TypeInfo(){
     var map=this.map={};
     this.add=function(key,value){

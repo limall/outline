@@ -1,5 +1,5 @@
 var luaBuilder=require('./builder/buildlua');
-var independentLuaBuilder=require('./independentBuilder/buildlua');
+var independentLuaBuilder=require('./builder-independent/buildlua');
 
 var assetsExportor=require('./AssetsExportor');
 
