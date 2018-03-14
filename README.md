@@ -79,4 +79,4 @@ animation:play(node)
         
         2、导出node前必须先要保存scene 
         
-        3、在creator中编辑动画时，建议让第一帧作为prepare，在prepare帧中我们会把动画节点准备到我们希望的动画前的状态，outline将不会录制prepare帧，但将来有可能会生成一个prepare方法
+        
