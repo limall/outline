@@ -40,7 +40,9 @@ function getComponentName(userDatas){
     for(var i=0;i<userDatas.length;i++){
         var userData=userDatas[i];
         var name=userData.name;
-        name=name.substring(name.indexOf('<')+1,name.indexOf('>'));
+        if(name.indexOf('<')>=0&&name.indexOf('>')>1){
+            name=name.substring(name.indexOf('<')+1,name.indexOf('>'));
+        }
         if(componentNames[name]!==undefined){
             componentNames[name+'_userData'].setUserDataName(name+'0');
             componentNames[name]++;
@@ -74,7 +76,12 @@ module.exports=function(node,typeInfo){
             userData.add(propName,component[propName]);
         }
         if(userData.isEffective()){
-            userData.setName(component.name);
+            var customName=component.o_componentName;
+            if(typeof customName==='string'&&customName!==''){
+                delete userData.obj.componentName;
+                userData.setName(customName);
+            }else
+                userData.setName(component.name);
             userDatas.push(userData);
         }
     }

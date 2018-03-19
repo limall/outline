@@ -1,7 +1,4 @@
 local exports={}
-
-O={}
-
 local Outline={}
 
 function getFrame(framePath)
@@ -66,8 +63,8 @@ local function getApplyWidget(outline)
         local parent=self:getParent()
         local child=self
 
-        local size_parent=parent:getContentSize()--getRealSize(parent)
-        local size_child=child:getContentSize()--getRealSize(child)
+        local size_parent=parent:getContentSize()
+        local size_child=child:getContentSize()
         local anchor_child=child:getAnchorPoint()
 
         local aLeft=outline.extraData.widget_ALeft
@@ -198,7 +195,7 @@ function Outline:create( parent )
     return node
 end
 
-function Outline:reset( node )    
+function Outline:reset( node , cascade )    
     node:setPosition(self.x,self.y)
     if (self.width>0 and self.height>0)then
         node:setContentSize(self.width,self.height);
@@ -211,6 +208,15 @@ function Outline:reset( node )
     node:setVisible(self.visible);
     node:setLocalZOrder(self.zOrder);
     node:setColor(cc.c3b(self.colorR, self.colorG, self.colorB));
+    if(cascade)then
+        if(self.children)then
+            for index,child in pairs(self.children)do
+                if(child.lastNode)then
+                    child:reset(child.lastNode,cascade)
+                end
+            end
+        end
+    end
 end
 
 
@@ -251,8 +257,19 @@ end
 
 local Creator={}
 
-function Creator:create(parent)
-    return self.outline:create(parent)
+function Creator:create(parent,withComponents)
+    local node=self.outline:create(parent)
+    if(withComponents)then
+        if(self._components)then
+            for k,v in pairs(self._components)do
+                node[v]={}
+                for key,value in pairs(self[v])do
+                    node[v][key]=value
+                end
+            end
+        end
+    end
+    return node
 end
 function Creator:lastNode()
     return self.outline.lastNode
@@ -264,36 +281,79 @@ exports.createCreator=function(outline,creator)
     creator.lastNode=Creator.lastNode
 end
 
-Anims={}
-
-local function getIntPart(x)
-    if x <= 0 then
-        return math.ceil(x)
+function addX(node,addx)
+    if(node)then
+        node:setPositionX(node:getPositionX()+addx)
     end
-
-    if math.ceil(x) == x then
-        x = math.ceil(x)
-    else
-        x = math.ceil(x) - 1
-    end
-    return x
 end
 
---private
-local function addOpacity(self,node,opacityi,key)
-    opacityi=opacityi+self.offsets_opacity[key]
-    local trueAdd=getIntPart(opacityi)
+function addY(node,addy)
+    if(node)then
+        node:setPositionY(node:getPositionY()+addy)
+    end
+end
 
-    local opacity=node:getOpacity()
-    local newOpacity=opacity+trueAdd
+function addScaleX(node,addscalex)
+    if(node)then
+        node:setScaleX(node:getScaleX()+addscalex)
+    end
+end
+
+function addScaleY(node,addscaley)
+    if(node)then
+        node:setScaleY(node:getScaleY()+addscaley)
+    end
+end
+
+function addSize(node,addwidth,addheight)
+    if(node)then
+        local size=node:getContentSize()
+        size.width=size.width+addwidth
+        size.height=size.height+addheight
+        node:setContentSize(size)
+    end
+end
+
+function addAnchor(node,x,y)
+    if(node)then
+        local anchor=node:getAnchorPoint()
+        anchor.x=anchor.x+x
+        anchor.y=anchor.y+y
+        node:setAnchorPoint(anchor)
+    end
+end
+
+function addRotation(node,addrotation)
+    if(node)then
+        node:setRotation(node:getRotation()+addrotation)
+    end
+end
+
+function addColor(node,r,g,b)
+    if(node)then
+        local color=node:getColor()
+        color.r=color.r+r
+        color.g=color.g+g
+        color.b=color.b+b
+        node:setColor(color)
+    end
+end
+
+function setSpriteFrame(node,frame)
+    if(node)then
+        frame=getFrame(frame)
+        node:setSpriteFrame(frame)
+    end
+end
+
+function addOpacity(node,addOpacity)
+    local newOpacity=node:getOpacity()+addOpacity
     if(newOpacity>255)then
         newOpacity=255
     elseif(newOpacity<0)then
         newOpacity=0
     end
-    trueAdd=newOpacity-opacity
-    self.offsets_opacity[key]=opacityi-trueAdd
-    node:setOpacity(newOpacity)
+    if(node) then node:setOpacity(newOpacity) end
 end
 
 --private
@@ -331,19 +391,6 @@ local function whenFrameEnd(self)
     if(self.loop)then
         self.frameIndex=0
     else
-        for k,v in pairs(self.offsets_opacity)do
-            local isZheng=v>0
-            if(not isZheng)then
-                v=-v
-            end
-            if(v>=0.5)then
-                v=1
-                if(not isZheng)then
-                    v=-v
-                end
-                self[k]:setOpacity(self[k]:getOpacity()+v)
-            end
-        end
         self:pause()
     end
     if(self.callback)then
@@ -356,15 +403,7 @@ end
 
 exports.createAnim=function()
     local anim={}
-    anim.offsets_opacity={}
     anim.frameIndex=0
-    anim.scheduleId=nil
-    anim.mainNode=nil
-    anim.played=false
-    anim.loop=false
-    anim.callback=nil
-
-    anim.addOpacity=addOpacity
     anim.getChild=getChild
     anim.whenFrameEnd=whenFrameEnd;
     anim.pause=pause
@@ -374,24 +413,6 @@ exports.createAnim=function()
 end
 
 Vec2=cc.p;
-
-function getScale(node)
-    local scaleX=1
-    local scaleY=1
-    local parent=node
-    while(parent)do
-        scaleX = scaleX * parent:getScaleX()
-        scaleY = scaleY * parent:getScaleY()
-        parent = parent:getParent()
-    end
-    return scaleX,scaleY
-end
-
-function getRealSize(node)
-    local realScaleX,realScaleY=getScale(node)
-    local size=node:getContentSize()
-    local realSize=cc.size(size.width*realScaleX,size.height*realScaleY)
-    return realSize
-end
-
+Color=cc.c4b;
+Size=cc.size;
 return exports

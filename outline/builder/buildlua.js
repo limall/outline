@@ -5,6 +5,7 @@ var buildAnimation=require('./buildAnimation');
 var writeFile=require('./writeFile');
 var sort=require('./sort');
 var util=require('./util');
+var dependentGettor=require('../builder-independent/dependent/getDependent');
 
 var luaBuilder={};
 
@@ -13,7 +14,7 @@ var buildCreators=creatorBuilder.buildCreators;
 var buildCreatorRelationship=relationshipBuilder.buildCreatorRelationship;
 var buildOutlineRelationship=relationshipBuilder.buildOutlineRelationship;
 
-luaBuilder.buildNode=function(nodeDataObj,dstPath){
+luaBuilder.buildNode=function(nodeDataObj,dstPath,namespace){
   var outlines=sort.getArray(nodeDataObj);
 
   var luaCode='local Base=require "outline.outline"\n';
@@ -39,7 +40,8 @@ luaBuilder.buildNode=function(nodeDataObj,dstPath){
   luaCode+=relationCode2+'\n';
 
   var rootName=util.firstCaseUp(nodeDataObj.name);
-  luaCode+='O.'+rootName+'='+rootName;
+  luaCode+=namespace+'='+namespace+' or {}\n';
+  luaCode+=namespace+'.'+rootName+'='+rootName;
 
   writeFile(luaCode,dstPath,rootName,'lua');
 
@@ -47,7 +49,17 @@ luaBuilder.buildNode=function(nodeDataObj,dstPath){
 
 luaBuilder.buildAnimations=function(anims,dst){
   anims.forEach(function(anim){
-    var luaCode=buildAnimation(anim);
+    var dependent;
+    if(anim.independent){
+      dependent={
+        isAnim:true
+      };
+    }
+    var luaCode=buildAnimation(anim,dependent,anim.namespace);
+    if(dependent){
+      var dependentCode=dependentGettor.getDependent(dependent);
+      luaCode=dependentCode+luaCode;
+    }
     writeFile(luaCode,dst,anim.clipName,'lua',true);
   });
 }

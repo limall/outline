@@ -47,6 +47,7 @@ module.exports = {
                     obj.dstPath=exportRule.dstPath;
                     obj.language=exportRule.language;
                     obj.export_independent_file=exportRule.export_independent_file;
+                    obj.namespace=exportRule.namespace;
                     nodes.push(obj);
                     if(exportRule.resFolder&&exportRule.resFolder!='')
                         assetsExportor.startCopy();

@@ -5,6 +5,7 @@ var writeFile=require('../builder/writeFile');
 var sort=require('../builder/sort');
 var util=require('../builder/util');
 var dependentGettor=require('./dependent/getDependent');
+var buildAnimation=require('../builder/buildAnimation');
 
 var luaBuilder={};
 
@@ -13,9 +14,11 @@ var buildCreators=creatorBuilder.buildCreators;
 var buildCreatorRelationship=relationshipBuilder.buildCreatorRelationship;
 var buildOutlineRelationship=relationshipBuilder.buildOutlineRelationship;
 
-luaBuilder.buildNode=function(nodeDataObj,dstPath){
+luaBuilder.buildNode=function(nodeDataObj,dstPath,namespace){
   var outlines=sort.getArray(nodeDataObj);
-  var dependent={};
+  var dependent={
+    isCreator:true
+  };
 
   var outlineCode='--outline\n';
   outlineCode+=buildOutlines(outlines,dependent);
@@ -42,8 +45,8 @@ luaBuilder.buildNode=function(nodeDataObj,dstPath){
   luaCode=luaCode.replace(/Base.createOutline/g,'createOutline');
   luaCode=luaCode.replace(/Base.createCreator/g,'createCreator');
 
-  luaCode+='O=O or {}\n';
-  luaCode+='O.'+rootName+'='+rootName+'\n';
+  luaCode+=namespace+'='+namespace+' or {}\n';
+  luaCode+=namespace+'.'+rootName+'='+rootName;
 
   var dependentCode=dependentGettor.getDependent(dependent);
   luaCode=dependentCode+luaCode;

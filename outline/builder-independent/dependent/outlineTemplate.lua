@@ -124,7 +124,7 @@ end
 --end widget
 
 --start head
-function getFrame(framePath)
+local function getFrame(framePath)
     local frame
     local sep=string.find(framePath,'%:')
     if(sep and sep>0)then
@@ -170,7 +170,7 @@ function Outline:create( parent )
     return node
 end
 
-function Outline:reset( node )    
+function Outline:reset( node , cascade )    
     node:setPosition(self.x,self.y)
     if (self.width>0 and self.height>0)then
         node:setContentSize(self.width,self.height);
@@ -183,6 +183,15 @@ function Outline:reset( node )
     node:setVisible(self.visible);
     node:setLocalZOrder(self.zOrder);
     node:setColor(cc.c3b(self.colorR, self.colorG, self.colorB));
+    if(cascade)then
+        if(self.children)then
+            for index,child in pairs(self.children)do
+                if(child.lastNode)then
+                    child:reset(child.lastNode,cascade)
+                end
+            end
+        end
+    end
 end
 
 local createOutline=function(nodeInfo)
@@ -233,25 +242,6 @@ local createCreator=function(outline,creator)
     outline.creator=creator
     creator.create=Creator.create
     creator.lastNode=Creator.lastNode
-end
-
-function getScale(node)
-    local scaleX=1
-    local scaleY=1
-    local parent=node
-    while(parent)do
-        scaleX = scaleX * parent:getScaleX()
-        scaleY = scaleY * parent:getScaleY()
-        parent = parent:getParent()
-    end
-    return scaleX,scaleY
-end
-
-function getRealSize(node)
-    local realScaleX,realScaleY=getScale(node)
-    local size=node:getContentSize()
-    local realSize=cc.size(size.width*realScaleX,size.height*realScaleY)
-    return realSize
 end
 
 Vec2=cc.p;

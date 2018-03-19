@@ -43,9 +43,9 @@ module.exports = {
           var obj=dataObj[i];
           var nodeDataObj=JSON.parse(obj.nodeData);
           if(obj.export_independent_file)
-            independentLuaBuilder.buildNode(nodeDataObj,obj.dstPath);
+            independentLuaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
           else
-            luaBuilder.buildNode(nodeDataObj,obj.dstPath);
+            luaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
         }
       });
     }

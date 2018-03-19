@@ -37,9 +37,11 @@ cc.Class({
         this.i=-1;
         this.getData();
     },
-    getData:function(animNodes){
+    getData:function(anim){
         if(this.i>=0){
-            this.anims[this.i].animNodes=animNodes;
+            this.anims[this.i].animNodes=anim.animNodes;
+            this.anims[this.i].independent=anim.independent;
+            this.anims[this.i].namespace=anim.namespace;
         }
         this.i=this.i+1;
         if(this.i<this.anims.length){
@@ -53,7 +55,6 @@ cc.Class({
         }else if(this.anims.length>0){
             var obj={};
             obj.anims=this.anims;
-            cc.log(JSON.stringify(obj));
             ws.send(JSON.stringify(obj));
         }
     },

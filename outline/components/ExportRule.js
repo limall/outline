@@ -10,8 +10,12 @@ cc.Class({
             tooltip: "是否将此节点的坐标转为世界坐标"
         },
         export_independent_file:{
-            default:false,
+            default:true,
             tooltip: '导出不依赖outline.lua的文件，拥有更高的兼容性'
+        },
+        namespace:{
+            default:'O',
+            tooltip:'导出的Creator所挂载的全局变量名'
         },
         resFolder:{
             default:'',

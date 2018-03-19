@@ -13,6 +13,10 @@ function buildOneCreator(outline){
     luaCode+='Base.createCreator('+outlineName+','+creatorName+')\n';
     
     var userDatas=outline.extraData.userDatas;
+    var code_components='';
+    if(userDatas.length>0){
+        code_components+=creatorName+'._components={';
+    }
     userDatas.forEach(function(userData){
         var code=creatorName+'.'+userData.UserDataName+'={\n';
         for(var propName in userData){
@@ -21,9 +25,13 @@ function buildOneCreator(outline){
             }
         }
         code+='}\n'
-        luaCode+=code+'\n';
+        code_components+='"'+userData.UserDataName+'",';
+        luaCode+=code;
     });
-    return luaCode;
+    if(code_components!==''){
+        code_components+='}\n';
+    }
+    return luaCode+code_components;
 }
 
 /**

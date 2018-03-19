@@ -34,8 +34,48 @@ obj.createNode_createLabel=getCode('createNodeTemplate.lua','createLabel');
 obj.createNode_createParticleSystem=getCode('createNodeTemplate.lua','createParticleSystem');
 obj.createNode_processBtn=getCode('createNodeTemplate.lua','processBtn');
 
+obj.anim_x=getCode('animation.lua','anim-x');
+obj.anim_y=getCode('animation.lua','anim-y');
+obj.anim_scaleX=getCode('animation.lua','anim-scaleX');
+obj.anim_scaleY=getCode('animation.lua','anim-scaleY');
+obj.anim_size=getCode('animation.lua','anim-size');
+obj.anim_anchor=getCode('animation.lua','anim-anchor');
+obj.anim_rotation=getCode('animation.lua','anim-rotation');
+obj.anim_color=getCode('animation.lua','anim-color');
+obj.anim_frame=getCode('animation.lua','anim-frame');
+obj.anim_opacity=getCode('animation.lua','anim-opacity');
+obj.anim_base=getCode('animation.lua','anim-base');
+
 obj.getDependent=function(dependent){
-    var code=obj.outline_head;
+    var code='';
+
+    //animtaion
+    if(dependent.isAnim)
+        code+=obj.anim_base+'\n';
+    if(dependent.isAnimX)
+        code+=obj.anim_x+'\n';
+    if(dependent.isAnimY)
+        code+=obj.anim_y+'\n';
+    if(dependent.isAnimScaleX)
+        code+=obj.anim_scaleX+'\n';
+    if(dependent.isAnimScaleY)
+        code+=obj.anim_scaleY+'\n';
+    if(dependent.isAnimSize)
+        code+=obj.anim_size+'\n';
+    if(dependent.isAnimAnchor)
+        code+=obj.anim_anchor+'\n';
+    if(dependent.isAnimRotation)
+        code+=obj.anim_rotation+'\n';
+    if(dependent.isAnimColor)
+        code+=obj.anim_color+'\n';
+    if(dependent.isAnimFrame)
+        code+=obj.anim_frame+'\n';
+    if(dependent.isAnimOpacity)
+        code+=obj.anim_opacity+'\n';
+
+    //creator
+    if(dependent.isCreator)
+        code+=obj.outline_head+'\n';
     if(dependent.isBtn)
         code+=obj.btn_main+'\n';
     if(dependent.scale)
@@ -60,9 +100,10 @@ obj.getDependent=function(dependent){
         code+=obj.createNode_createParticleSystem+'\n';
     if(dependent.btn)
         code+=obj.createNode_processBtn+'\n';
-    code+=obj.createNode_main+'\n';
-
-    code+=obj.outline_main+'\n';
+    if(dependent.isCreator)
+        code+=obj.createNode_main+'\n';
+    if(dependent.isCreator)
+        code+=obj.outline_main+'\n';
     if(dependent.widget)
         code+=obj.outline_widget+'\n';
         
