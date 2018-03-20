@@ -1,4 +1,4 @@
-重写button
+重写button,兼容官方，自己再写个
 添加全局eventMgr，在creator中设置tag，然后在eventMgr中注册处理函数
 phaser.js
 英文注释和英文Readme
