@@ -4,9 +4,12 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 -------
 * **组件化：** outline-lua(以下简称outline)致力于为cocos2d-x lua(以下简称2dx)引入组件化工作流。组件化的主要依据在于，outline导出的是节点而非场景，并且支持导出creator中的自定义组件，这些都为程序员把节点封装成组件带来了便利。
 * **导出源码：** outline直接导出lua源码，配合BabelLua的代码提示，使得检索节点变得十分便利。导出源码还有个好处就是控件的创建更加灵活
-* **节点模板：** require文件后，并非直接生成节点，而是生成每个节点的模板(名称是该节点名称的首字母改为大写)，通过节点模板的create方法便可生产该节点实例。例如：  
-```local node1=O.Node1:create()```   
-* **较高的向后兼容性：** 使用outline导出的无依赖文件，即使以后outline进行大规模升级，原来导出的文件可以直接使用，多个版本共同运行，互不影响
+* **节点模板：** outline导出的是节点模板，除了直接由根模板生成一个页面外，程序员也可以索引到某个节点模板，然后创建多个节点。例如：  
+```
+local card1=O.MainNode.Card:create()
+local card2=O.MainNode.Card:create()
+```  
+* **较高的向后兼容性：** 使用outline导出无依赖文件，即使以后outline进行大规模升级，原来导出的文件可以直接使用，多个版本共同运行，互不影响
 
 导出node
 --------
