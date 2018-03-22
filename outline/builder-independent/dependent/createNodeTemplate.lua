@@ -298,10 +298,6 @@ local function createNode(creator,parent)
         processBtn(node,extraData)
     end
 
-    if(parent)then
-        parent:addChild(node)
-    end
-
     return node
 end
 --end main

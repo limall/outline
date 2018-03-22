@@ -167,6 +167,11 @@ function Outline:create( parent )
         end
     end
     self.lastNode=node
+
+    if(parent)then
+        parent:addChild(node)
+    end
+
     return node
 end
 

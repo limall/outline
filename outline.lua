@@ -47,9 +47,6 @@ local createNode_default=function(creator,parent)
     else
         node=display.newNode()
     end
-    if(parent) then
-        parent:addChild(node)
-    end
     return node
 end
 
@@ -192,6 +189,11 @@ function Outline:create( parent )
         end
     end
     self.lastNode=node
+
+    if(parent)then
+        parent:addChild(node)
+    end
+
     return node
 end
 

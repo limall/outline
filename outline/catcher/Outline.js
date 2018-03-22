@@ -53,7 +53,7 @@ function Outline(node){
             }
         }
     }
-
+    name=name.replace(/ /g,'_');
     this.name=name;
 
     this.extraData=getExtraData(node);
