@@ -13,6 +13,20 @@ module.exports=function(content,path,name,suffix,isAnimation){
         filepath=path;
     }
     if(filepath){
+
+        //保留文尾用户自定义的内容
+        const isUpdate=fs.existsSync(filepath);
+        if(isUpdate){
+            const oldText=fs.readFileSync(filepath).toString();
+            const customIndex=oldText.indexOf('--outline-custom');
+            if(customIndex>0){
+                const customText=oldText.substring(customIndex);
+                content+='\n'+customText;
+            }
+        }else{
+            content+='\n--outline-custom';
+        }
+
         fs.writeFile(filepath,content,(err)=>{
             if(err){
                 Editor.error('dst path is error\n'+err);
