@@ -10,6 +10,7 @@ var getParticleSystem=require('./ParticleSystem');
 var getLabel=require('./Label');
 var getWidget=require('./Widget');
 var getCustomComponent=require('./CustomComponent');
+var getButton=require('./Button');
 
 //该类处理以'o__'开头的自定义组件的属性，以及引擎自带组件
 function TypeInfo(){
@@ -73,8 +74,9 @@ module.exports=function(node){
     }
 
     var button=node.getComponent(cc.Button);
-    if(button)
-        typeInfo.add('buttonType',getValueStr(1));
+    if(button){
+        getButton(node,typeInfo);
+    }
     
     getWidget(node,typeInfo);
     

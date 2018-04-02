@@ -1,4 +1,16 @@
 --start main
+local function getScale(node)
+    local scaleX=1
+    local scaleY=1
+    local parent=node
+    while(parent)do
+        scaleX = scaleX * parent:getScaleX()
+        scaleY = scaleY * parent:getScaleY()
+        parent = parent:getParent()
+    end
+    return scaleX,scaleY
+end
+
 local function isTouchInSprite(node,touch,scaleX,scaleY)
     local x = touch:getLocation().x;
 	local y = touch:getLocation().y;

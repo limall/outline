@@ -414,6 +414,18 @@ exports.createAnim=function()
     return anim
 end
 
+function getScale(node)
+    local scaleX=1
+    local scaleY=1
+    local parent=node
+    while(parent)do
+        scaleX = scaleX * parent:getScaleX()
+        scaleY = scaleY * parent:getScaleY()
+        parent = parent:getParent()
+    end
+    return scaleX,scaleY
+end
+
 Vec2=cc.p;
 Color=cc.c4b;
 Size=cc.size;
