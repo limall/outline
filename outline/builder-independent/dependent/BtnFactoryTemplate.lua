@@ -1,3 +1,54 @@
+--start autoGray
+local function autoGray(node)
+    local vsh=  "attribute vec4 a_position;\n"
+              .."attribute vec2 a_texCoord;\n"
+              .."attribute vec4 a_color;\n"
+              .."#ifdef GL_ES\n"
+              .."varying lowp vec4 v_fragmentColor;\n"
+              .."varying mediump vec2 v_texCoord;\n"
+              .."#else\n" 
+              .."varying vec4 v_fragmentColor;\n"
+              .."varying vec2 v_texCoord;\n"
+              .."#endif\n"
+              .."void main() {\n" 
+              .."    gl_Position = CC_PMatrix* a_position;\n"
+              .."    v_fragmentColor= a_color;\n"
+              .."    v_texCoord = a_texCoord;\n"
+              .."}"
+    local fsh_gray=  
+                "varying vec4 v_fragmentColor;\n"
+              .."varying vec2 v_texCoord;\n"
+              .."void main() {\n" 
+              .."    vec4 mycolor =  v_fragmentColor*texture2D(CC_Texture0, v_texCoord);\n"
+              .."    float gray = dot(mycolor.rgb, vec3(0.2126, 0.7152, 0.0722));\n"
+              .."    gl_FragColor =  vec4(gray);\n"
+              .."    gl_FragColor.a = mycolor.a;\n"
+              .."}"
+    local fsh_normal=  
+                "varying vec4 v_fragmentColor;\n"
+              .."varying vec2 v_texCoord;\n"
+              .."void main() {\n" 
+              .."    gl_FragColor =  v_fragmentColor * texture2D(CC_Texture0, v_texCoord);\n"
+              .."}"
+    local setEnabled=node.setEnabled
+    node.setEnabled=function(self,enable)
+        local fsh
+        if(enable)then
+            fsh=fsh_normal
+        else
+            fsh=fsh_gray
+        end
+        local prog = cc.GLProgram:createWithByteArrays(vsh,fsh)
+        prog:link()
+        prog:updateUniforms()
+        local progStat= cc.GLProgramState:getOrCreateWithGLProgram(prog)
+        self:setGLProgramState(progStat)
+        if(setEnabled)then
+            setEnabled(self,enable)
+        end
+    end
+end
+--end autoGray
 --start main
 local function getScale(node)
     local scaleX=1

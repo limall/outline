@@ -26,6 +26,7 @@ obj.btn_scale=getCode('BtnFactoryTemplate.lua','processScaleBtn');
 obj.btn_color=getCode('BtnFactoryTemplate.lua','processColorBtn');
 obj.btn_sprite=getCode('BtnFactoryTemplate.lua','processSpriteBtn');
 obj.btn_select=getCode('BtnFactoryTemplate.lua','processSelectBtn');
+obj.btn_autoGray=getCode('BtnFactoryTemplate.lua','autoGray')
 
 obj.createNode_main=getCode('createNodeTemplate.lua','main');
 obj.createNode_createEditBox=getCode('createNodeTemplate.lua','createEditBox');
@@ -76,6 +77,8 @@ obj.getDependent=function(dependent){
     //creator
     if(dependent.isCreator)
         code+=obj.outline_head+'\n';
+    if(dependent.autoGray)
+        code+=obj.btn_autoGray+'\n';
     if(dependent.isBtn)
         code+=obj.btn_main+'\n';
     if(dependent.scale)

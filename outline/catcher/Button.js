@@ -10,7 +10,6 @@ module.exports=function(node,typeInfo){
     if(!spf_normal){
         spf_normal=com_sprite.spriteFrame;
     }
-    Editor.log(typeof spf_normal);
     if(spf_normal){
         assetsExportor.addFile(imageSource.getImagePath(spf_normal));
         assetsExportor.addFile(imageSource.getPList(spf_normal));
@@ -34,4 +33,8 @@ module.exports=function(node,typeInfo){
         assetsExportor.addFile(imageSource.getPList(spf_disabled));
         typeInfo.add('image_disabled',getValueStr(spf_disabled));
     }
+
+    var enableAutoGrayEffect=com_button.enableAutoGrayEffect;
+    if(enableAutoGrayEffect)
+        typeInfo.add('btn_enableAutoGrayEffect',getValueStr(enableAutoGrayEffect));
 }

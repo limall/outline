@@ -79,6 +79,9 @@ function buildTypeInfo(typeInfo,dependent){
                 if(value==='4')
                     dependent.select=true;
             }
+            if(key==='btn_enableAutoGrayEffect'){
+                dependent.autoGray=true;
+            }
             if(key==='isLabel')
                 dependent.label=true;
             luaCode+='        '+key+'='+value+',\n';

@@ -232,6 +232,10 @@ local function processBtn(node,extraData)
     elseif(buttonType==btnFactory.BUTTONTYPE_SELECT)then
         btnFactory.processSelectBtn(node)
     end
+
+    if(extraData.btn_enableAutoGrayEffect)then
+        autoGray(node)
+    end
 end
 --end processBtn
 --start main
