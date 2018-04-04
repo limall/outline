@@ -39,7 +39,7 @@ module.exports=function(editBox,typeInfo){
         typeInfo.add('editbox_fontSize',getValueStr(fontSize));
 
     var fontColor=editBox.fontColor;
-    if(fontColor.r!=0&&fontColor.g!=0&&fontColor.b!=0&&fontColor.a!=0)
+    if(fontColor.r!=255||fontColor.g!=255||fontColor.b!=255||fontColor.a!=255)
         typeInfo.add('editbox_fontColor',getValueStr(fontColor));
 
     var placeholder=editBox.placeholder;
