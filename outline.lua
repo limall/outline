@@ -178,6 +178,10 @@ function Outline:create( parent )
     local node=self.createNode(self.creator,parent)
     node:setName(self.name)
     self:reset(node)
+    if(parent)then
+        parent:addChild(node)
+    end
+
     node.applyWidget=getApplyWidget(self)
     if(node.applyWidget)then
         node:applyWidget()
@@ -189,10 +193,6 @@ function Outline:create( parent )
         end
     end
     self.lastNode=node
-
-    if(parent)then
-        parent:addChild(node)
-    end
 
     return node
 end
@@ -343,8 +343,7 @@ end
 
 function setSpriteFrame(node,frame)
     if(node)then
-        frame=getFrame(frame)
-        node:setSpriteFrame(frame)
+        setSPF(node,frame)
     end
 end
 
@@ -426,7 +425,18 @@ function getScale(node)
     return scaleX,scaleY
 end
 
+function setSPF(sp,spf)
+    local spType=tolua.type(sp)
+    if(spType=="ccui.Scale9Sprite")then
+        sp:setSpriteFrame(getFrame(spf),sp:getCapInsets())
+    else
+        sp:setSpriteFrame(getFrame(spf))
+    end
+end
+
 Vec2=cc.p;
 Color=cc.c4b;
 Size=cc.size;
+
+O={}
 return exports
