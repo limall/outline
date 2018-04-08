@@ -1,3 +1,6 @@
-测试、编写文档
+编写文档
+讨论交流
+依照讨论交流的结果决定是否进行下面的工作
+layout、scrollview、listview、pageview
 phaser.js
 英文注释和英文Readme
