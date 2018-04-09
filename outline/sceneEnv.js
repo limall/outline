@@ -43,19 +43,24 @@ module.exports = {
                     if(exportRule.resFolder&&exportRule.resFolder!='')
                         assetsExportor.setFolder(exportRule.resFolder,projectPath);
                     var obj=new Object();
-                    obj.nodeData=catchOutline(exportRule);
-                    obj.dstPath=exportRule.dstPath;
-                    obj.language=exportRule.language;
-                    obj.export_independent_file=exportRule.export_independent_file;
-                    obj.namespace=exportRule.namespace;
-                    nodes.push(obj);
-                    if(exportRule.resFolder&&exportRule.resFolder!='')
-                        assetsExportor.startCopy();
+                    catchOutline(exportRule,obj);
+                    setTimeout(function(){
+                        obj.dstPath=exportRule.dstPath;
+                        obj.language=exportRule.language;
+                        obj.export_independent_file=exportRule.export_independent_file;
+                        obj.namespace=exportRule.namespace;
+                        nodes.push(obj);
+                        if(exportRule.resFolder&&exportRule.resFolder!='')
+                            assetsExportor.startCopy();
+                    },450);
                 }
             }
-            if(event.reply) {
-                event.reply(JSON.stringify(nodes));
-            }
+            var thatEvent=event;
+            setTimeout(function(){
+                if(thatEvent.reply) {
+                    thatEvent.reply(JSON.stringify(nodes));
+                }
+            },600);
         }
     }
 };

@@ -108,15 +108,8 @@ local function createLabel(outline)
         local width=extraData.labelAtlas_itemWidth
         local height=extraData.labelAtlas_itemHeight
         label=cc.LabelAtlas:_create(label_string,atlas,width,height,startChar)
-    elseif(extraData.label_fontName)then
-        local fontsHolder=extraData.label_fontsHolder
-        local fontStr
-        if(nil ~= fontsHolder)then
-            fontStr=fontsHolder.. '/' ..extraData.label_fontName
-        else
-            fontStr=extraData.label_fontName
-        end
-        label=cc.Label:createWithTTF(label_string,fontStr,extraData.label_fontSize)
+    elseif(extraData.label_font)then
+        label=cc.Label:createWithTTF(label_string,extraData.label_font,extraData.label_fontSize)
     else
         label = cc.Label:createWithSystemFont(label_string,'Arial',extraData.label_fontSize)
     end

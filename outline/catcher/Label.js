@@ -33,19 +33,16 @@ module.exports=function(label,typeInfo){
         if(font instanceof cc.LabelAtlas){
             getLabelAtlas(label,typeInfo);
         }else{
-            var fontName=font._rawFiles[0];
-            if(fontName){
-                typeInfo.add('label_fontName',getValueStr(fontName));
-                var fontHolder=label.o__label_fontsHolder;
-                if(fontHolder!==undefined){
-                    var fontPath;
-                    if(fontHolder!='')
-                        fontPath=fontHolder+'/'+fontName;
-                    else
-                        fontPath=fontName;
-                    assetsExportor.addFile(fontPath);
+            Editor.assetdb.queryPathByUuid(font._uuid,function(err,path){
+                if(err){
+                    Editor.error(err.toString());
+                }else{
+                    path=path.replace(/\\/g,'/');
+                    path=path.substring(path.indexOf('/assets/')+8);
+                    typeInfo.add('label_font',getValueStr(path));
+                    assetsExportor.addFile(path);
                 }
-            }
+            });
         }
     }
     typeInfo.add('label_fontSize',getValueStr(label.fontSize));
