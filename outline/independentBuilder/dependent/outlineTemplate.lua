@@ -134,17 +134,20 @@ function getFrame(framePath)
         local cache=cc.SpriteFrameCache:getInstance()
         local dotIndex=string.find(imageFile,'%.')
         local plistFile=string.sub(imageFile,0,dotIndex)..'plist'
-        if(not cache:isSpriteFramesWithFileLoaded(plistFile))then
-            cache:addSpriteFrames(plistFile)
-        end
+
         frame=cache:getSpriteFrame(spriteFrameName)
         if(not frame)then
             spriteFrameName=spriteFrameName .. '.png'
             frame=cache:getSpriteFrame(spriteFrameName)
+            if(not frame)then
+                cache:addSpriteFrames(plistFile)
+                frame=cache:getSpriteFrame(spriteFrameName)
+            end
         end
     else
-        local temp=display.newSprite(framePath)
-        frame=temp:getSpriteFrame()
+        local texture=cc.Director:getInstance():getTextureCache():addImage(framePath)
+        local rect=cc.rect(0,0,texture:getPixelsWide(),texture:getPixelsHigh())
+        frame=cc.SpriteFrame:createWithTexture(texture,rect)
     end
     return frame    
 end
