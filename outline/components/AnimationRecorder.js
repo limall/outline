@@ -39,7 +39,7 @@ function Proofread(){
         var keyIncrements=this.keyIncrements;
         var i=0,j=0;
         //排除静止帧
-        while(increments[i][propName]===0&&i<increments.length){
+        while(i<increments.length&&increments[i][propName]===0){
             i++;
             j++;
         }
