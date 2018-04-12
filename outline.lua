@@ -43,7 +43,12 @@ local createNode_default=function(creator,parent)
                 node=display.newNode()
             end
         elseif (extraData and extraData.isLabel) then
-            node=cc.Label:createWithSystemFont("" .. extraData.label_string, "Arial", extraData.label_fontSize)
+            if(nil~=extraData.label_string)then
+                extraData.label_string=""..extraData.label_string
+            else
+                extraData.label_string=""
+            end
+            node=cc.Label:createWithSystemFont(extraData.label_string, "Arial", extraData.label_fontSize)
         else
             node=display.newNode()
         end
