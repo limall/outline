@@ -210,12 +210,12 @@ local function processBtn(node,extraData)
         if(clickAble)then
             self.btn_isDisabled=false
             if(self.image_normal)then
-                self:setSpriteFrame(getFrame(self.image_normal))
+                setSPF(self,self.image_normal)
             end
         else
             self.btn_isDisabled=true
             if(self.image_disabled)then
-                self:setSpriteFrame(getFrame(self.image_disabled))
+                setSPF(self,self.image_disabled)
             end
         end
         return self

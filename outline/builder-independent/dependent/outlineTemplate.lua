@@ -249,6 +249,15 @@ local createCreator=function(outline,creator)
     creator.lastNode=Creator.lastNode
 end
 
+function setSPF(sp,spf)
+    local spType=tolua.type(sp)
+    if(spType=="ccui.Scale9Sprite")then
+        sp:setSpriteFrame(getFrame(spf),sp:getCapInsets())
+    else
+        sp:setSpriteFrame(getFrame(spf))
+    end
+end
+
 Vec2=cc.p;
 Color=cc.c4b;
 Size=cc.size;
