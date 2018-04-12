@@ -101,7 +101,12 @@ end
 local function createLabel(outline)
     local extraData=outline.extraData
     local label
-    local label_string='' .. extraData.label_string
+    local label_string
+    if(nil~=extraData.label_string)then
+        label_string='' .. extraData.label_string
+    else 
+        label_string=''
+    end
     if(extraData.isLabelAtlas)then
         local startChar=extraData.labelAtlas_startChar
         local atlas=extraData.labelAtlas_atlas
