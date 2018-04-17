@@ -14,8 +14,10 @@ function getFrame(framePath)
 
         frame=cache:getSpriteFrame(spriteFrameName)
         if(not frame)then
-            spriteFrameName=spriteFrameName .. '.png'
-            frame=cache:getSpriteFrame(spriteFrameName)
+            if(string.find(spriteFrameName,'%.png')==nil)then
+                spriteFrameName=spriteFrameName .. '.png'
+                frame=cache:getSpriteFrame(spriteFrameName)
+            end
             if(not frame)then
                 cache:addSpriteFrames(plistFile)
                 frame=cache:getSpriteFrame(spriteFrameName)
