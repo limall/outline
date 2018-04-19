@@ -37,9 +37,11 @@ module.exports = {
         if(canvas){
             var exportRules=catchExportRules(canvas);
             var nodes=[];
-            for(var i=0;i<exportRules.length;i++){
-                var exportRule=exportRules[i];
-                if(hasName(exportRule.ruleName)){
+
+            var i=0;
+            function syncExecute(){
+                if(hasName(exportRules[i].ruleName)){
+                    var exportRule=exportRules[i];
                     if(exportRule.resFolder&&exportRule.resFolder!='')
                         assetsExportor.setFolder(exportRule.resFolder,projectPath);
                     var obj=new Object();
@@ -52,15 +54,23 @@ module.exports = {
                         nodes.push(obj);
                         if(exportRule.resFolder&&exportRule.resFolder!='')
                             assetsExportor.startCopy();
+                        if(i<exportRules.length)
+                            syncExecute();
+                        else{
+                            event.reply(JSON.stringify(nodes));
+                        }
                     },450);
+                    i++;
+                }else{
+                    i++;
+                    if(i<exportRules.length)
+                        syncExecute();
+                    else{
+                        event.reply(JSON.stringify(nodes));
+                    }
                 }
             }
-            var thatEvent=event;
-            setTimeout(function(){
-                if(thatEvent.reply) {
-                    thatEvent.reply(JSON.stringify(nodes));
-                }
-            },600);
+            syncExecute();
         }
     }
 };
