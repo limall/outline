@@ -185,7 +185,7 @@ function Outline:reset( node , cascade )
     if (self.width>0 and self.height>0)then
         node:setContentSize(self.width,self.height);
     end
-    node:setAnchorPoint(self.anchorX, self.anchorY);
+    node:setAnchorPoint(cc.p(self.anchorX, self.anchorY));
     node:setScaleX(self.scaleX);
     node:setScaleY(self.scaleY);
     node:setRotation(self.rotation);
