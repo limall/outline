@@ -296,10 +296,6 @@ local function createNode(creator,parent)
         node=display.newNode()
     end
 
-    if(extraData and extraData.buttonType)then
-        processBtn(node,extraData)
-    end
-
     return node
 end
 --end main

@@ -166,6 +166,11 @@ function Outline:create( parent )
     if(node.applyWidget)then
         node:applyWidget()
     end
+
+    if(self.extraData and self.extraData.buttonType)then
+        processBtn(node,self.extraData)
+    end
+
     if(self.children)then
         for index,child in pairs(self.children)do
             child:create(node)
