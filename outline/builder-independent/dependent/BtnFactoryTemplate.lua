@@ -175,7 +175,7 @@ btnFactory.BUTTONTYPE_SELECT=4
 --start processScaleBtn
 function btnFactory.processScaleBtn(node)
     local function onPressed(node)
-        local action=cc.EaseExponentialInOut:create(cc.ScaleBy:create(0.16,0.75))
+        local action=cc.EaseExponentialInOut:create(cc.ScaleBy:create(0.06,0.75))
         node:runAction(action)
     end
     
