@@ -114,10 +114,28 @@ local function createLabel(outline)
         local height=extraData.labelAtlas_itemHeight
         label=cc.LabelAtlas:_create(label_string,atlas,width,height,startChar)
     elseif(extraData.label_font)then
-        label=cc.Label:createWithTTF(label_string,extraData.label_font,extraData.label_fontSize)
+        local ttfConfig = {
+            fontFilePath = extraData.label_font,
+            fontSize     = extraData.label_fontSize
+        }
+        label=cc.Label:createWithTTF(ttfConfig,label_string)
     else
         label = cc.Label:createWithSystemFont(label_string,'Arial',extraData.label_fontSize)
     end
+
+    if(nil~=extraData.label_horizontalAlign)then
+        label:setHorizontalAlignment(extraData.label_horizontalAlign)
+    end
+    if(nil~=extraData.label_verticalAlign)then
+        label:setVerticalAlignment(extraData.label_verticalAlign)
+    end
+    if(nil~=extraData.label_overflow)then
+        if(cc.LabelOverflow.RESIZE_HEIGHT==extraData.label_overflow)then
+            label:setMaxLineWidth(outline.width)
+        end
+        label:setOverflow(extraData.label_overflow)
+    end
+
     return label
 end
 --end createLabel

@@ -28,6 +28,13 @@ function getLabelAtlas(label,typeInfo){
 module.exports=function(label,typeInfo){
     typeInfo.add('isLabel',getValueStr(true));
     typeInfo.add('label_string',getValueStr(label.string));
+    if(label.horizontalAlign!=cc.Label.HorizontalAlign.CENTER)
+        typeInfo.add('label_horizontalAlign',getValueStr(label.horizontalAlign));
+    if(label.verticalAlign!=cc.Label.VerticalAlign.CENTER)
+        typeInfo.add('label_verticalAlign',getValueStr(label.verticalAlign));
+    typeInfo.add('label_lineHeight',getValueStr(label.lineHeight));
+    if(label.overflow!=cc.Label.Overflow.NONE)
+        typeInfo.add('label_overflow',getValueStr(label.overflow));
     var font=label.font;
     if(font){
         if(font instanceof cc.LabelAtlas){
