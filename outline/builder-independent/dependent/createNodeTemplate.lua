@@ -130,9 +130,6 @@ local function createLabel(outline)
         label:setVerticalAlignment(extraData.label_verticalAlign)
     end
     if(nil~=extraData.label_overflow)then
-        if(cc.LabelOverflow.RESIZE_HEIGHT==extraData.label_overflow)then
-            label:setMaxLineWidth(outline.width)
-        end
         label:setOverflow(extraData.label_overflow)
     end
 

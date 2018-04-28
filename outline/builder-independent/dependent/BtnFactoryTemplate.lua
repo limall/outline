@@ -107,6 +107,9 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
                 listener:setSwallowTouches(true)
                 node.btn_isPressed=true
                 onPressed(node)
+                if(node.onPressed)then
+                    node.onPressed(node.btn_tag)
+                end
             end
         end
 		return true;
@@ -119,6 +122,9 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
         end
         if(node.btn_isPressed)then
             onPressEnd(node)
+            if(node.onPressUp)then
+                node.onPressUp(node.btn_tag)
+            end
         end
     end
 
@@ -129,9 +135,12 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
         end
         if(node.btn_isPressed)then
             onPressEnd(node)
+            if(node.onPressUp)then
+                node.onPressUp(node.btn_tag)
+            end
             if(isTouchInSprite(node,touch,node.btn_realScaleX,node.btn_realScaleY))then
                 if(node.btn_onClick)then
-                    node.btn_onClick(node)
+                    node.btn_onClick(node.btn_tag)
                 end
             end
         end
@@ -143,6 +152,10 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
         end
         if(node.btn_isPressed and (not isTouchInSprite(node,touch,node.btn_realScaleX,node.btn_realScaleY)))then
             onPressEnd(node)
+            node.btn_isPressed=false
+            if(node.onPressUp)then
+                node.onPressUp(node.btn_tag)
+            end
         end
     end
 
@@ -154,10 +167,19 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
     local eventDispatcher = node:getEventDispatcher()
     eventDispatcher:addEventListenerWithSceneGraphPriority(listener, node)
 
-    function node:addTouchEventListener(onClick,tag)
-        node.btn_onClick=function()
-            onClick(tag)
-        end
+    function node:setOnClick(onClick,tag)
+        node.btn_onClick=onClick
+        node.btn_tag=tag
+    end
+
+    function node:setOnPressed(onPressed,tag)
+        node.onPressed=onPressed
+        node.btn_tag=tag
+    end
+
+    function node:setOnPressUp(onPressUp,tag)
+        node.onPressUp=onPressUp
+        node.btn_tag=tag
     end
 end
 
