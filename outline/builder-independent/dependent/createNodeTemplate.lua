@@ -61,6 +61,12 @@ local function createEditBox(outline)
     end
 end
 --end createEditBox
+--start Listview
+local function createListview(creator)
+    local outline=creator.outline
+    local extraData=outline.extraData
+end
+--end Listview
 --start progressBar
 local function createProgressBar(outline)
     local extraData=outline.extraData
@@ -284,8 +290,8 @@ local function createNode(creator,parent)
     local outline=creator.outline
     local node
     local extraData=outline.extraData
-    
-    if(extraData)then 
+    if(creator.Listview)then
+    elseif(extraData)then 
         if(extraData.isProgressBar)then
             node=createProgressBar(outline)
         end
