@@ -51,6 +51,47 @@ function catchExportRules(canvas){
     return array;
 }
 
+//预查找资源
+function queryAllSource(canvas,event){
+    var query=0;
+    var catcher=new Catcher(canvas,function(node){
+        var components=node._components;
+        if(!components)
+            return;
+        for(var i=0;i<components.length;i++){
+            var component=components[i];
+            for(var propName in component){
+                var prop=component[propName];
+                if(prop instanceof cc.Font){
+                    var font=prop;
+                    if(font instanceof cc.LabelAtlas)
+                        continue;
+                    query++;
+                    Editor.assetdb.queryPathByUuid(font._uuid,function(err,path){
+                        query--;
+                        if(err){
+                            Editor.error(err.toString());
+                        }else{
+                            path=path.replace(/\\/g,'/');
+                            path=path.substring(path.indexOf('/assets/')+8);
+                            font.fontPath=path;
+                        }
+                        if(query==0){
+                            query--;
+                            event.reply();
+                        }
+                    });
+                }
+            }
+        }
+    });
+    catcher.catchAll();
+    if(query==0){
+        query--;
+        event.reply();
+    }
+}
+
 //遍历节点树，返回所有outline树的根outline
 function catchOutline(exportRule,obj){
     var node=exportRule.src_Node;
@@ -99,3 +140,4 @@ function catchOutline(exportRule,obj){
 module.exports.Catcher=Catcher;
 module.exports.catchExportRules=catchExportRules;
 module.exports.catchOutline=catchOutline;
+module.exports.queryAllSource=queryAllSource;

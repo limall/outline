@@ -1,6 +1,7 @@
 var catcher=require('./catcher/Catcher');
 var catchExportRules=catcher.catchExportRules;
 var catchOutline=catcher.catchOutline;
+var queryAllSource=catcher.queryAllSource;
 
 var assetsExportor=require('./AssetsExportor');
 module.exports = {
@@ -72,5 +73,10 @@ module.exports = {
             }
             syncExecute();
         }
+    },
+    //查找资源
+    'querySource':function(event){
+        var canvas = cc.find('Canvas');
+        queryAllSource(canvas,event);
     }
 };

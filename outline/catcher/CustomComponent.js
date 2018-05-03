@@ -3,7 +3,8 @@
  * 包括以'o_'作开头的属性（需要生成组件名）
  * 以及'o__'作开头的属性（TypeInfo类在ExtraData.js中定义）
  */
-
+var assetsExportor=require('../AssetsExportor');
+var imageSource=require('./ImageSource');
 var getValueStr=require('./ValueStr');
 
 function UserData(){
@@ -62,6 +63,27 @@ module.exports=function(node,typeInfo){
     //get typeInfo
     for(var i=0;i<components.length;i++){
         var component=components[i];
+        if(component.o__isListview){
+            var background=component.o__listview_background;
+            if(background){
+                var insetTop=background.insetTop;
+                var insetBottom=background.insetBottom;
+                var insetLeft=background.insetLeft;
+                var insetRight=background.insetRight;
+                if(insetTop>0){
+                    component.o__listview_background_insetTop=insetTop;
+                }
+                if(insetBottom>0){
+                    component.o__listview_background_insetBottom=insetBottom;
+                }
+                if(insetLeft>0){
+                    component.o__listview_background_insetLeft=insetLeft;
+                }
+                if(insetRight>0){
+                    component.o__listview_background_insetRight=insetRight;
+                }
+            }
+        }
         for(var propName in component){
             typeInfo.addCustom(propName,component[propName]);
         }

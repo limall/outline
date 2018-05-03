@@ -3,6 +3,7 @@
  */
 
 var getType=require('./Type');
+var assetsExportor=require('../AssetsExportor');
 var imageSource=require('./ImageSource');
 
 function getIntStr(value){
@@ -47,6 +48,31 @@ function getSpriteFrameStr(value){
     return '"'+imageSource.getSpriteFrame(value)+'"';
 }
 
+function getFontStr(font){
+    if(font instanceof cc.LabelAtlas){
+        var str='';
+
+        var spriteFrame=font.spriteFrame;
+        assetsExportor.addFile(imageSource.getImagePath(spriteFrame));
+
+        str='labelAtlas:'+getValueStr(spriteFrame);
+        var temp=font._fntConfig.fontDefDictionary;
+        var isFirst=true;
+        for(var propName in temp){
+            var prop=temp[propName];
+            if(prop.rect){
+                if(isFirst){
+                    str+=','+getValueStr(propName)+','+getValueStr(prop.rect.width)+','+getValueStr(prop.rect.height);
+                    isFirst=false
+                }
+            }
+        }
+        return str;
+    }else{
+        return font.fontPath;
+    }
+}
+
 module.exports=function(value){
     var type=getType(value);
     var valueStr;
@@ -74,6 +100,9 @@ module.exports=function(value){
             break;
         case 'color':
             valueStr=getColorStr(value);
+            break;
+        case 'font':
+            valueStr=getFontStr(value);
             break;
     }
     return valueStr;

@@ -37,16 +37,18 @@ module.exports = {
     },
     //按照选中的export rule导出node
     'export-node' (event,ruleNames){
-      Editor.Scene.callSceneScript('outline', 'getNode',ruleNames,Editor.projectPath,function (data) {
-        var dataObj=JSON.parse(data);
-        for(var i=0;i<dataObj.length;i++){
-          var obj=dataObj[i];
-          var nodeDataObj=JSON.parse(obj.nodeData);
-          if(obj.export_independent_file)
-            independentLuaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
-          else
-            luaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
-        }
+      Editor.Scene.callSceneScript('outline','querySource',function(){
+        Editor.Scene.callSceneScript('outline', 'getNode',ruleNames,Editor.projectPath,function (data) {
+          var dataObj=JSON.parse(data);
+          for(var i=0;i<dataObj.length;i++){
+            var obj=dataObj[i];
+            var nodeDataObj=JSON.parse(obj.nodeData);
+            if(obj.export_independent_file)
+              independentLuaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
+            else
+              luaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
+          }
+        });
       });
     }
   },

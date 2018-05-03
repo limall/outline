@@ -75,6 +75,14 @@ function isSpriteFrame(value){
     return value instanceof cc.SpriteFrame;
 }
 
+function isFont(value){
+    return value instanceof cc.Font;
+}
+
+function isArray(value){
+    return value instanceof Array;
+}
+
 
 module.exports = function(value){
     if(isVec2(value)){
@@ -90,7 +98,9 @@ module.exports = function(value){
     }else if(isSpriteFrame(value)){
         return 'spriteFrame';
     }else if(isColor(value)){
-        return 'color'
+        return 'color';
+    }else if(isFont(value)){
+        return 'font';
     }else if(value===null){
         return 'null'
     }else
