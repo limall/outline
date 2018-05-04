@@ -1,4 +1,3 @@
-var assetsExportor=require('../AssetsExportor');
 var imageSource=require('./ImageSource');
 var getValueStr=require('./ValueStr');
 

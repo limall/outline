@@ -1,4 +1,3 @@
-var assetsExportor=require('../AssetsExportor');
 var imageSource=require('./ImageSource');
 var getValueStr=require('./ValueStr');
 
@@ -11,16 +10,12 @@ module.exports=function(node,typeInfo){
         spf_normal=com_sprite.spriteFrame;
     }
     if(spf_normal){
-        assetsExportor.addFile(imageSource.getImagePath(spf_normal));
-        assetsExportor.addFile(imageSource.getPList(spf_normal));
         typeInfo.add('image_normal',getValueStr(spf_normal));
     }else
         return;
 
     var spf_pressed=com_button.pressedSprite;
     if(spf_pressed){
-        assetsExportor.addFile(imageSource.getImagePath(spf_pressed));
-        assetsExportor.addFile(imageSource.getPList(spf_pressed));
         typeInfo.add('buttonType',getValueStr(3));
         typeInfo.add('image_pressed',getValueStr(spf_pressed));
     }else{
@@ -29,8 +24,6 @@ module.exports=function(node,typeInfo){
 
     var spf_disabled=com_button.disabledSprite;
     if(spf_disabled){
-        assetsExportor.addFile(imageSource.getImagePath(spf_disabled));
-        assetsExportor.addFile(imageSource.getPList(spf_disabled));
         typeInfo.add('image_disabled',getValueStr(spf_disabled));
     }
 

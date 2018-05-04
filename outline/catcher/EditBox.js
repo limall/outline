@@ -1,4 +1,3 @@
-var assetsExportor=require('../AssetsExportor');
 var imageSource=require('./ImageSource');
 var getValueStr=require('./ValueStr');
 
@@ -10,7 +9,6 @@ module.exports=function(editBox,typeInfo){
 
     var backgroundImage=editBox.backgroundImage;
     if(backgroundImage && backgroundImage._textureFilename.lastIndexOf("default_progressbar.png")<0){
-        assetsExportor.addFile(imageSource.getImagePath(backgroundImage));
         typeInfo.add('editbox_backgroundImage',getValueStr(backgroundImage));
     }else{
         Editor.error('must set backgroundImage of EditBox');

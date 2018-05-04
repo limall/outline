@@ -1,12 +1,8 @@
-var assetsExportor=require('../AssetsExportor');
 var imageSource=require('./ImageSource');
 var getValueStr=require('./ValueStr');
 
 module.exports=function(sprite,typeInfo){
     var spriteFrame=sprite.spriteFrame;
-
-    assetsExportor.addFile(imageSource.getImagePath(spriteFrame));
-    assetsExportor.addFile(imageSource.getPList(spriteFrame));
 
     typeInfo.add('isSprite',getValueStr(true));
     typeInfo.add('sprite_spriteFrame',getValueStr(spriteFrame));

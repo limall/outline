@@ -1,10 +1,12 @@
 var fs=require('fs');
+var assetsExportor=require('../AssetsExportor');
 
 //get the path of the image which is used by the given SpriteFrame
 module.exports.getImagePath=function(spriteFrame){
     if(spriteFrame){
         var fullPath=spriteFrame._textureFilename;
         var imageFile=fullPath.substring(fullPath.indexOf('/assets/')+8);
+        assetsExportor.addFile(imageFile);
         return imageFile;
     }else{
         Editor.error('ImageSource:getImagePath:sprite is null or undefined');
@@ -29,6 +31,7 @@ module.exports.getPList=function(spriteFrame){
             return null;
         else{
             var path=imagePath.substring(0,lastDot);
+            assetsExportor.addFile(path+'.plist');
             return path+'.plist';
         }
     }
@@ -44,7 +47,6 @@ module.exports.getPList=function(spriteFrame){
 module.exports.getSpriteFrame=function(spriteFrame){
     var imagePath=this.getImagePath(spriteFrame);
     var pListPath=this.getPList(spriteFrame);
-
     if(pListPath){
         imagePath+=':'+spriteFrame.name;
     }

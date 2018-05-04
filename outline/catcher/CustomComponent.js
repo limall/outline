@@ -3,7 +3,6 @@
  * 包括以'o_'作开头的属性（需要生成组件名）
  * 以及'o__'作开头的属性（TypeInfo类在ExtraData.js中定义）
  */
-var assetsExportor=require('../AssetsExportor');
 var imageSource=require('./ImageSource');
 var getValueStr=require('./ValueStr');
 
