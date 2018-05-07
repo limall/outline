@@ -84,6 +84,8 @@ function buildTypeInfo(typeInfo,dependent){
             }
             if(key==='isLabel')
                 dependent.label=true;
+            if(key==='isListview')
+                dependent.listview=true;
             luaCode+='        '+key+'='+value+',\n';
         }
     }

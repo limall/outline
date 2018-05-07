@@ -122,18 +122,18 @@ local function createLabel(outline)
     else 
         label_string=''
     end
-    if(extraData.isLabelAtlas)then
-        local startChar=extraData.labelAtlas_startChar
-        local atlas=extraData.labelAtlas_atlas
-        local width=extraData.labelAtlas_itemWidth
-        local height=extraData.labelAtlas_itemHeight
-        label=cc.LabelAtlas:_create(label_string,atlas,width,height,startChar)
-    elseif(extraData.label_font)then
-        local ttfConfig = {
-            fontFilePath = extraData.label_font,
-            fontSize     = extraData.label_fontSize
-        }
-        label=cc.Label:createWithTTF(ttfConfig,label_string)
+    local font=extraData.label_font
+    if(font)then
+        local fontType=(font.fontType)
+        if(fontType=="atlas")then
+            local startChar=font.startChar
+            local atlas=font.atlas
+            local width=font.itemWidth
+            local height=font.itemHeight
+            label=cc.LabelAtlas:_create(label_string,atlas,width,height,startChar)
+        elseif(fontType=="ttf")then
+            label=cc.Label:createWithTTF(label_string,font.path,extraData.label_fontSize)
+        end
     else
         label = cc.Label:createWithSystemFont(label_string,'Arial',extraData.label_fontSize)
     end
@@ -217,55 +217,54 @@ local function createParticleSystem(outline)
     return ps
 end
 --end createParticleSystem
---start processBtn
-local function processBtn(node,extraData)
-    local buttonType=extraData.buttonType
+--start listview
+local function createListview(creator)
+    local outline=creator.outline
+    local extraData=outline.extraData
 
-    local image_disabled=extraData.image_disabled
-    if(image_disabled)then
-        node.image_disabled=image_disabled
-    end
-
-    local image_normal=extraData.image_normal
-    if(image_normal)then
-        node.image_normal=image_normal
-    end
-
-    local image_pressed=extraData.image_pressed
-    if(image_pressed)then
-        node.image_pressed=image_pressed
-    end
-
-    function node:setEnabled(clickAble)
-        if(clickAble)then
-            self.btn_isDisabled=false
-            if(self.image_normal)then
-                setSPF(self,self.image_normal)
-            end
-        else
-            self.btn_isDisabled=true
-            if(self.image_disabled)then
-                setSPF(self,self.image_disabled)
-            end
+    local listview=ccui.ListView:create()
+    function listview:pushbackBySample(para)
+        if(self.getItemBySample)then
+            local item=self:getItemBySample(para)
+            local size=item:getContentSize()
+            local anchor=item:getAnchorPoint()
+            item:move(cc.p(size.width*anchor.x,size.height*anchor.y))
+            local widget=ccui.Widget:create()
+            widget:setContentSize(size)
+            widget:addChild(item)
+            self:pushBackCustomItem(widget)
         end
-        return self
     end
 
-    if(buttonType==btnFactory.BUTTONTYPE_SCALE)then
-        btnFactory.processScaleBtn(node)
-    elseif(buttonType==btnFactory.BUTTONTYPE_COLOR)then
-        btnFactory.processColorBtn(node)
-    elseif(buttonType==btnFactory.BUTTONTYPE_SPRITE)then
-        btnFactory.processSpriteBtn(node)
-    elseif(buttonType==btnFactory.BUTTONTYPE_SELECT)then
-        btnFactory.processSelectBtn(node)
+    if(extraData.listview_background)then
+        local sep=string.find(extraData.listview_background,'%:')
+        if(sep and sep>0)then
+            print("background of listview can not be plist")
+        else
+            listview:setBackGroundImage(extraData.listview_background)
+
+            listview:setBackGroundImageScale9Enabled(true)
+            local b_insetTop=extraData.listview_background_insetTop or 0
+            local b_insetBottom=extraData.listview_background_insetBottom or 0
+            local b_insetLeft=extraData.listview_background_insetLeft or 0
+            local b_insetRight=extraData.listview_background_insetRight or 0
+            local size=listview:getBackGroundImageTextureSize()
+            local rect=cc.rect(b_insetLeft,b_insetBottom,size.width-b_insetRight-b_insetLeft,size.height-b_insetTop-b_insetBottom)
+            listview:setBackGroundImageCapInsets(rect)
+        end
     end
 
-    if(extraData.btn_enableAutoGrayEffect)then
-        autoGray(node)
-    end
+    listview:setInertiaScrollEnabled(extraData.listview_inertia)
+    listview:setBounceEnabled(extraData.listview_elastic)
+    listview:setDirection(extraData.listview_direction)
+    listview:setItemsMargin(extraData.listview_item_margin)
+    listview:setGravity(extraData.listview_item_gravity)
+    listview:setPadding(extraData.listview_padding_left,extraData.listview_padding_top,extraData.listview_padding_right,extraData.listview_padding_bottom)
+
+    listview.isListview=true
+    return listview
 end
---end processBtn
+--end listview
 --start main
 local function createSprite(outline)
     
@@ -301,6 +300,10 @@ local function createNode(creator,parent)
     local extraData=outline.extraData
     if(creator.Listview)then
     elseif(extraData)then 
+        if(extraData.isListview)then
+            node=createListview(creator)
+        end
+
         if(extraData.isProgressBar)then
             node=createProgressBar(outline)
         end

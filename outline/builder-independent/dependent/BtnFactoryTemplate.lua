@@ -104,8 +104,26 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
         else
             node.btn_realScaleX,node.btn_realScaleY=getScale(node)
             if(isTouchInSprite(node,touch,node.btn_realScaleX,node.btn_realScaleY))then
-                listener:setSwallowTouches(true)
+                if(node.needSwallowTouch)then
+                    listener:setSwallowTouches(true)
+                end
                 node.btn_isPressed=true
+                
+                --用于确定滑动
+                local pos = node:getParent():convertToWorldSpace(cc.p(node:getPositionX(),node:getPositionY()));
+                local beginX=pos.x
+                local beginY=pos.y
+                local beginSize=node:getContentSize()
+                local beginAnchor=node:getAnchorPoint()
+                local beginLeft=beginX-beginSize.width*beginAnchor.x
+                local beginBottom=beginY-beginSize.height*beginAnchor.y
+                node.touchBeginRect={
+                    left=beginLeft,
+                    bottom=beginBottom,
+                    width=beginSize.width,
+                    height=beginSize.height
+                }
+              
                 onPressed(node)
                 if(node.onPressed)then
                     node.onPressed(node.btn_tag)
@@ -150,11 +168,21 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
         if(not node:isVisible())then
             return
         end
-        if(node.btn_isPressed and (not isTouchInSprite(node,touch,node.btn_realScaleX,node.btn_realScaleY)))then
-            onPressEnd(node)
-            node.btn_isPressed=false
-            if(node.onPressUp)then
-                node.onPressUp(node.btn_tag)
+        if(node.btn_isPressed)then
+            local cancel=not isTouchInSprite(node,touch,node.btn_realScaleX,node.btn_realScaleY)
+            if(node.cancelWhenScroll)then
+                local x = touch:getLocation().x
+	            local y = touch:getLocation().y
+                local r=node.touchBeginRect
+                cancel=x<r.left or x>r.left+r.width or y<r.bottom or y>r.bottom+r.height
+            end
+            if(cancel)then
+                listener:setSwallowTouches(false)
+                onPressEnd(node)
+                node.btn_isPressed=false
+                if(node.onPressUp)then
+                    node.onPressUp(node.btn_tag)
+                end
             end
         end
     end
@@ -169,7 +197,9 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
 
     function node:setOnClick(onClick,tag)
         node.btn_onClick=onClick
-        node.btn_tag=tag
+        if(nil~=tag)then
+            node.btn_tag=tag
+        end
     end
 
     function node:setOnPressed(onPressed,tag)
@@ -181,10 +211,6 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
         node.onPressUp=onPressUp
         node.btn_tag=tag
     end
-end
-
-function btnFactory.setOnClick(node,onClick)
-    node.btn_onClick=onClick
 end
 
 btnFactory.BUTTONTYPE_SCALE=1
@@ -209,7 +235,7 @@ function btnFactory.processScaleBtn(node)
 
     local function onPressEnd(node)
         local action=cc.Sequence:create(
-            cc.EaseExponentialInOut:create(cc.ScaleTo:create(0.16,node.btn_originScaleX,node.btn_originScaleY)),
+            cc.EaseExponentialInOut:create(cc.ScaleTo:create(0.2,node.btn_originScaleX,node.btn_originScaleY)),
             cc.CallFunc:create(callback)
             )
         node:runAction(action)
@@ -290,7 +316,7 @@ function btnFactory.processSelectBtn(node)
         return self
     end
 
-    btnFactory.setOnClick(node,function(node)
+    node:setOnClick(function()
         if(node.isSelected)then
             node:setUnSelect()
         else

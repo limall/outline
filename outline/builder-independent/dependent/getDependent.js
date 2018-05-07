@@ -20,20 +20,21 @@ function getCode(file,key){
 obj.outline_head=getCode('outlineTemplate.lua','head');
 obj.outline_main=getCode('outlineTemplate.lua','main');
 obj.outline_widget=getCode('outlineTemplate.lua','widget');
+obj.outline_processBtn=getCode('outlineTemplate.lua','processBtn');
 
 obj.btn_main=getCode('BtnFactoryTemplate.lua','main');
 obj.btn_scale=getCode('BtnFactoryTemplate.lua','processScaleBtn');
 obj.btn_color=getCode('BtnFactoryTemplate.lua','processColorBtn');
 obj.btn_sprite=getCode('BtnFactoryTemplate.lua','processSpriteBtn');
 obj.btn_select=getCode('BtnFactoryTemplate.lua','processSelectBtn');
-obj.btn_autoGray=getCode('BtnFactoryTemplate.lua','autoGray')
+obj.btn_autoGray=getCode('BtnFactoryTemplate.lua','autoGray');
 
 obj.createNode_main=getCode('createNodeTemplate.lua','main');
 obj.createNode_createEditBox=getCode('createNodeTemplate.lua','createEditBox');
 obj.createNode_progressBar=getCode('createNodeTemplate.lua','progressBar');
 obj.createNode_createLabel=getCode('createNodeTemplate.lua','createLabel');
 obj.createNode_createParticleSystem=getCode('createNodeTemplate.lua','createParticleSystem');
-obj.createNode_processBtn=getCode('createNodeTemplate.lua','processBtn');
+obj.createNode_createListview=getCode('createNodeTemplate.lua','listview');
 
 obj.anim_x=getCode('animation.lua','anim-x');
 obj.anim_y=getCode('animation.lua','anim-y');
@@ -75,6 +76,7 @@ obj.getDependent=function(dependent){
         code+=obj.anim_opacity+'\n';
 
     //creator
+
     if(dependent.isCreator)
         code+=obj.outline_head+'\n';
     if(dependent.autoGray)
@@ -101,12 +103,14 @@ obj.getDependent=function(dependent){
         code+=obj.createNode_createLabel+'\n';
     if(dependent.particleSystem)
         code+=obj.createNode_createParticleSystem+'\n';
+    if(dependent.listview)
+        code+=obj.createNode_createListview+'\n';
     if(dependent.btn)
-        code+=obj.createNode_processBtn+'\n';
-    if(dependent.isCreator)
+        code+=obj.outline_processBtn+'\n';
+    if(dependent.isCreator){
         code+=obj.createNode_main+'\n';
-    if(dependent.isCreator)
         code+=obj.outline_main+'\n';
+    }
     if(dependent.widget)
         code+=obj.outline_widget+'\n';
         

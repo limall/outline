@@ -154,6 +154,60 @@ function getFrame(framePath)
     return frame    
 end
 --end head
+--start processBtn
+local function processBtn(node,extraData)
+    node.needSwallowTouch=extraData.needSwallowTouch
+    node.cancelWhenScroll=extraData.cancelWhenScroll
+    node.btn_tag=extraData.btn_tag
+
+    local buttonType=extraData.buttonType
+
+    local image_disabled=extraData.image_disabled
+    if(image_disabled)then
+        node.image_disabled=image_disabled
+    end
+
+    local image_normal=extraData.image_normal
+    if(image_normal)then
+        node.image_normal=image_normal
+    end
+
+    local image_pressed=extraData.image_pressed
+    if(image_pressed)then
+        node.image_pressed=image_pressed
+    end
+
+    function node:setEnabled(enable)
+        if(enable)then
+            self.btn_isDisabled=false
+            if(self.image_normal)then
+                setSPF(self,self.image_normal)
+            end
+        else
+            self.btn_isDisabled=true
+            if(self.image_disabled)then
+                logType(self)
+                setSPF(self,self.image_disabled)
+            end
+        end
+        return self
+    end
+
+    if(buttonType==btnFactory.BUTTONTYPE_SCALE)then
+        btnFactory.processScaleBtn(node)
+    elseif(buttonType==btnFactory.BUTTONTYPE_COLOR)then
+        btnFactory.processColorBtn(node)
+    elseif(buttonType==btnFactory.BUTTONTYPE_SPRITE)then
+        btnFactory.processSpriteBtn(node)
+    elseif(buttonType==btnFactory.BUTTONTYPE_SELECT)then
+        btnFactory.processSelectBtn(node)
+    end
+
+    if(extraData.btn_enableAutoGrayEffect)then
+        btnFactory.autoGray(node)
+    end
+end
+--end processBtn
 --start main
 local Outline={}
 function Outline:create( parent )

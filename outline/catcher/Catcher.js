@@ -93,7 +93,7 @@ function queryAllSource(canvas,event){
 }
 
 //遍历节点树，返回所有outline树的根outline
-function catchOutline(exportRule,obj){
+function catchOutline(exportRule){
     var node=exportRule.src_Node;
     var excludeNodes=exportRule.excludeNodes;
     var use_world_pos=exportRule.use_world_position;
@@ -132,9 +132,8 @@ function catchOutline(exportRule,obj){
             parent=parent.parent;
         }
     }
-    setTimeout(function(){
-        obj.nodeData=JSON.stringify(root);
-    },400);
+
+    return JSON.stringify(root);
 }
 
 module.exports.Catcher=Catcher;

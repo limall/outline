@@ -38,40 +38,25 @@ module.exports = {
         if(canvas){
             var exportRules=catchExportRules(canvas);
             var nodes=[];
-
-            var i=0;
-            function syncExecute(){
-                if(hasName(exportRules[i].ruleName)){
-                    var exportRule=exportRules[i];
+            for(var i=0;i<exportRules.length;i++){
+                var exportRule=exportRules[i];
+                if(hasName(exportRule.ruleName)){
                     if(exportRule.resFolder&&exportRule.resFolder!='')
                         assetsExportor.setFolder(exportRule.resFolder,projectPath);
                     var obj=new Object();
-                    catchOutline(exportRule,obj);
-                    setTimeout(function(){
-                        obj.dstPath=exportRule.dstPath;
-                        obj.language=exportRule.language;
-                        obj.export_independent_file=exportRule.export_independent_file;
-                        obj.namespace=exportRule.namespace;
-                        nodes.push(obj);
-                        if(exportRule.resFolder&&exportRule.resFolder!='')
-                            assetsExportor.startCopy();
-                        if(i<exportRules.length)
-                            syncExecute();
-                        else{
-                            event.reply(JSON.stringify(nodes));
-                        }
-                    },450);
-                    i++;
-                }else{
-                    i++;
-                    if(i<exportRules.length)
-                        syncExecute();
-                    else{
-                        event.reply(JSON.stringify(nodes));
-                    }
+                    obj.nodeData=catchOutline(exportRule);
+                    obj.dstPath=exportRule.dstPath;
+                    obj.language=exportRule.language;
+                    obj.export_independent_file=exportRule.export_independent_file;
+                    obj.namespace=exportRule.namespace;
+                    nodes.push(obj);
+                    if(exportRule.resFolder&&exportRule.resFolder!='')
+                        assetsExportor.startCopy();
                 }
             }
-            syncExecute();
+            if(event.reply) {
+                event.reply(JSON.stringify(nodes));
+            }
         }
     },
     //查找资源
