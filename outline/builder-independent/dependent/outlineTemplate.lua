@@ -225,7 +225,7 @@ function Outline:create( parent )
         processBtn(node,self.extraData)
     end
 
-    if(self.children and not node.isListView)then
+    if(self.children and not node.isListview)then
         for index,child in pairs(self.children)do
             child:create(node)
         end

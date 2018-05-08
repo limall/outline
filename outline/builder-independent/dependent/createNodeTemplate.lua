@@ -61,21 +61,6 @@ local function createEditBox(outline)
     end
 end
 --end createEditBox
---start Listview
-local function createListview(creator)
-    local outline=creator.outline
-    local extraData=outline.extraData
-
-    local listview=ccui.ListView:create()
-    function listview:pushbackBySample()
-        if(self.getItemBySample)then
-            local item=self:getItemBySample()
-            self:pushBackCustomItem(item)
-        end
-    end
-    return listview
-end
---end Listview
 --start progressBar
 local function createProgressBar(outline)
     local extraData=outline.extraData

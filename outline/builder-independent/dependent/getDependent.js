@@ -94,6 +94,8 @@ obj.getDependent=function(dependent){
             code+=obj.btn_scale+'\n';
         code+=obj.btn_select+'\n';
     }
+    if(dependent.btn)
+        code+=obj.outline_processBtn+'\n';
 
     if(dependent.editBox)
         code+=obj.createNode_createEditBox+'\n';
@@ -105,8 +107,6 @@ obj.getDependent=function(dependent){
         code+=obj.createNode_createParticleSystem+'\n';
     if(dependent.listview)
         code+=obj.createNode_createListview+'\n';
-    if(dependent.btn)
-        code+=obj.outline_processBtn+'\n';
     if(dependent.isCreator){
         code+=obj.createNode_main+'\n';
         code+=obj.outline_main+'\n';
