@@ -214,6 +214,11 @@ function Outline:create( parent )
     local node=self.createNode(self.creator,parent)
     node:setName(self.name)
     self:reset(node)
+
+    if(parent)then
+        parent:addChild(node)
+    end
+
     if(getApplyWidget)then
         node.applyWidget=getApplyWidget(self)
     end
@@ -231,10 +236,6 @@ function Outline:create( parent )
         end
     end
     self.lastNode=node
-
-    if(parent)then
-        parent:addChild(node)
-    end
 
     return node
 end
