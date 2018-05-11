@@ -111,8 +111,8 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
                 
                 --用于确定滑动
                 local pos = node:getParent():convertToWorldSpace(cc.p(node:getPositionX(),node:getPositionY()));
-                local beginX=pos.x
-                local beginY=pos.y
+                local beginX=pos.x--需要先转化坐标
+                local beginY=pos.y--需要先转化坐标
                 local beginSize=node:getContentSize()
                 local beginAnchor=node:getAnchorPoint()
                 local beginLeft=beginX-beginSize.width*beginAnchor.x
@@ -126,7 +126,7 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
               
                 onPressed(node)
                 if(node.onPressed)then
-                    node.onPressed(node.btn_tag)
+                    node.onPressed(node.btn_para1,node.btn_para2)
                 end
             end
         end
@@ -141,7 +141,7 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
         if(node.btn_isPressed)then
             onPressEnd(node)
             if(node.onPressUp)then
-                node.onPressUp(node.btn_tag)
+                node.onPressUp(node.btn_para1,node.btn_para2)
             end
         end
     end
@@ -154,11 +154,11 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
         if(node.btn_isPressed)then
             onPressEnd(node)
             if(node.onPressUp)then
-                node.onPressUp(node.btn_tag)
+                node.onPressUp(node.btn_para1,node.btn_para2)
             end
             if(isTouchInSprite(node,touch,node.btn_realScaleX,node.btn_realScaleY))then
                 if(node.btn_onClick)then
-                    node.btn_onClick(node.btn_tag)
+                    node.btn_onClick(node.btn_para1,node.btn_para2)
                 end
             end
         end
@@ -181,7 +181,7 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
                 onPressEnd(node)
                 node.btn_isPressed=false
                 if(node.onPressUp)then
-                    node.onPressUp(node.btn_tag)
+                    node.onPressUp(node.btn_para1,node.btn_para2)
                 end
             end
         end
@@ -195,21 +195,22 @@ function btnFactory.processBtn(node,onPressed,onPressEnd)
     local eventDispatcher = node:getEventDispatcher()
     eventDispatcher:addEventListenerWithSceneGraphPriority(listener, node)
 
-    function node:setOnClick(onClick,tag)
+    function node:setOnClick(onClick,para1,para2)
         node.btn_onClick=onClick
-        if(nil~=tag)then
-            node.btn_tag=tag
-        end
+        node.btn_para1=para1
+        node.btn_para2=para2
     end
 
-    function node:setOnPressed(onPressed,tag)
+    function node:setOnPressed(onPressed,para1,para2)
         node.onPressed=onPressed
-        node.btn_tag=tag
+        node.btn_para1=para1
+        node.btn_para2=para2
     end
 
-    function node:setOnPressUp(onPressUp,tag)
+    function node:setOnPressUp(onPressUp,para1,para2)
         node.onPressUp=onPressUp
-        node.btn_tag=tag
+        node.btn_para1=para1
+        node.btn_para2=para2
     end
 end
 
