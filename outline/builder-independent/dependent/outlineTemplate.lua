@@ -158,7 +158,6 @@ end
 local function processBtn(node,extraData)
     node.needSwallowTouch=extraData.needSwallowTouch
     node.cancelWhenScroll=extraData.cancelWhenScroll
-    node.btn_tag=extraData.btn_tag
 
     local buttonType=extraData.buttonType
 
