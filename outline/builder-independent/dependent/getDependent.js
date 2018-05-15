@@ -27,6 +27,7 @@ obj.btn_scale=getCode('BtnFactoryTemplate.lua','processScaleBtn');
 obj.btn_color=getCode('BtnFactoryTemplate.lua','processColorBtn');
 obj.btn_sprite=getCode('BtnFactoryTemplate.lua','processSpriteBtn');
 obj.btn_select=getCode('BtnFactoryTemplate.lua','processSelectBtn');
+obj.btn_none=getCode('BtnFactoryTemplate.lua','processNoneBtn')
 obj.btn_autoGray=getCode('BtnFactoryTemplate.lua','autoGray');
 
 obj.createNode_main=getCode('createNodeTemplate.lua','main');
@@ -93,6 +94,9 @@ obj.getDependent=function(dependent){
         if(!dependent.scale)
             code+=obj.btn_scale+'\n';
         code+=obj.btn_select+'\n';
+    }
+    if(dependent.none){
+        code+=obj.btn_none+'\n';
     }
     if(dependent.btn)
         code+=obj.outline_processBtn+'\n';

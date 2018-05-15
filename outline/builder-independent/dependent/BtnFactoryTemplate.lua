@@ -218,6 +218,7 @@ btnFactory.BUTTONTYPE_SCALE=1
 btnFactory.BUTTONTYPE_COLOR=2
 btnFactory.BUTTONTYPE_SPRITE=3
 btnFactory.BUTTONTYPE_SELECT=4
+btnFactory.BUTTONTYPE_NONE=5
 --end main
 
 
@@ -248,10 +249,11 @@ end
 --start processColorBtn
 function btnFactory.processColorBtn(node)
     local function onPressed(node)
+        node.btn_color=node:getColor()
         node:setColor(cc.c3b(102, 95, 75));
     end
     local function onPressEnd(node)
-        node:setColor(cc.c3b(255, 255, 255));
+        node:setColor(node.btn_color or cc.c3b(255, 255, 255));
         node.btn_isPressed = false;
     end
     btnFactory.processBtn(node, onPressed, onPressEnd);
@@ -326,3 +328,13 @@ function btnFactory.processSelectBtn(node)
     end)
 end
 --end processSelectBtn
+--start processNoneBtn
+function btnFactory.processNoneBtn(node)
+    local function onPressed(node)
+    end
+    local function onPressEnd(node)
+        node.btn_isPressed=false
+    end
+    btnFactory.processBtn(node, onPressed, onPressEnd);
+end
+--end processNoneBtn

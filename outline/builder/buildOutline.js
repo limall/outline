@@ -78,6 +78,8 @@ function buildTypeInfo(typeInfo,dependent){
                     dependent.sprite=true;
                 if(value==='4')
                     dependent.select=true;
+                if(value==='5')
+                    dependent.none=true;
             }
             if(key==='btn_enableAutoGrayEffect'){
                 dependent.autoGray=true;

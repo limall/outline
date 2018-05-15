@@ -200,6 +200,8 @@ local function processBtn(node,extraData)
         btnFactory.processSpriteBtn(node)
     elseif(buttonType==btnFactory.BUTTONTYPE_SELECT)then
         btnFactory.processSelectBtn(node)
+    elseif(buttonType==btnFactory.BUTTONTYPE_NONE)then
+        btnFactory.processNoneBtn(node)
     end
 
     if(extraData.btn_enableAutoGrayEffect)then
