@@ -120,7 +120,12 @@ local function createLabel(outline)
             label=cc.Label:createWithTTF(label_string,font.path,extraData.label_fontSize)
         end
     else
-        label = cc.Label:createWithSystemFont(label_string,'Arial',extraData.label_fontSize)
+        if(nil~=extraData.label_overflow)then
+            local dimession=cc.size(outline.width,outline.height)
+            label = cc.Label:createWithSystemFont(label_string,'Arial',extraData.label_fontSize,dimession)
+        else
+            label = cc.Label:createWithSystemFont(label_string,'Arial',extraData.label_fontSize)
+        end
     end
 
     if(nil~=extraData.label_horizontalAlign)then
