@@ -244,6 +244,7 @@ local function createListview(creator)
         end
     end
 
+    listview:setScrollBarEnabled(not extraData.listview_hidebar)
     listview:setInertiaScrollEnabled(extraData.listview_inertia)
     listview:setBounceEnabled(extraData.listview_elastic)
     listview:setDirection(extraData.listview_direction)
