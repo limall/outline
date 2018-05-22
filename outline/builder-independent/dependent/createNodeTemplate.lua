@@ -109,7 +109,7 @@ local function createLabel(outline)
     end
     local font=extraData.label_font
     if(font)then
-        local fontType=(font.fontType)
+        local fontType=font.fontType
         if(fontType=="atlas")then
             local startChar=font.startChar
             local atlas=font.atlas
@@ -118,6 +118,9 @@ local function createLabel(outline)
             label=cc.LabelAtlas:_create(label_string,atlas,width,height,startChar)
         elseif(fontType=="ttf")then
             label=cc.Label:createWithTTF(label_string,font.path,extraData.label_fontSize)
+            if(extraData.label_overflow==1)then
+                label:setMaxLineWidth(outline.width)
+            end
         end
     else
         if(nil~=extraData.label_overflow)then
@@ -128,15 +131,10 @@ local function createLabel(outline)
         end
     end
 
-    if(nil~=extraData.label_horizontalAlign)then
-        label:setHorizontalAlignment(extraData.label_horizontalAlign)
-    end
-    if(nil~=extraData.label_verticalAlign)then
-        label:setVerticalAlignment(extraData.label_verticalAlign)
-    end
-    if(nil~=extraData.label_overflow)then
-        label:setOverflow(extraData.label_overflow)
-    end
+    local horizontalAlign=extraData.label_horizontalAlign or 1
+    label:setHorizontalAlignment(horizontalAlign)
+    local verticalAlign=extraData.label_verticalAlign or 1
+    label:setVerticalAlignment(verticalAlign)
 
     return label
 end
