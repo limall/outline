@@ -205,7 +205,7 @@ local function processBtn(node,extraData)
     end
 
     if(extraData.btn_enableAutoGrayEffect)then
-        btnFactory.autoGray(node)
+        autoGray(node)
     end
 end
 --end processBtn
