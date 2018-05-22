@@ -67,7 +67,7 @@ function buildTypeInfo(typeInfo,dependent){
                 dependent.progressBar=true;
             if(key==='hasWidget')
                 dependent.widget=true;
-            if(key==='buttonType'){
+            if(key==='btn_buttonType'){
                 dependent.btn=true;
                 dependent.isBtn=true;
                 if(value==='1')
