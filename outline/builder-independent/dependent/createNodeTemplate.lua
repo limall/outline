@@ -256,6 +256,44 @@ local function createListview(creator)
     return listview
 end
 --end listview
+--start scrollview
+local function createScrollview(creator)
+    local outline=creator.outline
+    local extraData=outline.extraData
+
+    local scroll=ccui.ScrollView:create()
+    local viewsize = cc.size(outline.width, outline.height);
+	scroll:setInertiaScrollEnabled(extraData.scrollview_inertia);
+	scroll:setScrollBarEnabled(not extraData.scrollview_hidebar);
+	scroll:setDirection(extraData.scrollview_direction);
+
+    local addChild=scroll.addChild
+    function scroll:addChild(content)
+        local contentsize = content:getContentSize();
+        content:setAnchorPoint(cc.p(0.5,0.5))
+        content:setPosition(cc.p(contentsize.width / 2, contentsize.height / 2));
+
+    	local container = self:getInnerContainer();
+    	container:setContentSize(contentsize);
+
+        local di=extraData.scrollview_direction
+        if(di==1)then
+	        container:setPositionX((viewsize.width - contentsize.width) / 2);
+            self:scrollToTop(0.8, true);
+        elseif(di==2)then
+            container:setPositionY((viewsize.height-contentsize.height)/2)
+            self:scrollToLeft(0.8,true)
+        elseif(di==3)then
+            container:setPositionY((viewsize.height-contentsize.height)/2)
+            container:setPositionX((viewsize.width - contentsize.width) / 2);
+        end
+
+        addChild(self,content)
+    end
+
+    return scroll
+end
+--end scrollview
 --start main
 local function createSprite(outline)
     
@@ -293,6 +331,10 @@ local function createNode(creator,parent)
     elseif(extraData)then 
         if(extraData.isListview)then
             node=createListview(creator)
+        end
+
+        if(extraData.isScrollview)then
+            node=createScrollview(creator)
         end
 
         if(extraData.isProgressBar)then

@@ -36,6 +36,7 @@ obj.createNode_progressBar=getCode('createNodeTemplate.lua','progressBar');
 obj.createNode_createLabel=getCode('createNodeTemplate.lua','createLabel');
 obj.createNode_createParticleSystem=getCode('createNodeTemplate.lua','createParticleSystem');
 obj.createNode_createListview=getCode('createNodeTemplate.lua','listview');
+obj.createNode_createScrollview=getCode('createNodeTemplate.lua','scrollview');
 
 obj.anim_x=getCode('animation.lua','anim-x');
 obj.anim_y=getCode('animation.lua','anim-y');
@@ -111,6 +112,8 @@ obj.getDependent=function(dependent){
         code+=obj.createNode_createParticleSystem+'\n';
     if(dependent.listview)
         code+=obj.createNode_createListview+'\n';
+    if(dependent.scrollview)
+        code+=obj.createNode_createScrollview+'\n';
     if(dependent.isCreator){
         code+=obj.createNode_main+'\n';
         code+=obj.outline_main+'\n';

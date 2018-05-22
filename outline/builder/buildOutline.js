@@ -88,6 +88,8 @@ function buildTypeInfo(typeInfo,dependent){
                 dependent.label=true;
             if(key==='isListview')
                 dependent.listview=true;
+            if(key==='isScrollview')
+                dependent.scrollview=true;
             luaCode+='        '+key+'='+value+',\n';
         }
     }
