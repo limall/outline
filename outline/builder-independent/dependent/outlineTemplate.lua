@@ -156,22 +156,22 @@ end
 --end head
 --start processBtn
 local function processBtn(node,extraData)
-    node.needSwallowTouch=extraData.needSwallowTouch
-    node.cancelWhenScroll=extraData.cancelWhenScroll
+    node.needSwallowTouch=extraData.btn_needSwallowTouch
+    node.cancelWhenScroll=extraData.btn_cancelWhenScroll
 
-    local buttonType=extraData.buttonType
+    local buttonType=extraData.btn_buttonType
 
-    local image_disabled=extraData.image_disabled
+    local image_disabled=extraData.btn_image_disabled
     if(image_disabled)then
         node.image_disabled=image_disabled
     end
 
-    local image_normal=extraData.image_normal
+    local image_normal=extraData.btn_image_normal
     if(image_normal)then
         node.image_normal=image_normal
     end
 
-    local image_pressed=extraData.image_pressed
+    local image_pressed=extraData.btn_image_pressed
     if(image_pressed)then
         node.image_pressed=image_pressed
     end
@@ -227,7 +227,7 @@ function Outline:create( parent )
         node:applyWidget()
     end
 
-    if(self.extraData and self.extraData.buttonType)then
+    if(self.extraData and self.extraData.btn_buttonType)then
         processBtn(node,self.extraData)
     end
 
