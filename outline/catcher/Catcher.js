@@ -100,21 +100,23 @@ function catchOutline(exportRule){
     
     var root;
     var catcher=new Catcher(node,function(node,parentResult){
-        var outline=new Outline(node);
-        outline=outline.toJsonObj();
         if(parentResult){
             var children=parentResult.children=parentResult.children||[];
-
             var exclude=false;
             excludeNodes.forEach(function(excludeNode){
                 if(excludeNode===node)
                     exclude=true;
             });
-
-            if(!exclude)
+            if(!exclude){
+                var outline=new Outline(node);
+                outline=outline.toJsonObj();
                 children.push(outline);
-        }else
+            }
+        }else{
+            var outline=new Outline(node);
+            outline=outline.toJsonObj();
             root=outline;
+        }
         return outline;
     });
     catcher.catchAll();
