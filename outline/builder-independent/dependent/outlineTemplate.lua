@@ -254,6 +254,8 @@ function Outline:reset( node , cascade )
     node:setVisible(self.visible);
     node:setLocalZOrder(self.zOrder);
     node:setColor(cc.c3b(self.colorR, self.colorG, self.colorB));
+    node:setSkewX(self.skewX)
+    node:setSkewY(self.skewY)
     if(cascade)then
         if(self.children)then
             for index,child in pairs(self.children)do
@@ -277,6 +279,8 @@ local createOutline=function(nodeInfo)
         anchorX=0.5,
         anchorY=0.5,
         rotation=0,
+        skewX=0,
+        skewY=0,
         opacity=255,
         visible=true,
         zOrder=0,

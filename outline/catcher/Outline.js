@@ -27,6 +27,8 @@ function Outline(node){
     this.scaleX=node.scaleX;
     this.scaleY=node.scaleY;
     this.rotation=node.rotation;
+    this.skewX=node.skewX;
+    this.skewY=node.skewY;
     this.opacity=node.opacity;
     this.visible=node.active;
     this.zOrder=node.zIndex;
