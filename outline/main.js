@@ -27,6 +27,19 @@ module.exports = {
     'start-export-node' () {
       Editor.Panel.open('outline');
     },
+    'export-all-rule' () {
+      Editor.Scene.callSceneScript('outline', 'getNode','export-all-rule',Editor.projectPath,function (data) {
+        var dataObj=JSON.parse(data);
+        for(var i=0;i<dataObj.length;i++){
+          var obj=dataObj[i];
+          var nodeDataObj=JSON.parse(obj.nodeData);
+          if(obj.export_independent_file)
+            independentLuaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
+          else
+            luaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
+        }
+      });
+    },
     //获取Canvas上所有的export rule的名称
     'getRuleName' (event){
       Editor.Scene.callSceneScript('outline', 'getExportRules', function (data) {

@@ -13,6 +13,9 @@
       "ignore": ["components/**/*"]
     },
     "main-menu": {
+      "outline/export-all-rule":{
+        "message": "outline:export-all-rule"
+      },
       "outline/export-node": {
         "message": "outline:start-export-node"
       }

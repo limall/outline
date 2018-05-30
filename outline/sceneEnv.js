@@ -26,7 +26,17 @@ module.exports = {
     },
     //用于获取所有选中的export rule指定的node的数据
     'getNode': function (event,exportRuleNames,projectPath) {
-        exportRuleNames=JSON.parse(exportRuleNames);
+        var canvas = cc.find('Canvas');
+        var exportRules=catchExportRules(canvas);
+        
+        if('export-all-rule'===exportRuleNames){
+            exportRuleNames=[];
+            exportRules.forEach(function(exportRule){
+                exportRuleNames.push(exportRule.ruleName);
+            });
+        }else
+            exportRuleNames=JSON.parse(exportRuleNames);
+        
         function hasName(name){
             for(var i=0;i<exportRuleNames.length;i++){
                 if(exportRuleNames[i]===name)
@@ -34,15 +44,13 @@ module.exports = {
             }
             return false;
         }
-        var canvas = cc.find('Canvas');
-        if(canvas){
-            var exportRules=catchExportRules(canvas);
-            var nodes=[];
-            for(var i=0;i<exportRules.length;i++){
-                var exportRule=exportRules[i];
-                if(hasName(exportRule.ruleName)){
-                    if(exportRule.resFolder&&exportRule.resFolder!='')
-                        assetsExportor.setFolder(exportRule.resFolder,projectPath);
+
+        var nodes=[];
+        for(var i=0;i<exportRules.length;i++){
+            var exportRule=exportRules[i];
+            if(hasName(exportRule.ruleName)){
+                if(exportRule.resFolder&&exportRule.resFolder!='')
+                    assetsExportor.setFolder(exportRule.resFolder,projectPath);
                     var obj=new Object();
                     obj.nodeData=catchOutline(exportRule);
                     obj.dstPath=exportRule.dstPath;
@@ -53,10 +61,9 @@ module.exports = {
                     if(exportRule.resFolder&&exportRule.resFolder!='')
                         assetsExportor.startCopy();
                 }
-            }
-            if(event.reply) {
-                event.reply(JSON.stringify(nodes));
-            }
+        }
+        if(event.reply) {
+            event.reply(JSON.stringify(nodes));
         }
     },
     //查找资源
