@@ -1,7 +1,12 @@
-label字体查找
+﻿label字体查找
 编写文档
 讨论交流
 依照讨论交流的结果决定是否进行下面的工作
 layout、scrollview、listview、pageview
 phaser.js
 英文注释和英文Readme
+
+重做动画  
+       首先以Bezier为核心，不需弄懂算法，翻译成lua，制定测试策略，确保翻译无误
+cardano算法移植
+       在c++端运行时，记录10组输入输出，若在lua端的输出差距很小，就算移植成功
