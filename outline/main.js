@@ -12,7 +12,7 @@ module.exports = {
       ws.on('message',(msg)=>{
         if(preMsg!=msg){
           var obj=JSON.parse(msg);
-          luaBuilder.buildAnimations(obj.anims,'out');
+          luaBuilder.buildAnimations(obj.anims);
           preMsg=msg;
         }
       });

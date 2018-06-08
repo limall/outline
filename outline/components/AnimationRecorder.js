@@ -182,13 +182,29 @@ cc.Class({
             default:'Anims',
             tooltip:'导出的动画所挂载的全局变量名'
         },
+        needRecord:{
+            default:false,
+            tooltip:'若选为true，该动画将会在运行时录制（一个场景一次运行只能录制一个动画）'
+        },
+        dstPath:{
+            default:'',
+            tooltip:'导出文件的位置（包括文件名）'
+        }
     },
-    onLoad:function(){
+    start:function(){
         //标记动画播完
         var that=this;
         this.on('finished',function(){
             that.last=true;
         });
+        if(this.needRecord){
+            var clips=this.getClips();
+            if(clips.length>0){
+                this.clip=clips[0];
+                this.clipName=this.clip.name;
+                this.startRecord(this.clip);
+            }
+        }
     },
     getIncrements:function(){
         for(var i=0;i<this.animNodes.length;i++){
@@ -220,8 +236,10 @@ cc.Class({
                 increments.push(increment);
             }
 
+            cc.log(increments);
+
             //矫正帧数
-            var numOfFrame=this.clip.sample*this.clip._duration-1;
+            var numOfFrame=this.clip.sample*this.clip._duration;
             if(increments.length>numOfFrame){
                 var head=true;
                 while(increments.length!=numOfFrame){
@@ -269,13 +287,9 @@ cc.Class({
             delete this.animNodes[i].getProofread;
             delete this.animNodes[i].proofreads;
         }
-        if(this.autoRecorder){
+        if(this.needRecord){
             this.animNodes.independent=this.independent;
-            this.autoRecorder.getData({
-                independent:this.independent,
-                animNodes:this.animNodes,
-                namespace:this.namespace
-            });
+            this.export()
         }
     },
     update:function(dt){
@@ -299,12 +313,11 @@ cc.Class({
         }
     },
     //初始化并开始录制
-    startRecord:function(clip,autoRecorder){
+    startRecord:function(clip){
         this.recordable=true;
         this.clip=clip;
         var clipName=clip.name;
         this.last=false;
-        this.autoRecorder=autoRecorder;
         this.animNodes=[new AnimNode(this.node,'/')];
         this.animNodes[0].getProofread(clip.curveData.props,clip.sample);
         this.frameIndex=0;
@@ -324,10 +337,34 @@ cc.Class({
         }
         this.play(clipName);
     },
+    export:function(){
+        var anim={
+            independent:this.independent,
+            animNodes:this.animNodes,
+            namespace:this.namespace,
+            clipName:this.clipName,
+            dst:this.dstPath
+        }
+        var data=JSON.stringify({
+            anims:[anim]
+        })
+        var ws = new WebSocket("ws://localhost:20383");
+        ws.onopen = function (event) {
+            console.log("Send Text WS was opened.");
+            ws.send(data);
+        };
+        ws.onmessage = function (event) {
+            console.log("response text msg: " + event.data);
+        };
+        ws.onerror = function (event) {
+            console.log("Send Text fired an error");
+        };
+        ws.onclose = function (event) {
+            console.log("WebSocket instance closed.");
+        };
+    },
     //一个动画所包含的所有节点动画的集合，也包括一些传给控制类的设置信息
     animNodes:null,
-    //动画录制控制类的引用
-    autoRecorder:null,
     //标记动画播放结束
     last:false,
     //动画处在第几帧

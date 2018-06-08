@@ -47,7 +47,7 @@ luaBuilder.buildNode=function(nodeDataObj,dstPath,namespace){
 
 }
 
-luaBuilder.buildAnimations=function(anims,dst){
+luaBuilder.buildAnimations=function(anims){
   anims.forEach(function(anim){
     var dependent;
     if(anim.independent){
@@ -60,7 +60,10 @@ luaBuilder.buildAnimations=function(anims,dst){
       var dependentCode=dependentGettor.getDependent(dependent);
       luaCode=dependentCode+luaCode;
     }
-    writeFile(luaCode,dst,anim.clipName,'lua',true);
+    if (anim.dst===''){
+      anim.dst='out';
+    }
+    writeFile(luaCode,anim.dst,anim.clipName,'lua',true);
   });
 }
 
