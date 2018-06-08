@@ -207,8 +207,10 @@ cc.Class({
         }
     },
     getIncrements:function(){
+        cc.log(this.animNodes);
         for(var i=0;i<this.animNodes.length;i++){
             var animNode=this.animNodes[i];
+            
             var node=animNode.node;
             var statuses=animNode.statuses;
             var increments=animNode.increments;
@@ -235,8 +237,6 @@ cc.Class({
                 }
                 increments.push(increment);
             }
-
-            cc.log(increments);
 
             //矫正帧数
             var numOfFrame=this.clip.sample*this.clip._duration;
@@ -266,12 +266,6 @@ cc.Class({
                     proofread.proofread(increments,propName);
                 }
             }
-
-            var totalIncrement=0;
-            for(var i=0;i<increments.length;i++){
-                totalIncrement+=increments[i].x;
-            }
-            cc.log(this.node.x+','+totalIncrement);
 
             if(haveSpriteFrame){
                 var increment={
