@@ -11,8 +11,8 @@ module.exports = {
     wss.on('connection',(ws)=>{
       ws.on('message',(msg)=>{
         if(preMsg!=msg){
-          var obj=JSON.parse(msg);
-          luaBuilder.buildAnimations(obj.anims);
+          var anim=JSON.parse(msg);
+          luaBuilder.buildAnimation(anim);
           preMsg=msg;
         }
       });

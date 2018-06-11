@@ -47,12 +47,17 @@ function Proofread(){
             var keyIndex=keyIncrements[ii].keyIndex;
             var proofread=keyIncrements[ii].proofread;
             var oldIncrement=0;
-            for(;i<=keyIndex;i++){
-                oldIncrement+=increments[i][propName];
+            for(;i<increments.length;i++){
+                if(i<=keyIndex)
+                    oldIncrement+=increments[i][propName];
+                else if(ii==keyIncrements.length-1)
+                    increments[i][propName]=0;
+                else
+                    break;
             }
             var totalOffset=proofread-oldIncrement;
             //再进行线性修正,并取近似值
-            var numOfIncrement=i-j;
+            var numOfIncrement=keyIndex+1-j;
             var eachOffset=totalOffset/numOfIncrement;
             var roundOffset=0;
             for(;j<=keyIndex;j++){
@@ -87,21 +92,27 @@ function Proofread(){
             var keyIndex=keyIncrements[ii].keyIndex;
             var proofread=keyIncrements[ii].proofread;
             var oldIncrement=0;
-            for(;i<=keyIndex;i++){
-                oldIncrement+=increments[i][propName];
+            for(;i<increments.length;i++){
+                if(i<=keyIndex)
+                    oldIncrement+=increments[i][propName];
+                else if(ii==keyIncrements.length-1)
+                    increments[i][propName]=0;
+                else
+                    break;
             }
             var totalOffset=proofread-oldIncrement;
             //将偏差的修正值线性分配到各个值中（从后先前）
-            var numOfIncrement=i-j;
+            var numOfIncrement=keyIndex+1-j;
             if(totalOffset!=0){
                 var eachOffset=totalOffset>0?1:-1;
                 var absolute=totalOffset;
                 if(absolute<0)
                     absolute=-absolute;
-                var reduce=parseInt(numOfIncrement/absolute);
+                var reduce=numOfIncrement/absolute;
                 var k=keyIndex;
                 while(absolute>0){
-                    increments[k][propName]=increments[k][propName]+eachOffset;
+                    var index=parseInt(k);
+                    increments[index][propName]=increments[index][propName]+eachOffset;
                     k-=reduce;
                     absolute--;
                 }
@@ -207,10 +218,8 @@ cc.Class({
         }
     },
     getIncrements:function(){
-        cc.log(this.animNodes);
         for(var i=0;i<this.animNodes.length;i++){
             var animNode=this.animNodes[i];
-            
             var node=animNode.node;
             var statuses=animNode.statuses;
             var increments=animNode.increments;
@@ -239,7 +248,7 @@ cc.Class({
             }
 
             //矫正帧数
-            var numOfFrame=this.clip.sample*this.clip._duration;
+            var numOfFrame=this.clip.sample*this.clip._duration-1;
             if(increments.length>numOfFrame){
                 var head=true;
                 while(increments.length!=numOfFrame){
@@ -339,9 +348,7 @@ cc.Class({
             clipName:this.clipName,
             dst:this.dstPath
         }
-        var data=JSON.stringify({
-            anims:[anim]
-        })
+        var data=JSON.stringify(anim)
         var ws = new WebSocket("ws://localhost:20383");
         ws.onopen = function (event) {
             console.log("Send Text WS was opened.");
