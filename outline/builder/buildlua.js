@@ -6,6 +6,7 @@ var writeFile=require('./writeFile');
 var sort=require('./sort');
 var util=require('./util');
 var dependentGettor=require('../builder-independent/dependent/getDependent');
+var assetsExportor=require('../AssetsExportor');
 
 var luaBuilder={};
 
@@ -48,6 +49,8 @@ luaBuilder.buildNode=function(nodeDataObj,dstPath,namespace){
 }
 
 luaBuilder.buildAnimation=function(anim){
+    assetsExportor.setFolder(anim.resFolder,Editor.projectPath);  
+
     var dependent;
     if(anim.independent){
       dependent={
@@ -62,6 +65,10 @@ luaBuilder.buildAnimation=function(anim){
     if (anim.dst===''){
       anim.dst='out';
     }
+
+    if(anim.resFolder&&anim.resFolder!='')
+      assetsExportor.startCopy();
+      
     writeFile(luaCode,anim.dst,anim.clipName,'lua',true);
 }
 

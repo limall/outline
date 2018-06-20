@@ -5,7 +5,13 @@ var assetsExportor=require('../AssetsExportor');
 module.exports.getImagePath=function(spriteFrame){
     if(spriteFrame){
         var fullPath=spriteFrame._textureFilename;
-        var imageFile=fullPath.substring(fullPath.indexOf('/assets/')+8);
+        var start=fullPath.indexOf('/assets/');
+        if (start<0){
+            start=fullPath.indexOf('res/raw-assets/');
+            start+=15;
+        }else
+            start+=8;
+        var imageFile=fullPath.substring(start);
         assetsExportor.addFile(imageFile);
         return imageFile;
     }else{
@@ -22,6 +28,8 @@ module.exports.getPList=function(spriteFrame){
     var frameName=imagePath.substring(start,end);
 
     var realFrameName=spriteFrame.name;
+    if(!realFrameName)
+        realFrameName=spriteFrame._name;
 
     if(frameName==realFrameName){
         return null;

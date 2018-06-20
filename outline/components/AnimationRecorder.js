@@ -200,6 +200,10 @@ cc.Class({
         dstPath:{
             default:'',
             tooltip:'导出文件的位置（包括文件名）'
+        },
+        resFolder:{
+            default:'',
+            displayName:'res_dst'
         }
     },
     start:function(){
@@ -234,6 +238,7 @@ cc.Class({
                     if(preProp!=prop){
                         if(propName==='spriteFrame'){
                             haveSpriteFrame=true;
+                            prop.isSpriteFrame=true;
                             increment[propName]=prop;
                         }else{
                             var value;
@@ -248,10 +253,11 @@ cc.Class({
             }
 
             //矫正帧数
-            var numOfFrame=this.clip.sample*this.clip._duration-1;
+            var numOfFrame=Math.round(this.clip.sample*this.clip._duration-1);
+            cc.log(increments.length+','+numOfFrame);
             if(increments.length>numOfFrame){
                 var head=true;
-                while(increments.length!=numOfFrame){
+                while(increments.length>numOfFrame){
                     if(head){
                         increments.shift();
                         head=false;
@@ -277,8 +283,11 @@ cc.Class({
             }
 
             if(haveSpriteFrame){
+                var spriteFrame=statuses[0].spriteFrame;
+                spriteFrame.isSpriteFrame=true;
+                cc.log(spriteFrame);
                 var increment={
-                    spriteFrame:statuses[0].spriteFrame
+                    spriteFrame:spriteFrame
                 };
                 this.animNodes[i].increments.splice(0, 0, increment);
             }
@@ -346,7 +355,8 @@ cc.Class({
             animNodes:this.animNodes,
             namespace:this.namespace,
             clipName:this.clipName,
-            dst:this.dstPath
+            dst:this.dstPath,
+            resFolder:this.resFolder
         }
         var data=JSON.stringify(anim)
         var ws = new WebSocket("ws://localhost:20383");

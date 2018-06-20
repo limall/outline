@@ -72,7 +72,11 @@ function isFloat(value){
 }
 
 function isSpriteFrame(value){
-    return value instanceof cc.SpriteFrame;
+    var toReturn=value instanceof cc.SpriteFrame;
+    if (!toReturn && value.isSpriteFrame){
+        toReturn=true;
+    }
+    return toReturn;
 }
 
 function isFont(value){
