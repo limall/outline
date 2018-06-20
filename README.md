@@ -18,5 +18,6 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 ---------
 *  使用前需取消cocos creator的自动裁剪功能，这在《outline-导出节点》中会介绍步骤  
 *  导出node前须先要保存scene 
+*  creator项目资源目录中，不可出现名为"assets"的目录
         
         
