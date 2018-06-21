@@ -73,7 +73,7 @@ function isFloat(value){
 
 function isSpriteFrame(value){
     var toReturn=value instanceof cc.SpriteFrame;
-    if (!toReturn && value.isSpriteFrame){
+    if (!toReturn && value && value.isSpriteFrame){
         toReturn=true;
     }
     return toReturn;

@@ -1,4 +1,4 @@
-local exports={}
+outline_global={}
 local Outline={}
 
 function getFrame(framePath)
@@ -219,6 +219,8 @@ function Outline:reset( node , cascade )
     node:setOpacity(self.opacity);
     node:setVisible(self.visible);
     node:setLocalZOrder(self.zOrder);
+    node:setSkewX(self.skewX)
+    node:setSkewY(self.skewY)
     node:setColor(cc.c3b(self.colorR, self.colorG, self.colorB));
     if(cascade)then
         if(self.children)then
@@ -232,7 +234,7 @@ function Outline:reset( node , cascade )
 end
 
 
-exports.createOutline=function(nodeInfo)
+outline_global.createOutline=function(nodeInfo)
     local outline={
         name="undefine",
         x=0,
@@ -244,6 +246,8 @@ exports.createOutline=function(nodeInfo)
         anchorX=0.5,
         anchorY=0.5,
         rotation=0,
+        skewX=0,
+        skewY=0,
         opacity=255,
         visible=true,
         zOrder=0,
@@ -286,7 +290,7 @@ end
 function Creator:lastNode()
     return self.outline.lastNode
 end
-exports.createCreator=function(outline,creator)
+outline_global.createCreator=function(outline,creator)
     creator.outline=outline
     outline.creator=creator
     creator.create=Creator.create
@@ -412,7 +416,7 @@ local function whenFrameEnd(self)
     end
 end
 
-exports.createAnim=function()
+outline_global.createAnim=function()
     local anim={}
     anim.frameIndex=0
     anim.getChild=getChild
@@ -447,6 +451,3 @@ end
 Vec2=cc.p;
 Color=cc.c4b;
 Size=cc.size;
-
-O={}
-return exports

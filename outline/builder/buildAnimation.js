@@ -143,11 +143,11 @@ function buildOneFrame(frameIndex,increments,nodeNames){
     
     if(haveFrame){
         if(newAnim){
-            luaCode='        if(that.frameIndex=='+frameIndex+')then\n'+luaCode;
+            luaCode='        if(that.frameIndex=='+(frameIndex+1)+')then\n'+luaCode;
             newAnim=false;
         }
         else
-            luaCode='        elseif(that.frameIndex=='+frameIndex+')then\n'+luaCode;
+            luaCode='        elseif(that.frameIndex=='+(frameIndex+1)+')then\n'+luaCode;
     }
     return luaCode;
 }
@@ -212,7 +212,7 @@ function buildContent(anim){
         luaCode+=buildOneFrame(i,increments,nodeNames);
     }
 
-    luaCode+='        elseif(that.frameIndex=='+frameLength+')then\n';
+    luaCode+='        elseif(that.frameIndex=='+(frameLength+1)+')then\n';
     luaCode+='            that:whenFrameEnd()\n';
     luaCode+='            return\n';
     luaCode+='        end\n';
