@@ -132,9 +132,13 @@ local function createLabel(outline)
     end
 
     local horizontalAlign=extraData.label_horizontalAlign or 1
-    label:setHorizontalAlignment(horizontalAlign)
+    if label.setHorizontalAlignment then
+        label:setHorizontalAlignment(horizontalAlign)
+    end
     local verticalAlign=extraData.label_verticalAlign or 1
-    label:setVerticalAlignment(verticalAlign)
+    if label.setVerticalAlignment then
+        label:setVerticalAlignment(verticalAlign)
+    end
 
     return label
 end

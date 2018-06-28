@@ -6,6 +6,8 @@
 
 var Outline=require('./Outline');
 
+var excludeNodes=null;
+
 /**
  * 遍历节点树时，处理单个节点的函数
  * @param {cc.Node} node 待获取数据的节点
@@ -13,7 +15,14 @@ var Outline=require('./Outline');
  * @param {any} parentResult 从父节点获取的数据
  */
 function walkOneNode(node,catchOne,parentResult){
-    if(node){
+    var exclude=false;
+    if(excludeNodes){
+        excludeNodes.forEach(function(excludeNode){
+            if(excludeNode===node)
+                exclude=true;
+        });
+    }
+    if(node && !exclude){
         var result=catchOne(node,parentResult);
         var children=node.children;
         for(var i=0;i<children.length;i++){
@@ -95,25 +104,19 @@ function queryAllSource(canvas,event){
 //遍历节点树，返回所有outline树的根outline
 function catchOutline(exportRule){
     var node=exportRule.src_Node;
-    var excludeNodes=exportRule.excludeNodes;
+    excludeNodes=exportRule.excludeNodes;
     var use_world_pos=exportRule.use_world_position;
     
     var root;
     var catcher=new Catcher(node,function(node,parentResult){
+        var outline;
         if(parentResult){
             var children=parentResult.children=parentResult.children||[];
-            var exclude=false;
-            excludeNodes.forEach(function(excludeNode){
-                if(excludeNode===node)
-                    exclude=true;
-            });
-            if(!exclude){
-                var outline=new Outline(node);
-                outline=outline.toJsonObj();
-                children.push(outline);
-            }
+            outline=new Outline(node);
+            outline=outline.toJsonObj();
+            children.push(outline);
         }else{
-            var outline=new Outline(node);
+            outline=new Outline(node);
             outline=outline.toJsonObj();
             root=outline;
         }
