@@ -5,7 +5,6 @@ var buildAnimation=require('./buildAnimation');
 var writeFile=require('./writeFile');
 var sort=require('./sort');
 var util=require('./util');
-var dependentGettor=require('../builder-independent/dependent/getDependent');
 var assetsExportor=require('../AssetsExportor');
 
 var luaBuilder={};
@@ -51,17 +50,8 @@ luaBuilder.buildNode=function(nodeDataObj,dstPath,namespace){
 luaBuilder.buildAnimation=function(anim){
     assetsExportor.setFolder(anim.resFolder,Editor.projectPath);  
 
-    var dependent;
-    if(anim.independent){
-      dependent={
-        isAnim:true
-      };
-    }
     var luaCode=buildAnimation(anim,dependent,anim.namespace);
-    if(dependent){
-      var dependentCode=dependentGettor.getDependent(dependent);
-      luaCode=dependentCode+luaCode;
-    }
+
     if (anim.dst===''){
       anim.dst='out';
     }

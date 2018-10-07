@@ -33,10 +33,7 @@ module.exports = {
         for(var i=0;i<dataObj.length;i++){
           var obj=dataObj[i];
           var nodeDataObj=JSON.parse(obj.nodeData);
-          if(obj.export_independent_file)
-            independentLuaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
-          else
-            luaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
+          luaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
         }
       });
     },
@@ -56,10 +53,7 @@ module.exports = {
           for(var i=0;i<dataObj.length;i++){
             var obj=dataObj[i];
             var nodeDataObj=JSON.parse(obj.nodeData);
-            if(obj.export_independent_file)
-              independentLuaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
-            else
-              luaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
+            luaBuilder.buildNode(nodeDataObj,obj.dstPath,obj.namespace);
           }
         });
       });
