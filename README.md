@@ -18,6 +18,8 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 ---------
 *  使用前需取消cocos creator的自动裁剪功能，这在《outline-导出节点》中会介绍步骤  
 *  导出node前须先要保存scene 
-*  creator项目资源目录中，不可出现名为"assets"的目录
+*  creator项目资源目录中，不可出现名为"assets"的目录  
+*  节点和图片名称除了"_"号，不可以出现其他符号
+*  在使用res_dst导出图片等资源时，由于windows文件不区分大小写，所以要避免资源或资源文件夹在不区分大小写时相同的情况。比较好的避免方法是资源文件或资源文件首字母统一使用大写或小写。
         
         
