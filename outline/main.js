@@ -1,9 +1,5 @@
 var luaBuilder=require('./builder/buildlua');
-var independentLuaBuilder=require('./builder-independent/buildlua');
 
-var assetsExportor=require('./AssetsExportor');
-
-var path=Editor.projectPath+'/packages/outline/';
 let wss=new (require('ws').Server)({port:20383});
 var preMsg;
 module.exports = {
