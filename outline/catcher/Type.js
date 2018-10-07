@@ -20,6 +20,9 @@ function isBool(value){
 }
 
 function getNumberType(value){
+    if(value===undefined||value===null)
+        return null;
+
     var numChars=['0','1','2','3','4','5','6','7','8','9','.','-'];
 
     var dotNum=0;
@@ -27,6 +30,9 @@ function getNumberType(value){
     var isNum=true;
 
     var valueStr=''+value;
+    if(valueStr==='')
+        return null;
+
     for(var i=0;i<valueStr.length;i++){
         var char=valueStr.charAt(i);
         if(char==numChars[10])

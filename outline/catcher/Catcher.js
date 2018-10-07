@@ -5,6 +5,7 @@
  */
 
 var Outline=require('./Outline');
+var imageSource=require('./ImageSource');
 
 var excludeNodes=null;
 
@@ -63,7 +64,9 @@ function catchExportRules(canvas){
 //预查找资源
 function queryAllSource(canvas,event){
     var query=0;
+    var queryComplete=false;
     var catcher=new Catcher(canvas,function(node){
+        var props=[];
         var components=node._components;
         if(!components)
             return;
@@ -71,13 +74,41 @@ function queryAllSource(canvas,event){
             var component=components[i];
             for(var propName in component){
                 var prop=component[propName];
-                if(prop instanceof cc.Font){
-                    var font=prop;
-                    if(font instanceof cc.LabelAtlas)
-                        continue;
-                    query++;
+                if (!prop)
+                    continue;
+                props.push(prop);
+            }
+        }
+        
+        function runOneByOne(){
+            var prop=props.pop();
+            if(!prop){
+                query--;
+                if(query==0&&queryComplete){
+                    query--;
+                    event.reply();
+                }
+                return;
+            }
+             
+            if (imageSource.isSpriteFrame(prop)){
+                //query SpriteFrame
+                var spriteFrame=prop;
+                var uuid=spriteFrame._uuid;
+                Editor.assetdb.queryPathByUuid(uuid,function(err,path){
+                    if(err){
+                        Editor.error(err.toString());
+                    }else{
+                        path=path.replace(/\\/g,'/');
+                        prop._sourceFile=path;
+                    }
+                    runOneByOne();
+                });
+            }else if(prop instanceof cc.Font){
+                //query font
+                var font=prop;
+                if(!(font instanceof cc.LabelAtlas)){
                     Editor.assetdb.queryPathByUuid(font._uuid,function(err,path){
-                        query--;
                         if(err){
                             Editor.error(err.toString());
                         }else{
@@ -85,16 +116,17 @@ function queryAllSource(canvas,event){
                             path=path.substring(path.indexOf('/assets/')+8);
                             font.fontPath=path;
                         }
-                        if(query==0){
-                            query--;
-                            event.reply();
-                        }
+                        runOneByOne();
                     });
                 }
-            }
+            }else
+                runOneByOne();
         }
+        query++;
+        runOneByOne();
     });
     catcher.catchAll();
+    queryComplete=true;
     if(query==0){
         query--;
         event.reply();

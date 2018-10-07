@@ -1,49 +1,19 @@
 var fs=require('fs');
 var assetsExportor=require('../AssetsExportor');
 
-//get the path of the image which is used by the given SpriteFrame
-module.exports.getImagePath=function(spriteFrame){
-    if(spriteFrame){
-        var fullPath=spriteFrame._textureFilename;
-        var start=fullPath.indexOf('/assets/');
-        if (start<0){
-            start=fullPath.indexOf('res/raw-assets/');
-            start+=15;
-        }else
-            start+=8;
-        var imageFile=fullPath.substring(start);
-        assetsExportor.addFile(imageFile);
-        return imageFile;
-    }else{
-        Editor.error('ImageSource:getImagePath:sprite is null or undefined');
-        return null;
-    }
-};
-
-//get the path of the atlas which is used by the given SpriteFrame
-module.exports.getPList=function(spriteFrame){
-    var imagePath=this.getImagePath(spriteFrame);
-    var start=imagePath.lastIndexOf('/')+1;
-    var end=imagePath.indexOf('.');
-    var frameName=imagePath.substring(start,end);
-
-    var realFrameName=spriteFrame.name;
-    if(!realFrameName)
-        realFrameName=spriteFrame._name;
-
-    if(frameName==realFrameName){
-        return null;
-    }else{
-        var lastDot=imagePath.lastIndexOf('.');
-        if(lastDot<=0)
-            return null;
-        else{
-            var path=imagePath.substring(0,lastDot);
-            assetsExportor.addFile(path+'.plist');
-            return path+'.plist';
-        }
-    }
-};
+/** 
+ * @return {boolean}
+ * 判断类型是否为cc.SpriteFrame类型，因为instanceOf无效，所以查看是否含有SpriteFrame的一些属性  
+ */
+module.exports.isSpriteFrame=function(spriteFrame){
+    var _originalSize=spriteFrame._originalSize!==undefined;
+    var insetBottom=spriteFrame.insetBottom!==undefined;
+    var _textureFilename=spriteFrame._textureFilename!==undefined;
+    if (_originalSize&&insetBottom&&_textureFilename)
+        return true
+    else
+        return false
+}
 
 /**
  * @return {String} 
@@ -53,10 +23,38 @@ module.exports.getPList=function(spriteFrame){
  *     imageFilePath
  */
 module.exports.getSpriteFrame=function(spriteFrame){
-    var imagePath=this.getImagePath(spriteFrame);
-    var pListPath=this.getPList(spriteFrame);
-    if(pListPath){
-        imagePath+=':'+spriteFrame.name;
+    if(spriteFrame){
+        var fullPath=spriteFrame._sourceFile;
+        var start=fullPath.indexOf('/assets/');
+        start+=8;
+
+        var end=fullPath.lastIndexOf('/');
+
+        var path=fullPath.substring(start,end);
+        
+        if(end>6){
+            var plistIndex=fullPath.indexOf('.plist');
+            if(plistIndex===end-6){
+                //add files to copy
+                assetsExportor.addFile(path);
+                var imageSuffixes=['.png','.PNG','.jpg','.jpeg','.JPG','.JPEG'];
+                for (var i=0;i<imageSuffixes.length;i++){
+                    var imagePath=fullPath.substring(0,plistIndex)+imageSuffixes[i];
+                    if(fs.existsSync(imagePath)){
+                        assetsExportor.addFile(imagePath.substring(start));
+                        break;
+                    }
+                }
+
+                path=path+':'+fullPath.substring(end+1);
+                return path;
+            }
+        }        
+
+        assetsExportor.addFile(path);
+        return path;
+    }else{
+        Editor.error('ImageSource:getImagePath:sprite is null or undefined');
+        return null;
     }
-    return imagePath;
 };
