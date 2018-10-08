@@ -1,0 +1,32 @@
+完善getFrame
+第一步测试接口:
+getFrame                                                       ok
+cc.ProgressTimer:create
+cc.Scale9Sprite:createWithSpriteFrame
+cc.LabelAtlas:_create
+cc.Label:createWithTTF
+cc.Label:createWithSystemFont
+cc.ParticleSystemQuad:create(extraData.ps_file)
+ccui.EditBox:create
+cc.GLProgram:createWithByteArrays
+
+第二步测试是否与lua版一致：
+
+
+模块测试：
+node ok
+普通sprite ok
+九宫格sprite    cc.Scale9Sprite  ->  ccui.Scale9Sprite
+label ttf setMaxLineWidth无效
+button autoGray ok
+       scalebutton ok
+       colorbutton ok
+       spritebutton ok
+       swallowtouch ok
+       selectbutton ok
+editbox Scale9Sprite 应换成 图片字符串
+progressbar ok
+listview 未定义setScrollBarEnabled和setPadding
+scrollview 初始位置设置问题 setScrollBarEnabled未定义
+particlesystem
+widget

@@ -1,4 +1,12 @@
 outline_global={}
+
+function outline_global.init(src)
+    local btnsrc=src..'BtnFactory'
+    require (btnsrc)
+    local createNodeSrc=src..'createNode'
+    require (createNodeSrc)
+end
+
 local Outline={}
 
 function getFrame(framePath)
@@ -29,35 +37,6 @@ function getFrame(framePath)
         frame=cc.SpriteFrame:createWithTexture(texture,rect)
     end
     return frame    
-end
-
-local createNode_default=function(creator,parent)
-    local node
-    if(creator) then
-        local outline=creator.outline
-        local extraData=outline.extraData
-        if(extraData and extraData.isSprite)then
-            local spriteFrame=extraData.spriteFrame
-            local frame=getFrame(spriteFrame)
-            if(frame)then
-                node=cc.Sprite:createWithSpriteFrame(frame)
-            else
-                node=display.newNode()
-            end
-        elseif (extraData and extraData.isLabel) then
-            if(nil~=extraData.label_string)then
-                extraData.label_string=""..extraData.label_string
-            else
-                extraData.label_string=""
-            end
-            node=cc.Label:createWithSystemFont(extraData.label_string, "Arial", extraData.label_fontSize)
-        else
-            node=display.newNode()
-        end
-    else
-        node=display.newNode()
-    end
-    return node
 end
 
 local UNITTYPE_PX=1
@@ -184,6 +163,59 @@ local function getApplyWidget(outline)
     return applyWidget
 end
 
+local function processBtn(node,extraData)
+    node.needSwallowTouch=extraData.btn_needSwallowTouch
+    node.cancelWhenScroll=extraData.btn_cancelWhenScroll
+
+    local buttonType=extraData.btn_buttonType
+
+    local image_disabled=extraData.btn_image_disabled
+    if(image_disabled)then
+        node.image_disabled=image_disabled
+    end
+
+    local image_normal=extraData.btn_image_normal
+    if(image_normal)then
+        node.image_normal=image_normal
+    end
+
+    local image_pressed=extraData.btn_image_pressed
+    if(image_pressed)then
+        node.image_pressed=image_pressed
+    end
+
+    function node:setEnabled(enable)
+        if(enable)then
+            self.btn_isDisabled=false
+            if(self.image_normal)then
+                setSPF(self,self.image_normal)
+            end
+        else
+            self.btn_isDisabled=true
+            if(self.image_disabled)then
+                setSPF(self,self.image_disabled)
+            end
+        end
+        return self
+    end
+
+    if(buttonType==outlineprivate_btnFactory.BUTTONTYPE_SCALE)then
+        outlineprivate_btnFactory.processScaleBtn(node)
+    elseif(buttonType==outlineprivate_btnFactory.BUTTONTYPE_COLOR)then
+        outlineprivate_btnFactory.processColorBtn(node)
+    elseif(buttonType==outlineprivate_btnFactory.BUTTONTYPE_SPRITE)then
+        outlineprivate_btnFactory.processSpriteBtn(node)
+    elseif(buttonType==outlineprivate_btnFactory.BUTTONTYPE_SELECT)then
+        outlineprivate_btnFactory.processSelectBtn(node)
+    elseif(buttonType==outlineprivate_btnFactory.BUTTONTYPE_NONE)then
+        outlineprivate_btnFactory.processNoneBtn(node)
+    end
+
+    if(extraData.btn_enableAutoGrayEffect)then
+        outlineprivate_btnFactory.autoGray(node)
+    end
+end
+
 function Outline:create( parent )
     local node=self.createNode(self.creator,parent)
     node:setName(self.name)
@@ -197,7 +229,11 @@ function Outline:create( parent )
         node:applyWidget()
     end
 
-    if(self.children)then
+    if(self.extraData and self.extraData.btn_buttonType)then
+        processBtn(node,self.extraData)
+    end
+
+    if(self.children and not node.isListview)then
         for index,child in pairs(self.children)do
             child:create(node)
         end
@@ -257,7 +293,7 @@ outline_global.createOutline=function(nodeInfo)
     }
 
     outline.lastNode=nil
-    outline.createNode=createNode_default
+    outline.createNode=outlineprivate_createNode
     outline.create=Outline.create
     outline.reset=Outline.reset
     outline.applyWidget=Outline.applyWidget
