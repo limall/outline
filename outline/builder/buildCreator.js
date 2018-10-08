@@ -1,4 +1,5 @@
 var util=require ('./util');
+var outlineBuilder=require('./buildOutline');
 
 /**
  * @method buildOneCreator 生成一个creator的lua代码
@@ -8,9 +9,9 @@ var util=require ('./util');
 function buildOneCreator(outline){
     var pname=util.getPName(outline);
     var creatorName=util.firstCaseUp(pname);
-    var outlineName='outline_'+pname;
+    var outlineCode=outlineBuilder.buildOneOutline(outline);
     var luaCode='local '+creatorName+'={};';
-    luaCode+='Base.createCreator('+outlineName+','+creatorName+')\n';
+    luaCode+='Base.createCreator('+outlineCode+','+creatorName+')\n';
     
     var userDatas=outline.extraData.userDatas;
     var code_components='';

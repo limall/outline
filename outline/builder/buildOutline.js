@@ -78,7 +78,7 @@ function buildTypeInfo(typeInfo){
  */
 module.exports.buildOneOutline=function(outline){
     var pname=util.getPName(outline);
-    var luaCode='local outline_'+pname+'=Base.createOutline({\n';
+    var luaCode='Base.createOutline({\n';
     for(var propName in outline){
         if(isRightProp(propName)&&luaDefault[propName]!==outline[propName]){
             var value=outline[propName];
@@ -93,18 +93,5 @@ module.exports.buildOneOutline=function(outline){
         }
     }
     luaCode+='})\n';
-    return luaCode;
-}
-
-/**
- * @method buildOutlines 生成多个outline的lua代码
- * @param {"Array"} outlines 多个outline
- * @returns {string} 多个outline的lua代码
- */
-module.exports.buildOutlines=function(outlines,st){
-    var luaCode='';
-    outlines.forEach(function(outline){
-        luaCode+=buildOneOutline(outline)+'\n';
-    });
     return luaCode;
 }

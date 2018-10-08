@@ -24,11 +24,11 @@ module.exports.buildOutlineRelationship=function(outlines){
         var parent=outline;
         var children=outline.children;
         if(children&&children.length>0){
-            var parentName='outline_'+util.getPName(parent);
-            var code=parentName+'.children={';
+            var parentOutline=util.getPName(parent)+'.outline';
+            var code=parentOutline+'.children={';
             for(var i=0;i<children.length;i++){
-                var childPName='outline_'+util.getPName(children[i]);
-                code+=childPName+',';
+                var childOutline=util.getPName(children[i])+'.outline';
+                code+=childOutline+',';
             }
             code+='}\n';
             luaCode+=code;
