@@ -53,7 +53,7 @@ function isRightProp(propName){
     return false;
 }
 
-function buildTypeInfo(typeInfo,dependent){
+function buildTypeInfo(typeInfo){
     var hasInfo=false;
     var luaCode='';
     for(var key in typeInfo){
@@ -63,37 +63,6 @@ function buildTypeInfo(typeInfo,dependent){
                 luaCode+='    extraData={\n';
                 hasInfo=true;
             }
-            if(key==='isEditBox')
-                dependent.editBox=true;
-            if(key==='particleSystem')
-                dependent.particleSystem=true;
-            if(key==='isProgressBar')
-                dependent.progressBar=true;
-            if(key==='hasWidget')
-                dependent.widget=true;
-            if(key==='btn_buttonType'){
-                dependent.btn=true;
-                dependent.isBtn=true;
-                if(value==='1')
-                    dependent.scale=true;
-                if(value==='2')
-                    dependent.color=true;
-                if(value==='3')
-                    dependent.sprite=true;
-                if(value==='4')
-                    dependent.select=true;
-                if(value==='5')
-                    dependent.none=true;
-            }
-            if(key==='btn_enableAutoGrayEffect'){
-                dependent.autoGray=true;
-            }
-            if(key==='isLabel')
-                dependent.label=true;
-            if(key==='isListview')
-                dependent.listview=true;
-            if(key==='isScrollview')
-                dependent.scrollview=true;
             luaCode+='        '+key+'='+value+',\n';
         }
     }
@@ -107,14 +76,14 @@ function buildTypeInfo(typeInfo,dependent){
  * @param {"Object"} outline 一个outline
  * @returns {string} 一个outline的lua代码
  */
-function buildOneOutline(outline,dependent){
+module.exports.buildOneOutline=function(outline){
     var pname=util.getPName(outline);
     var luaCode='local outline_'+pname+'=Base.createOutline({\n';
     for(var propName in outline){
         if(isRightProp(propName)&&luaDefault[propName]!==outline[propName]){
             var value=outline[propName];
             if(propName==='extraData'){
-                luaCode+=buildTypeInfo(outline.extraData.typeInfo,dependent);
+                luaCode+=buildTypeInfo(outline.extraData.typeInfo);
             }else{
                 if(propName==='name')
                     value='"'+value+'"';
@@ -132,12 +101,10 @@ function buildOneOutline(outline,dependent){
  * @param {"Array"} outlines 多个outline
  * @returns {string} 多个outline的lua代码
  */
-module.exports.buildOutlines=function(outlines,dependent,st){
-    if(!dependent)
-        dependent={};
+module.exports.buildOutlines=function(outlines,st){
     var luaCode='';
     outlines.forEach(function(outline){
-        luaCode+=buildOneOutline(outline,dependent)+'\n';
+        luaCode+=buildOneOutline(outline)+'\n';
     });
     return luaCode;
 }

@@ -36,7 +36,6 @@ function addSpriteFrame(name,value){
     return 'setSpriteFrame('+name+','+value+');';;
 }
 
-var independent={};
 function buildOneIncrement(increment,nodeName){
     var luaCode='';
     if(increment.width||increment.height){
@@ -72,47 +71,36 @@ function buildOneIncrement(increment,nodeName){
             switch (name){
                 case 'spriteFrame':
                     luaCode+=addSpriteFrame(nodeName,value);
-                    independent.isAnimFrame=true;
                     break;
                 case 'x':
                     luaCode+=addX(nodeName,value);
-                    independent.isAnimX=true;
                     break;
                 case 'y':
                     luaCode+=addY(nodeName,value);
-                    independent.isAnimY=true;
                     break;
                 case 'scaleX':
                     luaCode+=addScaleX(nodeName,value);
-                    independent.isAnimScaleX=true;
                     break;
                 case 'scaleY':
                     luaCode+=addScaleY(nodeName,value);
-                    independent.isAnimScaleY=true;
                     break;
                 case 'rotation':
                     luaCode+=addRotation(nodeName,value);
-                    independent.isAnimRotation=true;
                     break;
                 case 'opacity':
                     luaCode+=addOpacity(nodeName,value);
-                    independent.isAnimOpacity=true;
                     break;
                 case 'anchor':
                     luaCode+=addAnchor(nodeName,value.x,value.y);
-                    independent.isAnimAnchor=true;
                     break;
                 case 'size':
                     luaCode+=addSize(nodeName,value.width,value.height);
-                    independent.isAnimSize=true;
                     break;
                 case 'color':
                     luaCode+=addColor(nodeName,value.r,value.g,value.b);
-                    independent.isAnimColor=true;
                     break;
                 case 'zOrder':
                     luaCode+=addZOrder(nodeName,value);
-                    independent.isAnimColor=true;
                     break;
                 }
             }
@@ -152,12 +140,10 @@ function buildOneFrame(frameIndex,increments,nodeNames){
     return luaCode;
 }
 
-function buildDefine(name,isIndependent,namespace){
+function buildDefine(name,namespace){
     name=util.firstCaseUp(name);
     var luaCode=namespace+'='+namespace+' or {}\n';
-    if(!isIndependent){
-        luaCode+='local Base=require "outline.outline"\n';
-    }
+    luaCode+='local Base=require "outline.outline"\n';
     luaCode+='local '+name+'={}\n';
     luaCode+=namespace+'.'+name+'='+name+'\n';
     return luaCode;
@@ -223,28 +209,20 @@ function buildContent(anim){
     return luaCode;
 }
 
-function buildCreate(name,isIndependent){
+function buildCreate(name){
     name=util.firstCaseUp(name);
     var luaCode='function '+name+':create()\n';
-    if(isIndependent)
-        luaCode+='    local anim=createAnim()\n';
-    else
-        luaCode+='    local anim=Base.createAnim()\n';
+    luaCode+='    local anim=Base.createAnim()\n';
     luaCode+='    anim.resume=resume\n';
     luaCode+='    return anim\n';
     luaCode+='end';
     return luaCode;
 }
 
-module.exports=function(anim,aIndependent,namespace){
-    var isIndependent=false;
-    if(aIndependent){
-        independent=aIndependent;
-        isIndependent=true;
-    }
+module.exports=function(anim,namespace){
     var clipName=util.firstCaseUp(anim.clipName);
-    var luaCode=buildDefine(clipName,isIndependent,namespace);
+    var luaCode=buildDefine(clipName,namespace);
     luaCode+=buildContent(anim);
-    luaCode+=buildCreate(clipName,isIndependent);
+    luaCode+=buildCreate(clipName);
     return luaCode;
 }

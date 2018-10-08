@@ -50,7 +50,7 @@ luaBuilder.buildNode=function(nodeDataObj,dstPath,namespace){
 luaBuilder.buildAnimation=function(anim){
     assetsExportor.setFolder(anim.resFolder,Editor.projectPath);  
 
-    var luaCode=buildAnimation(anim,dependent,anim.namespace);
+    var luaCode=buildAnimation(anim,anim.namespace);
 
     if (anim.dst===''){
       anim.dst='out';
