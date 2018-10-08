@@ -143,7 +143,7 @@ function buildOneFrame(frameIndex,increments,nodeNames){
 function buildDefine(name,namespace){
     name=util.firstCaseUp(name);
     var luaCode=namespace+'='+namespace+' or {}\n';
-    luaCode+='local Base=require "outline.outline"\n';
+    luaCode+='local Base=outline_global\n';
     luaCode+='local '+name+'={}\n';
     luaCode+=namespace+'.'+name+'='+name+'\n';
     return luaCode;

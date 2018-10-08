@@ -187,8 +187,6 @@ function AnimNode(node,nodePath){
 cc.Class({
     extends: cc.Animation,
     properties: {
-        //是否导出独立动画
-        independent:true,
         namespace:{
             default:'Anims',
             tooltip:'导出的动画所挂载的全局变量名'
