@@ -10,7 +10,6 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
 --------
 * 思路及Hello,world，可参考文章[outline-组件化cocos2dx的插件](https://www.jianshu.com/p/aba7d1deebcd)  
 * 关于如何导出节点，可参考文章[outline-导出节点](https://www.jianshu.com/p/2b1766662498)  
-* 关于如何导出动画，可参考文章[outline-导出动画](https://www.jianshu.com/p/a7a9e2a972f5)  
 
   
 注意
