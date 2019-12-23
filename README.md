@@ -14,6 +14,7 @@ outline-lua &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-
   
 注意
 ---------
+*  支持的creator版本为1.6至1.9
 *  使用前需取消cocos creator的自动裁剪功能，这在《outline-导出节点》中会介绍步骤  
 *  导出node前须先要保存scene
 *  节点的名称的规范和lua代码变量名称规范一致，要求同一节点的子节点名称不可相同
